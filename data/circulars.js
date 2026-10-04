@@ -1,9 +1,5 @@
-/**
- * BUBU-DUDU JOB CIRCULARS DATABASE (VERIFIED)
- * Reference Date: 2026-10-04
- * Total Verified Circulars: 93
- */
-window.BUBU_DUDU_CIRCULARS = [
+// Pre-loaded circulars data for file:/// and local access
+window.CIRCULARS_DATA = [
   {
     "id": "AJ-14892",
     "title": "অফিস সহায়ক (Office Assistant)",
@@ -24,48 +20,6 @@ window.BUBU_DUDU_CIRCULARS = [
     "is_verified": true,
     "source": "Official Live Verified Circulars",
     "last_updated": "2026-10-04T11:58:11.881Z"
-  },
-  {
-    "id": "AJ-14889",
-    "title": "কনিষ্ঠ কর্মকর্তা (মানব সম্পদ ও প্রশাসন/কোম্পানি সচিব) (Junior Officer (Human Resources and Administration/Company Secretary))",
-    "title_en": "Junior Officer (Human Resources and Administration/Company Secretary)",
-    "title_bn": "কনিষ্ঠ কর্মকর্তা (মানব সম্পদ ও প্রশাসন/কোম্পানি সচিব)",
-    "organization": "EASTERN LUBRICANTS BLENDERS LTD ( ELBL )",
-    "org_code": "ELBL",
-    "grade": 9,
-    "designation_category": "TOP_POSTS",
-    "candidate_eligibility": "BOTH",
-    "published_date": "2026-10-07",
-    "deadline_date": "2026-11-06",
-    "vacancy_count": 1,
-    "min_education": "সংশ্লিষ্ট বিষয়ে স্নাতক/সমমান অথবা এইচএসসি",
-    "circular_url": "https://alljobs.teletalk.com.bd/media/public/uploads/governments/jobs/advertisement-1791089250609.pdf",
-    "local_pdf_path": "circulars/2026-10-04/ELBL_Circular_2026.pdf",
-    "application_portal_url": "http://elbl.teletalk.com.bd/",
-    "is_verified": true,
-    "source": "Official Live Verified Circulars",
-    "last_updated": "2026-10-04T11:58:11.970Z"
-  },
-  {
-    "id": "AJ-14888",
-    "title": "কনিষ্ঠ কর্মকর্তা (হিসাব ও অর্থ) (Junior Officer (Accounts and Finance))",
-    "title_en": "Junior Officer (Accounts and Finance)",
-    "title_bn": "কনিষ্ঠ কর্মকর্তা (হিসাব ও অর্থ)",
-    "organization": "EASTERN LUBRICANTS BLENDERS LTD ( ELBL )",
-    "org_code": "ELBL",
-    "grade": 9,
-    "designation_category": "TOP_POSTS",
-    "candidate_eligibility": "BOTH",
-    "published_date": "2026-10-07",
-    "deadline_date": "2026-11-06",
-    "vacancy_count": 1,
-    "min_education": "সংশ্লিষ্ট বিষয়ে স্নাতক/সমমান অথবা এইচএসসি",
-    "circular_url": "https://alljobs.teletalk.com.bd/media/public/uploads/governments/jobs/advertisement-1791089174250.pdf",
-    "local_pdf_path": "circulars/2026-10-04/ELBL_Circular_2026.pdf",
-    "application_portal_url": "http://elbl.teletalk.com.bd/",
-    "is_verified": true,
-    "source": "Official Live Verified Circulars",
-    "last_updated": "2026-10-04T11:58:11.995Z"
   },
   {
     "id": "AJ-14887",
@@ -465,48 +419,6 @@ window.BUBU_DUDU_CIRCULARS = [
     "is_verified": true,
     "source": "Official Live Verified Circulars",
     "last_updated": "2026-10-04T11:58:31.800Z"
-  },
-  {
-    "id": "AJ-14859",
-    "title": "সহকারী ব্যবস্থাপক প্রশিক্ষণ (প্যাসেঞ্জার সেলস/কার্গো সেলস/ব্যবস্থাপনা উন্নয়ন) (Assistant Manager Training (Passenger Sales/Cargo Sales/Management Development))",
-    "title_en": "Assistant Manager Training (Passenger Sales/Cargo Sales/Management Development)",
-    "title_bn": "সহকারী ব্যবস্থাপক প্রশিক্ষণ (প্যাসেঞ্জার সেলস/কার্গো সেলস/ব্যবস্থাপনা উন্নয়ন)",
-    "organization": "Biman Bangladesh Airlines Ltd (BBAL)",
-    "org_code": "BBAL",
-    "grade": 9,
-    "designation_category": "TOP_POSTS",
-    "candidate_eligibility": "BOTH",
-    "published_date": "2026-09-30",
-    "deadline_date": "2026-10-20",
-    "vacancy_count": 4,
-    "min_education": "সংশ্লিষ্ট বিষয়ে স্নাতক/সমমান অথবা এইচএসসি",
-    "circular_url": "https://alljobs.teletalk.com.bd/media/public/uploads/governments/jobs/advertisement-1790662335522.pdf",
-    "local_pdf_path": "circulars/2026-10-04/BBAL_Circular_2026.pdf",
-    "application_portal_url": "https://bbal.teletalk.com.bd/bbal12/",
-    "is_verified": true,
-    "source": "Official Live Verified Circulars",
-    "last_updated": "2026-10-04T11:58:31.816Z"
-  },
-  {
-    "id": "AJ-14858",
-    "title": "সহকারী ব্যবস্থাপক প্রশিক্ষণ(অপারেশন্স টেকনিক্যাল ) (Assistant Manager Training (Operations Technical))",
-    "title_en": "Assistant Manager Training (Operations Technical)",
-    "title_bn": "সহকারী ব্যবস্থাপক প্রশিক্ষণ(অপারেশন্স টেকনিক্যাল )",
-    "organization": "Biman Bangladesh Airlines Ltd (BBAL)",
-    "org_code": "BBAL",
-    "grade": 9,
-    "designation_category": "TOP_POSTS",
-    "candidate_eligibility": "BOTH",
-    "published_date": "2026-09-30",
-    "deadline_date": "2026-10-20",
-    "vacancy_count": 2,
-    "min_education": "সংশ্লিষ্ট বিষয়ে স্নাতক/সমমান অথবা এইচএসসি",
-    "circular_url": "https://alljobs.teletalk.com.bd/media/public/uploads/governments/jobs/advertisement-1790662250978.pdf",
-    "local_pdf_path": "circulars/2026-10-04/BBAL_Circular_2026.pdf",
-    "application_portal_url": "https://bbal.teletalk.com.bd/bbal12/",
-    "is_verified": true,
-    "source": "Official Live Verified Circulars",
-    "last_updated": "2026-10-04T11:58:31.897Z"
   },
   {
     "id": "AJ-14857",
@@ -1914,27 +1826,6 @@ window.BUBU_DUDU_CIRCULARS = [
     "is_verified": true,
     "source": "Official Live Verified Circulars",
     "last_updated": "2026-10-04T11:59:16.967Z"
-  },
-  {
-    "id": "AJ-14749",
-    "title": "উপ-সহকারী প্রকৌশলী (বিদ্যুৎ) (Sub-Assistant Engineer (Electrical))",
-    "title_en": "Sub-Assistant Engineer (Electrical)",
-    "title_bn": "উপ-সহকারী প্রকৌশলী (বিদ্যুৎ)",
-    "organization": "Bangladesh Agricultural Research Institute (BARI)",
-    "org_code": "BARI",
-    "grade": 9,
-    "designation_category": "TOP_POSTS",
-    "candidate_eligibility": "BUBU",
-    "published_date": "2026-09-21",
-    "deadline_date": "2026-10-11",
-    "vacancy_count": 1,
-    "min_education": "সংশ্লিষ্ট বিষয়ে স্নাতক/সমমান অথবা এইচএসসি",
-    "circular_url": "https://alljobs.teletalk.com.bd/media/public/uploads/governments/jobs/advertisement-1789882153155.pdf",
-    "local_pdf_path": "circulars/2026-10-04/BARI_Circular_2026.pdf",
-    "application_portal_url": "https://bari.teletalk.com.bd/",
-    "is_verified": true,
-    "source": "Official Live Verified Circulars",
-    "last_updated": "2026-10-04T11:59:17.053Z"
   },
   {
     "id": "AJ-14748",
