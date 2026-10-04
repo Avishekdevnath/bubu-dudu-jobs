@@ -164,6 +164,7 @@
       candidate: 'ALL',
       grade: 'ALL',
       postType: 'ALL', // 'ALL', 'TOP_POSTS', 'IT_OFFICER', 'AM_AD', 'COMP_OPERATOR', 'STENO_TYPIST', 'OFFICE_ASST', 'OFFICE_SOHAYOK', 'ACCOUNTS'
+      sortBy: 'GRADE_ASC', // 'GRADE_ASC', 'DEADLINE_ASC', 'GRADE_DESC', 'NEWEST'
       search: ''
     },
     appliedRecords: {}
@@ -510,11 +511,31 @@
       return true;
     });
 
-    // Sort: Active by deadline ascending
+    // Multi-Mode Sorting (Grade Wise, Deadline, Newest)
+    const sortBy = state.filters.sortBy || 'GRADE_ASC';
     filtered.sort((a, b) => {
       const da = getDaysUntilDeadline(a.deadline_date, refDate);
       const db = getDaysUntilDeadline(b.deadline_date, refDate);
-      return da - db;
+      const ga = parseInt(String(a.grade || 99).replace(/\D+/g, ''), 10) || 99;
+      const gb = parseInt(String(b.grade || 99).replace(/\D+/g, ''), 10) || 99;
+
+      if (sortBy === 'GRADE_ASC') {
+        if (ga !== gb) return ga - gb;
+        return da - db;
+      } else if (sortBy === 'GRADE_DESC') {
+        if (ga !== gb) return gb - ga;
+        return da - db;
+      } else if (sortBy === 'DEADLINE_DESC') {
+        return db - da;
+      } else if (sortBy === 'NEWEST') {
+        const pa = new Date(a.published_date || a.publish_date || '2026-01-01').getTime();
+        const pb = new Date(b.published_date || b.publish_date || '2026-01-01').getTime();
+        if (pa !== pb) return pb - pa;
+        return da - db;
+      } else { // DEADLINE_ASC
+        if (da !== db) return da - db;
+        return ga - gb;
+      }
     });
 
     // Update Counter & Status text
@@ -597,6 +618,11 @@
     const postSelect = document.getElementById('post-type-select');
     if (postSelect && postSelect.value !== (postType || 'ALL')) {
       postSelect.value = postType || 'ALL';
+    }
+
+    const sortSelect = document.getElementById('sort-select');
+    if (sortSelect && sortSelect.value !== (state.filters.sortBy || 'GRADE_ASC')) {
+      sortSelect.value = state.filters.sortBy || 'GRADE_ASC';
     }
 
     ['active', 'justin', 'urgent'].forEach(navId => {
@@ -716,6 +742,11 @@
     renderJobs();
   };
 
+  window.handleSortChange = function(val) {
+    state.filters.sortBy = val;
+    renderJobs();
+  };
+
   let searchTimeout = null;
   window.handleSearch = function(val) {
     clearTimeout(searchTimeout);
@@ -742,6 +773,7 @@
     state.filters.candidate = 'ALL';
     state.filters.grade = 'ALL';
     state.filters.postType = 'ALL';
+    state.filters.sortBy = 'GRADE_ASC';
     state.filters.search = '';
     dayWindowFilter = 'ALL';
 
@@ -749,11 +781,13 @@
     const daySelect = document.getElementById('day-window-select');
     const gradeSelect = document.getElementById('grade-select');
     const postSelect = document.getElementById('post-type-select');
+    const sortSelect = document.getElementById('sort-select');
 
     if (searchInput) searchInput.value = '';
     if (daySelect) daySelect.value = 'ALL';
     if (gradeSelect) gradeSelect.value = 'ALL';
     if (postSelect) postSelect.value = 'ALL';
+    if (sortSelect) sortSelect.value = 'GRADE_ASC';
 
     renderJobs();
   };
@@ -767,6 +801,7 @@
     const params = new URLSearchParams(window.location.search);
     const cand = params.get('cand');
     const filter = params.get('filter');
+    const sort = params.get('sort');
 
     if (cand) {
       const uc = cand.toUpperCase();
@@ -781,6 +816,13 @@
         state.filters.timeline = TIMELINE_TYPES.JUST_IN_5;
       } else if (lf === 'urgent' || lf === 'urgent_3') {
         state.filters.timeline = TIMELINE_TYPES.CLOSING_SOON_3;
+      }
+    }
+
+    if (sort) {
+      const su = sort.toUpperCase();
+      if (['GRADE_ASC', 'GRADE_DESC', 'DEADLINE_ASC', 'DEADLINE_DESC', 'NEWEST'].includes(su)) {
+        state.filters.sortBy = su;
       }
     }
   }

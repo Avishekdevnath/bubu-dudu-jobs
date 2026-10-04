@@ -12,6 +12,7 @@ export const state = {
     candidate: 'ALL',                   // 'ALL', 'DUDU', 'BUBU', 'BOTH'
     grade: 'ALL',                       // 'ALL', 6, 9, 10, 13, 14, 16, 20
     postType: 'ALL',                    // 'ALL', 'TOP_POSTS', 'IT_OFFICER', 'AM_AD', 'COMP_OPERATOR', 'STENO_TYPIST', 'OFFICE_ASST', 'OFFICE_SOHAYOK', 'ACCOUNTS'
+    sortBy: 'GRADE_ASC',                // 'GRADE_ASC', 'DEADLINE_ASC', 'GRADE_DESC', 'NEWEST'
     search: ''
   },
   appliedRecords: {} // Map of id -> { user_id, payment_status, applied_by }
@@ -58,10 +59,17 @@ export function setSearchTerm(term) {
   notifyStateChange();
 }
 
+export function setSortOrder(sortBy) {
+  state.filters.sortBy = sortBy;
+  notifyStateChange();
+}
+
 export function resetFilters() {
   state.filters.timeline = TIMELINE_TYPES.ALL_ACTIVE;
   state.filters.candidate = 'ALL';
   state.filters.grade = 'ALL';
+  state.filters.postType = 'ALL';
+  state.filters.sortBy = 'GRADE_ASC';
   state.filters.search = '';
   notifyStateChange();
 }

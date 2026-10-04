@@ -207,12 +207,31 @@ function renderJobs() {
     return true;
   });
 
-  // Sort: Active jobs sorted by deadline ascending; Expired sorted by deadline descending
+  // Multi-Mode Sorting (Grade Wise, Deadline, Newest)
+  const sortBy = state.filters.sortBy || 'GRADE_ASC';
   filtered.sort((a, b) => {
     const da = getDaysUntilDeadline(a.deadline_date, refDate);
     const db = getDaysUntilDeadline(b.deadline_date, refDate);
-    if (da < 0 && db < 0) return db - da; // most recently expired first
-    return da - db; // earliest deadline first
+    const ga = parseInt(String(a.grade || 99).replace(/\D+/g, ''), 10) || 99;
+    const gb = parseInt(String(b.grade || 99).replace(/\D+/g, ''), 10) || 99;
+
+    if (sortBy === 'GRADE_ASC') {
+      if (ga !== gb) return ga - gb;
+      return da - db;
+    } else if (sortBy === 'GRADE_DESC') {
+      if (ga !== gb) return gb - ga;
+      return da - db;
+    } else if (sortBy === 'DEADLINE_DESC') {
+      return db - da;
+    } else if (sortBy === 'NEWEST') {
+      const pa = new Date(a.published_date || a.publish_date || '2026-01-01').getTime();
+      const pb = new Date(b.published_date || b.publish_date || '2026-01-01').getTime();
+      if (pa !== pb) return pb - pa;
+      return da - db;
+    } else { // DEADLINE_ASC
+      if (da !== db) return da - db;
+      return ga - gb;
+    }
   });
 
   // Update counter
@@ -334,6 +353,11 @@ function updateTabStyles() {
     postSelect.value = postType || 'ALL';
   }
 
+  const sortSelect = document.getElementById('sort-select');
+  if (sortSelect && sortSelect.value !== (state.filters.sortBy || 'GRADE_ASC')) {
+    sortSelect.value = state.filters.sortBy || 'GRADE_ASC';
+  }
+
   // Mobile Bottom Navigation active states
   ['active', 'justin', 'urgent'].forEach(navId => {
     const navBtn = document.getElementById(`nav-btn-${navId}`);
@@ -405,6 +429,11 @@ function setupEventListeners() {
     renderJobs();
   };
 
+  window.handleSortChange = (val) => {
+    state.filters.sortBy = val;
+    renderJobs();
+  };
+
   let searchTimeout = null;
   window.handleSearch = (val) => {
     clearTimeout(searchTimeout);
@@ -431,6 +460,7 @@ function setupEventListeners() {
     state.filters.candidate = 'ALL';
     state.filters.grade = 'ALL';
     state.filters.postType = 'ALL';
+    state.filters.sortBy = 'GRADE_ASC';
     state.filters.search = '';
     dayWindowFilter = 'ALL';
 
@@ -438,11 +468,13 @@ function setupEventListeners() {
     const daySelect = document.getElementById('day-window-select');
     const gradeSelect = document.getElementById('grade-select');
     const postSelect = document.getElementById('post-type-select');
+    const sortSelect = document.getElementById('sort-select');
 
     if (searchInput) searchInput.value = '';
     if (daySelect) daySelect.value = 'ALL';
     if (gradeSelect) gradeSelect.value = 'ALL';
     if (postSelect) postSelect.value = 'ALL';
+    if (sortSelect) sortSelect.value = 'GRADE_ASC';
 
     renderJobs();
   };
@@ -480,6 +512,14 @@ function parseURLParams() {
       state.filters.timeline = TIMELINE_TYPES.CLOSING_SOON_3;
     } else if (lf === 'archived' || lf === 'expired') {
       state.filters.timeline = TIMELINE_TYPES.EXPIRED;
+    }
+  }
+
+  const sort = params.get('sort');
+  if (sort) {
+    const su = sort.toUpperCase();
+    if (['GRADE_ASC', 'GRADE_DESC', 'DEADLINE_ASC', 'DEADLINE_DESC', 'NEWEST'].includes(su)) {
+      state.filters.sortBy = su;
     }
   }
 }
