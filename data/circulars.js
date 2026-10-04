@@ -1,7 +1,7 @@
 /**
  * BUBU-DUDU JOB CIRCULARS DATABASE (MIRROR)
  * Automatically synced from Official Teletalk AllJobs API
- * Last Synced: 2026-10-04T18:10:16.110Z
+ * Last Synced: 2026-10-04T18:19:57.337Z
  */
 window.CIRCULARS_DATA = window.BUBU_DUDU_CIRCULARS = [
   {
@@ -318,27 +318,6 @@ window.CIRCULARS_DATA = window.BUBU_DUDU_CIRCULARS = [
     "is_verified": true,
     "source": "Official Live Verified Circulars",
     "last_updated": "2026-10-04T11:58:39.005Z"
-  },
-  {
-    "id": "AJ-14844",
-    "title": "প্রোগ্রামার (Programmer)",
-    "title_en": "Programmer",
-    "title_bn": "প্রোগ্রামার",
-    "organization": "বাংলাদেশ পর্যটন করপোরেশন (Bangladesh Parjatan Corporation(PARJATAN))",
-    "org_code": "PARJATAN",
-    "grade": 6,
-    "designation_category": "TOP_POSTS",
-    "candidate_eligibility": "DUDU",
-    "published_date": "2026-09-28",
-    "deadline_date": "2026-10-27",
-    "vacancy_count": 1,
-    "min_education": "সংশ্লিষ্ট বিষয়ে স্নাতক/সমমান অথবা এইচএসসি",
-    "circular_url": "https://alljobs.teletalk.com.bd/media/public/uploads/governments/jobs/advertisement-1790571858958.pdf",
-    "local_pdf_path": "circulars/2026-10-04/PARJATAN_Circular_2026.pdf",
-    "application_portal_url": "https://parjatan.teletalk.com.bd/",
-    "is_verified": true,
-    "source": "Official Live Verified Circulars",
-    "last_updated": "2026-10-04T11:58:39.034Z"
   },
   {
     "id": "AJ-14843",

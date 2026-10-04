@@ -72,7 +72,9 @@
 
   function isPureOfficeJob(job) {
     if (isAreaDeptOutsideDhaka(job)) return false;
-    const text = `${job.title || ''} ${job.min_education || job.education_requirements || ''}`.toLowerCase();
+    const g = parseInt(String(job.grade || 99).replace(/\D+/g, ''), 10) || 99;
+    if (g < 9) return false; // Exclude senior posts above Grade 9 in rank (Gr 1-8 require experience)
+    const text = `${job.title || ''} ${job.title_en || ''} ${job.min_education || job.education_requirements || ''}`.toLowerCase();
     for (const pat of NON_OFFICE_PATTERNS) {
       if (pat.test(text)) return false;
     }

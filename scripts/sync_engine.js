@@ -124,6 +124,10 @@ export function isPureOfficeJob(title, details = {}, org = '') {
   const orgStr = `${org || ''} ${details.organization || ''} ${details.org_code || ''} ${details.name || ''}`;
   if (isAreaDeptOutsideDhaka(orgStr)) return false;
 
+  const gradeStr = details.grade || determineGrade(title);
+  const g = parseInt(String(gradeStr || 99).replace(/\D+/g, ''), 10) || 99;
+  if (g < 9) return false; // Exclude senior posts above Grade 9 in rank (Gr 1-8 require experience)
+
   const text = `${title || ''} ${details.job_title_bn || ''} ${details.title_en || ''} ${details.min_education || ''}`.toLowerCase();
   for (const pat of NON_OFFICE_PATTERNS) {
     if (pat.test(text)) return false;
