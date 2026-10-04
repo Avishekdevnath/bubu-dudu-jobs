@@ -61,8 +61,12 @@ const NON_OFFICE_PATTERNS = [
   /preparer|প্রিপেয়ারার|photocopy|ফটোকপি|printing assistant|প্রিন্টিং/i,
   /health assistant|স্বাস্থ্য সহকারী/i,
   /cold chain|কোল্ড চেইন/i,
-  /medical technologist|মেডিকেল টেকনোলজিস্ট|pharmacist|ফার্মাসিস্ট|মেডিকেল অফিসার|medical officer/i,
-  /statistic|পরিসংখ্যান|পরিসংখ্যানবিদ/i
+  /statistic|পরিসংখ্যান|পরিসংখ্যানবিদ/i,
+  /library|গ্রন্থাগার|লাইব্রেরি/i,
+  /surveyor|সার্ভেয়ার/i,
+  /draftsman|ড্রাফটসম্যান/i,
+  /estimator|এস্টিমেটর/i,
+  /avionics|এভিওনিক্স|aerospace|অ্যারোস্পেস|hangar|হ্যাঙ্গার/i
 ];
 
 function isPureOfficeJob(job) {
