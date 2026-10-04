@@ -3,6 +3,28 @@
    Mobile-First, Responsive, PWA-Ready
    ========================================================================== */
 
+/* Universal Box Sizing & Mobile Boundary Hardening */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html, body {
+  max-width: 100vw;
+  overflow-x: hidden;
+  position: relative;
+}
+
+/* Ensure select elements shrink properly inside CSS grid / flex containers */
+select {
+  min-width: 0 !important;
+  max-width: 100% !important;
+}
+
+/* Ensure buttons in grid tracks don't prevent column shrinkage */
+button {
+  min-width: 0;
+}
+
 /* Font Family Fallback */
 body {
   font-family: 'Inter', 'Hind Siliguri', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;

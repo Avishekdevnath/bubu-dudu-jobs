@@ -325,14 +325,13 @@ function updateTabStyles() {
   }
 
   // Mobile Bottom Navigation active states
-  ['active', 'justin', 'urgent', 'archived'].forEach(navId => {
+  ['active', 'justin', 'urgent'].forEach(navId => {
     const navBtn = document.getElementById(`nav-btn-${navId}`);
     if (!navBtn) return;
     let isActive = false;
     if (navId === 'active' && timeline === TIMELINE_TYPES.ALL_ACTIVE) isActive = true;
     if (navId === 'justin' && timeline === TIMELINE_TYPES.JUST_IN_5) isActive = true;
     if (navId === 'urgent' && timeline === TIMELINE_TYPES.CLOSING_SOON_3) isActive = true;
-    if (navId === 'archived' && timeline === TIMELINE_TYPES.EXPIRED) isActive = true;
 
     if (isActive) {
       navBtn.classList.add('text-emerald-600', 'font-bold');
@@ -342,6 +341,17 @@ function updateTabStyles() {
       navBtn.classList.add('text-slate-500', 'font-medium');
     }
   });
+
+  const navBoth = document.getElementById('nav-btn-both');
+  if (navBoth) {
+    if (candidate === 'BOTH') {
+      navBoth.classList.add('text-purple-600', 'font-bold');
+      navBoth.classList.remove('text-slate-500', 'font-medium');
+    } else {
+      navBoth.classList.remove('text-purple-600', 'font-bold');
+      navBoth.classList.add('text-slate-500', 'font-medium');
+    }
+  }
 }
 
 /**

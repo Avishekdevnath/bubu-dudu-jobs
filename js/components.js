@@ -7,33 +7,44 @@ import { renderDeadlineBadge, renderFreshnessBadge } from './timeline.js';
 import { saveAppliedRecord } from './state.js';
 
 export function renderMetrics(stats) {
-  const elActive = document.getElementById('stat-active');
-  const elJustIn = document.getElementById('stat-just-in');
-  const elUrgent3 = document.getElementById('stat-urgent-3');
-  const elDudu = document.getElementById('stat-dudu');
-  const elBubu = document.getElementById('stat-bubu');
-  const elBoth = document.getElementById('stat-both');
-
-  if (elActive) elActive.textContent = stats.active ?? 0;
-  if (elJustIn) elJustIn.textContent = stats.justIn ?? 0;
-  if (elUrgent3) elUrgent3.textContent = stats.urgent3 ?? 0;
-  if (elDudu && stats.dudu !== undefined) elDudu.textContent = stats.dudu;
-  if (elBubu && stats.bubu !== undefined) elBubu.textContent = stats.bubu;
-  if (elBoth && stats.both !== undefined) elBoth.textContent = stats.both;
+  ['stat-active', 'stat-active-m'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.textContent = stats.active ?? 0;
+  });
+  ['stat-just-in', 'stat-just-in-m'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.textContent = stats.justIn ?? 0;
+  });
+  ['stat-urgent-3', 'stat-urgent-3-m'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.textContent = stats.urgent3 ?? 0;
+  });
+  ['stat-dudu', 'stat-dudu-m'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el && stats.dudu !== undefined) el.textContent = stats.dudu;
+  });
+  ['stat-bubu', 'stat-bubu-m'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el && stats.bubu !== undefined) el.textContent = stats.bubu;
+  });
+  ['stat-both', 'stat-both-m'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el && stats.both !== undefined) el.textContent = stats.both;
+  });
 }
 
 export function renderJobCard(job, timelineInfo, userAppliedRecord) {
   const card = document.createElement('div');
-  card.className = 'job-card bg-white rounded-2xl border border-slate-200/90 shadow-sm hover:shadow-md flex flex-col justify-between overflow-hidden relative group';
+  card.className = 'job-card bg-white rounded-2xl border border-slate-200/90 shadow-sm hover:shadow-md flex flex-col justify-between overflow-hidden relative group w-full min-w-0';
 
   // Candidate Match Tag
   let candTag = '';
   if (job.candidate_eligibility === 'DUDU') {
-    candTag = '<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-bold bg-blue-50 text-blue-700 border border-blue-200">💻 Dudu (CSE)</span>';
+    candTag = '<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-blue-50 text-blue-700 border border-blue-200">💻 Dudu (CSE)</span>';
   } else if (job.candidate_eligibility === 'BUBU') {
-    candTag = '<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-bold bg-teal-50 text-teal-700 border border-teal-200">🌾 Bubu (Agri)</span>';
+    candTag = '<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-teal-50 text-teal-700 border border-teal-200">🌾 Bubu (Agri)</span>';
   } else {
-    candTag = '<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-bold bg-purple-50 text-purple-700 border border-purple-200">🤝 Both (Joint)</span>';
+    candTag = '<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-purple-50 text-purple-700 border border-purple-200">🤝 Both (Joint)</span>';
   }
 
   // Badges
@@ -45,11 +56,11 @@ export function renderJobCard(job, timelineInfo, userAppliedRecord) {
   let appliedBanner = '';
   if (appliedInfo) {
     appliedBanner = `
-      <div class="bg-emerald-50 border-t border-emerald-100 px-4 py-2.5 flex items-center justify-between text-[11px] font-semibold text-emerald-800">
-        <span class="flex items-center gap-1.5">
-          <span class="text-base">✅</span> Applied by <strong>${appliedInfo.applied_by || 'Applicant'}</strong> (ID: <code>${appliedInfo.user_id}</code>)
+      <div class="bg-emerald-50 border-t border-emerald-100 px-3.5 py-2 flex items-center justify-between text-[11px] font-semibold text-emerald-800">
+        <span class="flex items-center gap-1.5 truncate">
+          <span class="text-sm">✅</span> Applied by <strong>${appliedInfo.applied_by || 'Applicant'}</strong>
         </span>
-        <span class="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded bg-emerald-200 text-emerald-900">
+        <span class="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded bg-emerald-200 text-emerald-900 shrink-0">
           ${appliedInfo.payment_status || 'PAID'}
         </span>
       </div>
@@ -63,12 +74,12 @@ export function renderJobCard(job, timelineInfo, userAppliedRecord) {
   }
 
   card.innerHTML = `
-    <div class="p-5 flex-1 flex flex-col justify-between space-y-4">
+    <div class="p-4 sm:p-5 flex-1 flex flex-col justify-between space-y-3.5">
       <div>
         <!-- Top Metadata Row -->
-        <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
-          <div class="flex items-center gap-1.5">
-            <span class="text-[10px] font-extrabold tracking-wider px-2.5 py-0.5 rounded-md bg-slate-100 text-slate-700 uppercase">
+        <div class="flex flex-wrap items-center justify-between gap-1.5 mb-2">
+          <div class="flex flex-wrap items-center gap-1">
+            <span class="text-[10px] font-extrabold tracking-wider px-2 py-0.5 rounded-md bg-slate-100 text-slate-700 uppercase">
               Grade ${job.grade}
             </span>
             ${topPostBadge}
@@ -80,7 +91,7 @@ export function renderJobCard(job, timelineInfo, userAppliedRecord) {
         </div>
 
         <!-- Post Title -->
-        <h4 class="text-base font-bold text-slate-900 group-hover:text-emerald-700 transition leading-snug">
+        <h4 class="text-sm sm:text-base font-bold text-slate-900 group-hover:text-emerald-700 transition leading-snug">
           ${job.title}
         </h4>
 
@@ -90,16 +101,16 @@ export function renderJobCard(job, timelineInfo, userAppliedRecord) {
         </p>
 
         <!-- Eligibility and Vacancies -->
-        <div class="flex items-center gap-2 mt-3">
+        <div class="flex flex-wrap items-center gap-2 mt-2.5">
           ${candTag}
-          ${(job.vacancy_count || job.vacancies) > 0 ? `<span class="text-xs text-slate-500 font-semibold">• ${job.vacancy_count || job.vacancies} Vacanc${(job.vacancy_count || job.vacancies) === 1 ? 'y' : 'ies'}</span>` : ''}
+          ${(job.vacancy_count || job.vacancies) > 0 ? `<span class="text-[11px] text-slate-500 font-semibold">• ${job.vacancy_count || job.vacancies} Vacanc${(job.vacancy_count || job.vacancies) === 1 ? 'y' : 'ies'}</span>` : ''}
         </div>
       </div>
 
       <!-- Qualifications Snippet -->
-      <div class="bg-slate-50 p-3 rounded-xl border border-slate-100 text-xs text-slate-600 leading-relaxed">
+      <div class="bg-slate-50 p-2.5 sm:p-3 rounded-xl border border-slate-100 text-xs text-slate-600 leading-relaxed">
         <span class="font-bold text-slate-800">শিক্ষাগত যোগ্যতা: </span>
-        ${(job.min_education || job.education_requirements) ? ((job.min_education || job.education_requirements).length > 120 ? (job.min_education || job.education_requirements).slice(0, 120) + '...' : (job.min_education || job.education_requirements)) : 'বিস্তারিত মূল বিজ্ঞপ্তিতে দেখুন'}
+        ${(job.min_education || job.education_requirements) ? ((job.min_education || job.education_requirements).length > 110 ? (job.min_education || job.education_requirements).slice(0, 110) + '...' : (job.min_education || job.education_requirements)) : 'বিস্তারিত মূল বিজ্ঞপ্তিতে দেখুন'}
       </div>
 
       <!-- Dates & Deadline Info -->
@@ -110,12 +121,12 @@ export function renderJobCard(job, timelineInfo, userAppliedRecord) {
     </div>
 
     <!-- Action Buttons -->
-    <div class="px-5 pb-5 pt-0 grid grid-cols-2 gap-2">
-      <a href="${job.local_pdf_path || job.circular_url || job.pdf_url || '#'}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center gap-1.5 py-2 px-3 text-xs font-semibold text-slate-700 bg-slate-100 hover:bg-slate-200 rounded-xl transition active:scale-95">
+    <div class="px-4 pb-4 sm:px-5 sm:pb-5 pt-0 grid grid-cols-2 gap-2">
+      <a href="${job.local_pdf_path || job.circular_url || job.pdf_url || '#'}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center gap-1 py-2 px-2 text-xs font-semibold text-slate-700 bg-slate-100 hover:bg-slate-200 rounded-xl transition active:scale-95 truncate">
         ${job.local_pdf_path ? '📥 Verified PDF' : '📄 Circular PDF'}
       </a>
-      <a href="${job.application_portal_url || job.apply_url || '#'}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center gap-1.5 py-2 px-3 text-xs font-bold text-white bg-emerald-600 hover:bg-emerald-700 rounded-xl transition shadow-sm shadow-emerald-600/20 active:scale-95">
-        📝 Apply on Teletalk &rarr;
+      <a href="${job.application_portal_url || job.apply_url || '#'}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center gap-1 py-2 px-2 text-xs font-bold text-white bg-emerald-600 hover:bg-emerald-700 rounded-xl transition shadow-sm shadow-emerald-600/20 active:scale-95 truncate">
+        📝 Apply<span class="hidden sm:inline">&nbsp;Online</span> &rarr;
       </a>
     </div>
 
