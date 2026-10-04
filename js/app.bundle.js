@@ -188,17 +188,34 @@
   // ==========================================
   const state = {
     circulars: [],
-    referenceDate: new Date('2026-10-04T00:00:00'),
+    referenceDate: (() => {
+      const now = new Date();
+      if (now.getFullYear() >= 2026) {
+        return new Date(now.getFullYear(), now.getMonth(), now.getDate());
+      }
+      return new Date(2026, 9, 5); // 2026-10-05
+    })(),
     filters: {
       timeline: TIMELINE_TYPES.ALL_ACTIVE,
       candidate: 'ALL',
       grade: 'ALL',
       postType: 'ALL', // 'ALL', 'TOP_POSTS', 'IT_OFFICER', 'AM_AD', 'COMP_OPERATOR', 'STENO_TYPIST', 'OFFICE_ASST', 'OFFICE_SOHAYOK', 'ACCOUNTS'
-      sortBy: 'GRADE_ASC', // 'GRADE_ASC', 'DEADLINE_ASC', 'GRADE_DESC', 'NEWEST'
+      dateReported: 'ALL', // 'ALL', 'TODAY', 'LAST_3_DAYS', 'LAST_7_DAYS', 'LAST_14_DAYS', or exact YYYY-MM-DD
+      sortBy: 'GRADE_ASC', // 'GRADE_ASC', 'REPORTED_DESC', 'DEADLINE_ASC', 'GRADE_DESC', 'REPORTED_ASC'
       search: ''
     },
     appliedRecords: {}
   };
+
+  function formatReportedDate(dStr) {
+    if (!dStr) return '';
+    try {
+      const dObj = new Date(dStr + 'T00:00:00');
+      return dObj.toLocaleDateString('en-GB', { day: '2-digit', month: 'short' });
+    } catch (e) {
+      return dStr;
+    }
+  }
 
   let dayWindowFilter = 'ALL';
   const APPLIED_STORAGE_KEY = 'bubu_dudu_job_applications';
@@ -316,7 +333,11 @@
 
         <div class="flex items-center justify-between text-xs text-slate-500 pt-2 border-t border-slate-100">
           <span>📅 শেষ সময়: <strong class="text-slate-800 font-bold">${job.deadline_date}</strong></span>
-          ${(job.published_date || job.publish_date) ? `<span class="text-[11px] text-slate-400">প্রকাশ: ${job.published_date || job.publish_date}</span>` : ''}
+          ${(job.published_date || job.publish_date) ? `
+            <button type="button" onclick="window.setDateReportedFilter('${(job.published_date || job.publish_date).split('T')[0]}')" title="Click to filter circulars reported on ${(job.published_date || job.publish_date).split('T')[0]}" class="inline-flex items-center gap-1 text-[11px] font-semibold text-slate-600 hover:text-emerald-700 bg-slate-100 hover:bg-emerald-50 px-2 py-0.5 rounded-md border border-slate-200 transition cursor-pointer active:scale-95">
+              <span>📅 প্রকাশ:</span> <strong class="font-bold text-slate-800">${formatReportedDate(job.published_date || job.publish_date)}</strong>
+            </button>
+          ` : ''}
         </div>
       </div>
 
@@ -384,6 +405,7 @@
 
     if (loadedData) {
       state.circulars = loadedData;
+      populateDateReportedOptions();
       computeAndRenderMetrics();
       renderJobs();
     } else {
@@ -401,6 +423,51 @@
         `;
       }
     }
+  }
+
+  function populateDateReportedOptions() {
+    const select = document.getElementById('date-reported-select');
+    if (!select) return;
+
+    const dateCounts = {};
+    const refDate = state.referenceDate;
+    const refDateIso = refDate.toISOString().split('T')[0];
+
+    state.circulars.forEach(job => {
+      if (!isPureOfficeJob(job)) return;
+      const info = classifyJobTimeline(job, refDate);
+      if (info.isExpired || info.daysLeft < 0) return;
+      const pubStr = (job.published_date || job.publish_date || '').split('T')[0];
+      if (pubStr) {
+        dateCounts[pubStr] = (dateCounts[pubStr] || 0) + 1;
+      }
+    });
+
+    const sortedDates = Object.keys(dateCounts).sort().reverse();
+    const currentVal = state.filters.dateReported || 'ALL';
+    const todayCount = dateCounts[refDateIso] || 0;
+
+    let html = `
+      <option value="ALL">📅 Date Reported</option>
+      <option value="TODAY">⚡ Today (${todayCount})</option>
+      <option value="LAST_3_DAYS">✨ Last 3 Days</option>
+      <option value="LAST_7_DAYS">📅 Last 7 Days</option>
+      <option value="LAST_14_DAYS">📅 Last 14 Days</option>
+    `;
+
+    if (sortedDates.length > 0) {
+      html += `<optgroup label="Specific Published Dates">`;
+      sortedDates.forEach(d => {
+        const dObj = new Date(d + 'T00:00:00');
+        const formatted = dObj.toLocaleDateString('en-GB', { day: '2-digit', month: 'short' });
+        const isToday = (d === refDateIso) ? ' (Today)' : '';
+        html += `<option value="${d}">${formatted}${isToday} (${dateCounts[d]})</option>`;
+      });
+      html += `</optgroup>`;
+    }
+
+    select.innerHTML = html;
+    select.value = currentVal;
   }
 
   // ==========================================
@@ -538,10 +605,31 @@
         }
       }
 
+      // 7. Date Reported / Published Filter
+      const dr = state.filters.dateReported || 'ALL';
+      if (dr !== 'ALL') {
+        const pubStr = (job.published_date || job.publish_date || '').split('T')[0];
+        if (!pubStr) return false;
+
+        const refDateIso = refDate.toISOString().split('T')[0];
+        if (dr === 'TODAY') {
+          if (pubStr !== refDateIso) return false;
+        } else if (dr === 'LAST_3_DAYS') {
+          if (info.daysOld > 3) return false;
+        } else if (dr === 'LAST_7_DAYS') {
+          if (info.daysOld > 7) return false;
+        } else if (dr === 'LAST_14_DAYS') {
+          if (info.daysOld > 14) return false;
+        } else {
+          // Specific exact date match (e.g. '2026-10-05')
+          if (pubStr !== dr) return false;
+        }
+      }
+
       return true;
     });
 
-    // Multi-Mode Sorting (Grade Wise, Deadline, Newest)
+    // Multi-Mode Sorting (Grade Wise, Date Reported, Deadline)
     const sortBy = state.filters.sortBy || 'GRADE_ASC';
     filtered.sort((a, b) => {
       const da = getDaysUntilDeadline(a.deadline_date, refDate);
@@ -555,13 +643,18 @@
       } else if (sortBy === 'GRADE_DESC') {
         if (ga !== gb) return gb - ga;
         return da - db;
-      } else if (sortBy === 'DEADLINE_DESC') {
-        return db - da;
-      } else if (sortBy === 'NEWEST') {
+      } else if (sortBy === 'REPORTED_DESC' || sortBy === 'NEWEST') {
         const pa = new Date(a.published_date || a.publish_date || '2026-01-01').getTime();
         const pb = new Date(b.published_date || b.publish_date || '2026-01-01').getTime();
         if (pa !== pb) return pb - pa;
-        return da - db;
+        return ga - gb;
+      } else if (sortBy === 'REPORTED_ASC') {
+        const pa = new Date(a.published_date || a.publish_date || '2026-01-01').getTime();
+        const pb = new Date(b.published_date || b.publish_date || '2026-01-01').getTime();
+        if (pa !== pb) return pa - pb;
+        return ga - gb;
+      } else if (sortBy === 'DEADLINE_DESC') {
+        return db - da;
       } else { // DEADLINE_ASC
         if (da !== db) return da - db;
         return ga - gb;
@@ -592,7 +685,17 @@
       let gLabel = grade !== 'ALL' ? ` • Grade ${grade}` : '';
       let dLabel = dayWindowFilter !== 'ALL' ? ` • ≤ ${dayWindowFilter}d Left` : '';
 
-      statusEl.textContent = `Showing: ${tLabel}${cLabel}${ptLabel}${gLabel}${dLabel}`;
+      let drLabel = '';
+      const dr = state.filters.dateReported || 'ALL';
+      if (dr !== 'ALL') {
+        if (dr === 'TODAY') drLabel = ' • 📅 Reported: Today';
+        else if (dr === 'LAST_3_DAYS') drLabel = ' • 📅 Reported: Last 3 Days';
+        else if (dr === 'LAST_7_DAYS') drLabel = ' • 📅 Reported: Last 7 Days';
+        else if (dr === 'LAST_14_DAYS') drLabel = ' • 📅 Reported: Last 14 Days';
+        else drLabel = ` • 📅 Reported: ${formatReportedDate(dr)}`;
+      }
+
+      statusEl.textContent = `Showing: ${tLabel}${cLabel}${ptLabel}${gLabel}${dLabel}${drLabel}`;
     }
 
     container.innerHTML = '';
@@ -653,6 +756,11 @@
     const sortSelect = document.getElementById('sort-select');
     if (sortSelect && sortSelect.value !== (state.filters.sortBy || 'GRADE_ASC')) {
       sortSelect.value = state.filters.sortBy || 'GRADE_ASC';
+    }
+
+    const dateRepSelect = document.getElementById('date-reported-select');
+    if (dateRepSelect && dateRepSelect.value !== (state.filters.dateReported || 'ALL')) {
+      dateRepSelect.value = state.filters.dateReported || 'ALL';
     }
 
     ['active', 'justin', 'urgent'].forEach(navId => {
@@ -793,6 +901,19 @@
     renderJobs();
   };
 
+  window.handleDateReportedChange = function(val) {
+    state.filters.dateReported = val;
+    renderJobs();
+  };
+
+  window.setDateReportedFilter = function(dateStr) {
+    state.filters.dateReported = dateStr;
+    const sel = document.getElementById('date-reported-select');
+    if (sel) sel.value = dateStr;
+    renderJobs();
+    document.getElementById('jobs-grid')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  };
+
   window.handlePostTypeChange = function(val) {
     state.filters.postType = val;
     renderJobs();
@@ -803,6 +924,7 @@
     state.filters.candidate = 'ALL';
     state.filters.grade = 'ALL';
     state.filters.postType = 'ALL';
+    state.filters.dateReported = 'ALL';
     state.filters.sortBy = 'GRADE_ASC';
     state.filters.search = '';
     dayWindowFilter = 'ALL';
@@ -811,12 +933,14 @@
     const daySelect = document.getElementById('day-window-select');
     const gradeSelect = document.getElementById('grade-select');
     const postSelect = document.getElementById('post-type-select');
+    const dateRepSelect = document.getElementById('date-reported-select');
     const sortSelect = document.getElementById('sort-select');
 
     if (searchInput) searchInput.value = '';
     if (daySelect) daySelect.value = 'ALL';
     if (gradeSelect) gradeSelect.value = 'ALL';
     if (postSelect) postSelect.value = 'ALL';
+    if (dateRepSelect) dateRepSelect.value = 'ALL';
     if (sortSelect) sortSelect.value = 'GRADE_ASC';
 
     renderJobs();
@@ -832,6 +956,7 @@
     const cand = params.get('cand');
     const filter = params.get('filter');
     const sort = params.get('sort');
+    const reported = params.get('reported') || params.get('date');
 
     if (cand) {
       const uc = cand.toUpperCase();
@@ -849,9 +974,15 @@
       }
     }
 
+    if (reported) {
+      state.filters.dateReported = reported;
+      const sel = document.getElementById('date-reported-select');
+      if (sel) sel.value = reported;
+    }
+
     if (sort) {
       const su = sort.toUpperCase();
-      if (['GRADE_ASC', 'GRADE_DESC', 'DEADLINE_ASC', 'DEADLINE_DESC', 'NEWEST'].includes(su)) {
+      if (['GRADE_ASC', 'GRADE_DESC', 'REPORTED_DESC', 'REPORTED_ASC', 'DEADLINE_ASC', 'DEADLINE_DESC', 'NEWEST'].includes(su)) {
         state.filters.sortBy = su;
       }
     }

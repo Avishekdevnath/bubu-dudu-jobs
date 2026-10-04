@@ -268,8 +268,8 @@
           </button>
         </div>
 
-        <!-- Row 3: Dropdowns (2x2 Grid on Mobile, 4-Col on Desktop) -->
-        <div class="grid grid-cols-2 lg:grid-cols-4 gap-1.5 sm:gap-2 w-full pt-0.5">
+        <!-- Row 3: Dropdowns (2-Col on Mobile, 3-Col on Tablet, 5-Col on Desktop) -->
+        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-1.5 sm:gap-2 w-full pt-0.5">
           
           <!-- Designation / Post Type Dropdown -->
           <div class="relative w-full">
@@ -283,20 +283,6 @@
               <option value="OFFICE_ASST">📝 Office Asst</option>
               <option value="OFFICE_SOHAYOK">🏢 Sohayok</option>
               <option value="ACCOUNTS">💰 Accounts</option>
-            </select>
-            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-1.5 text-slate-400">
-              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
-            </div>
-          </div>
-
-          <!-- Day-Wise Window Dropdown -->
-          <div class="relative w-full">
-            <select id="day-window-select" onchange="handleDayWindowChange(this.value)" class="w-full bg-white border border-slate-200 text-slate-700 text-xs font-semibold rounded-xl px-2 py-2 pr-6 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition cursor-pointer appearance-none shadow-sm truncate">
-              <option value="ALL">🗓️ Deadline</option>
-              <option value="3">⚡ &le; 3 Days</option>
-              <option value="5">🚨 &le; 5 Days</option>
-              <option value="10">⏳ &le; 10 Days</option>
-              <option value="15">📅 &le; 15 Days</option>
             </select>
             <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-1.5 text-slate-400">
               <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
@@ -319,8 +305,36 @@
             </div>
           </div>
 
+          <!-- Date Reported / Published Filter Dropdown -->
+          <div class="relative w-full">
+            <select id="date-reported-select" onchange="handleDateReportedChange(this.value)" class="w-full bg-white border border-slate-200 text-slate-700 text-xs font-semibold rounded-xl px-2 py-2 pr-6 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition cursor-pointer appearance-none shadow-sm truncate">
+              <option value="ALL">📅 Date Reported</option>
+              <option value="TODAY">⚡ Today (05 Oct)</option>
+              <option value="LAST_3_DAYS">✨ Last 3 Days</option>
+              <option value="LAST_7_DAYS">📅 Last 7 Days</option>
+              <option value="LAST_14_DAYS">📅 Last 14 Days</option>
+            </select>
+            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-1.5 text-slate-400">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+            </div>
+          </div>
+
+          <!-- Day-Wise Window Dropdown -->
+          <div class="relative w-full">
+            <select id="day-window-select" onchange="handleDayWindowChange(this.value)" class="w-full bg-white border border-slate-200 text-slate-700 text-xs font-semibold rounded-xl px-2 py-2 pr-6 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition cursor-pointer appearance-none shadow-sm truncate">
+              <option value="ALL">🗓️ Deadline</option>
+              <option value="3">⚡ &le; 3 Days</option>
+              <option value="5">🚨 &le; 5 Days</option>
+              <option value="10">⏳ &le; 10 Days</option>
+              <option value="15">📅 &le; 15 Days</option>
+            </select>
+            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-1.5 text-slate-400">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+            </div>
+          </div>
+
           <!-- Reset Filter Button -->
-          <button onclick="resetAllFilters()" title="Reset All Filters" class="w-full py-2 px-1 text-slate-600 hover:text-slate-900 bg-slate-100 hover:bg-slate-200 border border-slate-200 rounded-xl text-xs font-bold transition flex items-center justify-center gap-1 active:scale-95 shadow-sm truncate">
+          <button onclick="resetAllFilters()" title="Reset All Filters" class="col-span-2 sm:col-span-1 w-full py-2 px-1 text-slate-600 hover:text-slate-900 bg-slate-100 hover:bg-slate-200 border border-slate-200 rounded-xl text-xs font-bold transition flex items-center justify-center gap-1 active:scale-95 shadow-sm truncate">
             <span>🔄</span> Reset
           </button>
 
@@ -336,9 +350,10 @@
         <div class="relative">
           <select id="sort-select" onchange="handleSortChange(this.value)" class="bg-white border border-slate-200 text-slate-700 text-xs font-semibold rounded-xl px-2.5 py-1.5 pr-6 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition cursor-pointer appearance-none shadow-sm truncate">
             <option value="GRADE_ASC" selected>🎖️ Grade (Gr 9 &rarr; 20)</option>
-            <option value="DEADLINE_ASC">⏰ Deadline (Urgent)</option>
+            <option value="REPORTED_DESC">📅 Reported (Newest &rarr; Oldest)</option>
+            <option value="DEADLINE_ASC">⏰ Deadline (Urgent First)</option>
             <option value="GRADE_DESC">🎖️ Grade (Gr 20 &rarr; 9)</option>
-            <option value="NEWEST">✨ Newest First</option>
+            <option value="REPORTED_ASC">📅 Reported (Oldest &rarr; Newest)</option>
           </select>
           <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-1.5 text-slate-400">
             <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
