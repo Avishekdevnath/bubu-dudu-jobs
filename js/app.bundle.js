@@ -394,7 +394,8 @@
     if (!container) return;
 
     const refDate = state.referenceDate;
-    const { timeline, candidate, grade, search } = state.filters;
+    const { timeline, candidate, grade, search, postType } = state.filters;
+    const pt = postType || 'ALL';
 
     const filtered = state.circulars.filter(job => {
       // STRICT RULE: Office Jobs Only!
