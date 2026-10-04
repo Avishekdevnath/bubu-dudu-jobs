@@ -1,0 +1,60 @@
+{
+  "generated": "2026-10-04 21:15:47",
+  "total": 3,
+  "applications": [
+    {
+      "id": 1,
+      "teletalk_user_id": "G3U2NESK",
+      "teletalk_password": "FASVJVXX",
+      "applicant_name": "CHANDRIMA DEVNATH",
+      "candidate": "BUBU",
+      "post_title": "Office Sohayok",
+      "organization": "DLS",
+      "applied_date": "2026-10-04",
+      "source_url": null,
+      "confidence": 100,
+      "status": "APPLIED",
+      "admit_downloaded": null,
+      "exam_date": null,
+      "result": null,
+      "notes": null,
+      "created_at": "2026-10-04 21:15:47"
+    },
+    {
+      "id": 2,
+      "teletalk_user_id": "BRUJLQNA",
+      "teletalk_password": "W966664L",
+      "applicant_name": "CHANDRIMA DEVNATH",
+      "candidate": "BUBU",
+      "post_title": "Scientific Officer (Agriculture)",
+      "organization": "BINA",
+      "applied_date": "2026-10-04",
+      "source_url": "http://alljobs.teletalk.com.bd",
+      "confidence": 100,
+      "status": "APPLIED",
+      "admit_downloaded": null,
+      "exam_date": null,
+      "result": null,
+      "notes": null,
+      "created_at": "2026-10-04 21:15:47"
+    },
+    {
+      "id": 3,
+      "teletalk_user_id": "V87ZEWK2",
+      "teletalk_password": "Y336229J",
+      "applicant_name": "AVISHEK DEVNATH",
+      "candidate": "DUDU",
+      "post_title": "Junior Officer (Refueling)",
+      "organization": "POCL",
+      "applied_date": "2026-10-04",
+      "source_url": null,
+      "confidence": 100,
+      "status": "APPLIED",
+      "admit_downloaded": null,
+      "exam_date": null,
+      "result": null,
+      "notes": null,
+      "created_at": "2026-10-04 21:15:47"
+    }
+  ]
+}

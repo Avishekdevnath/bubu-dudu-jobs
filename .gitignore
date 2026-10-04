@@ -4,3 +4,9 @@
 scratch*
 .DS_Store
 Thumbs.db
+
+# IMPORTANT: Never push the SQLite database (contains passwords)
+# The applications.json (password-free version) is pushed instead
+../tools/db/*.db
+../tools/db/
+../WhatsApp_Export.txt
