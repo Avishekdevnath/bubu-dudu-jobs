@@ -44,10 +44,34 @@
     /surveyor|সার্ভেয়ার/i,
     /draftsman|ড্রাফটসম্যান/i,
     /estimator|এস্টিমেটর/i,
-    /avionics|এভিওনিক্স|aerospace|অ্যারোস্পেস|hangar|হ্যাঙ্গার/i
+    /avionics|এভিওনিক্স|aerospace|অ্যারোস্পেস|hangar|হ্যাঙ্গার/i,
+    /store\s*keeper|ভান্ডার\s*রক্ষক|স্টোর\s*কিপার|storekeeper|স্টোরকিপার|store\s*assistant|স্টোর\s*সহকারী/i,
+    /bench\s*assistant|বেঞ্চ\s*সহকারী/i,
+    /cashier|ক্যাশিয়ার|নাজির\s*কাম-ক্যাশিয়ার|nazir\s*cum-cashier/i
   ];
 
+  const EXCLUDE_AREA_ORGS = [
+    /rajshahi\s*development|rdarajshahi|\brda\b|রাজশাহী\s*উন্ন[য়য]ন/i,
+    /khulna\s*development|\bkda\b|খুলনা\s*উন্ন[য়য]ন/i,
+    /chittagong\s*development|\bcda\b|চট্টগ্রাম\s*উন্ন[য়য]ন/i,
+    /cox'?s\s*bazar\s*development|কক্সবাজার\s*উন্ন[য়য]ন/i,
+    /civil\s*surgeon|সিভিল\s*সার্জন|\bcs[a-z]+/i,
+    /dc\s*office|জেলা\s*প্রশাসক|\bdc(?!dhaka\b)[a-z]+/i
+  ];
+
+  function isAreaDeptOutsideDhaka(job) {
+    const orgText = `${job.organization || ''} ${job.org_code || ''}`.toLowerCase();
+    if (orgText.includes('dcdhaka') || (orgText.includes('dc office') && orgText.includes('dhaka') && !orgText.includes('outside'))) {
+      return false;
+    }
+    for (const pat of EXCLUDE_AREA_ORGS) {
+      if (pat.test(orgText)) return true;
+    }
+    return false;
+  }
+
   function isPureOfficeJob(job) {
+    if (isAreaDeptOutsideDhaka(job)) return false;
     const text = `${job.title || ''} ${job.min_education || job.education_requirements || ''}`.toLowerCase();
     for (const pat of NON_OFFICE_PATTERNS) {
       if (pat.test(text)) return false;
