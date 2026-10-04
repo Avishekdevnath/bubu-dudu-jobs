@@ -44,7 +44,9 @@ const NON_OFFICE_PATTERNS = [
   /store\s*keeper|ভান্ডার\s*রক্ষক|স্টোর\s*কিপার|storekeeper|স্টোরকিপার|store\s*assistant|স্টোর\s*সহকারী/i,
   /bench\s*assistant|বেঞ্চ\s*সহকারী/i,
   /cashier|ক্যাশিয়ার|নাজির\s*কাম-ক্যাশিয়ার|nazir\s*cum-cashier/i,
-  /diploma|ডিপ্লোমা|scientific\s*assistant|বৈজ্ঞানিক\s*সহকারী|sub-?\s*assistant|উপ-?\s*সহকারী/i
+  /diploma|ডিপ্লোমা|scientific\s*assistant|বৈজ্ঞানিক\s*সহকারী|sub-?\s*assistant|উপ-?\s*সহকারী/i,
+  /accountant|হিসাবরক্ষক|হিসাব\s*রক্ষক|হিসাব\s*সহকারী|accounts\s*assistant|office\s*assistant-cum-accountant|বাণিজ্য/i,
+  /mechanical|মেকানিক্যাল|civil\s*eng|সিভিল\s*ইঞ্জিনিয়ার|chemical\s*eng|কেমিক্যাল|petroleum|পেট্রোলিয়াম|junior\s*officer\s*\(operations\)|কনিষ্ঠ\s*কর্মকর্তা\s*\(পরিচালন\)/i
 ];
 
 export const EXCLUDE_AREA_ORGS = [
@@ -52,6 +54,7 @@ export const EXCLUDE_AREA_ORGS = [
   /khulna\s*development|\bkda\b|খুলনা\s*উন্ন[য়য]ন/i,
   /chittagong\s*development|\bcda\b|চট্টগ্রাম\s*উন্ন[য়য]ন/i,
   /cox'?s\s*bazar\s*development|কক্সবাজার\s*উন্ন[য়য]ন/i,
+  /eastern\s*lubricants|elbl|ইস্টার্ন\s*লুব্রিকেন্টস/i,
   /civil\s*surgeon|সিভিল\s*সার্জন|\bcs[a-z]+/i,
   /dc\s*office|জেলা\s*প্রশাসক|\bdc(?!dhaka\b)[a-z]+/i
 ];

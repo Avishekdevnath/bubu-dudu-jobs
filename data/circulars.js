@@ -1,51 +1,9 @@
 /**
  * BUBU-DUDU JOB CIRCULARS DATABASE (MIRROR)
  * Automatically synced from Official Teletalk AllJobs API
- * Last Synced: 2026-10-04T18:29:10.380Z
+ * Last Synced: 2026-10-05T01:08:22.057518
  */
 window.CIRCULARS_DATA = window.BUBU_DUDU_CIRCULARS = [
-  {
-    "id": "AJ-14892",
-    "title": "অফিস সহায়ক (Office Assistant)",
-    "title_en": "Office Assistant",
-    "title_bn": "অফিস সহায়ক",
-    "organization": "EASTERN LUBRICANTS BLENDERS LTD ( ELBL )",
-    "org_code": "ELBL",
-    "grade": 16,
-    "designation_category": "OFFICE_ASST",
-    "candidate_eligibility": "BOTH",
-    "published_date": "2026-10-07",
-    "deadline_date": "2026-11-06",
-    "vacancy_count": 1,
-    "min_education": "সংশ্লিষ্ট বিষয়ে স্নাতক/সমমান অথবা এইচএসসি",
-    "circular_url": "https://alljobs.teletalk.com.bd/media/public/uploads/governments/jobs/advertisement-1791089459830.pdf",
-    "local_pdf_path": "circulars/2026-10-04/ELBL_Circular_2026.pdf",
-    "application_portal_url": "http://elbl.teletalk.com.bd/",
-    "is_verified": true,
-    "source": "Official Live Verified Circulars",
-    "last_updated": "2026-10-04T11:58:11.881Z"
-  },
-  {
-    "id": "AJ-14887",
-    "title": "কনিষ্ঠ কর্মকর্তা (পরিচালন) (Junior Officer (Operations))",
-    "title_en": "Junior Officer (Operations)",
-    "title_bn": "কনিষ্ঠ কর্মকর্তা (পরিচালন)",
-    "organization": "EASTERN LUBRICANTS BLENDERS LTD ( ELBL )",
-    "org_code": "ELBL",
-    "grade": 9,
-    "designation_category": "TOP_POSTS",
-    "candidate_eligibility": "BOTH",
-    "published_date": "2026-10-07",
-    "deadline_date": "2026-11-06",
-    "vacancy_count": 1,
-    "min_education": "সংশ্লিষ্ট বিষয়ে স্নাতক/সমমান অথবা এইচএসসি",
-    "circular_url": "https://alljobs.teletalk.com.bd/media/public/uploads/governments/jobs/advertisement-1791089102955.pdf",
-    "local_pdf_path": "circulars/2026-10-04/ELBL_Circular_2026.pdf",
-    "application_portal_url": "http://elbl.teletalk.com.bd/",
-    "is_verified": true,
-    "source": "Official Live Verified Circulars",
-    "last_updated": "2026-10-04T11:58:12.017Z"
-  },
   {
     "id": "AJ-14886",
     "title": "অফিস সহায়ক (Office Support Staff)",
@@ -761,27 +719,6 @@ window.CIRCULARS_DATA = window.BUBU_DUDU_CIRCULARS = [
     "last_updated": "2026-10-04T11:59:15.759Z"
   },
   {
-    "id": "AJ-14782",
-    "title": "হিসাবরক্ষক (Accountant)",
-    "title_en": "Accountant",
-    "title_bn": "হিসাবরক্ষক",
-    "organization": "শ্রম ও কর্মসংস্থান মন্ত্রণালয় (Ministry of Labour and Employment(MOLE))",
-    "org_code": "MOLE",
-    "grade": 13,
-    "designation_category": "ACCOUNTS",
-    "candidate_eligibility": "BOTH",
-    "published_date": "2026-09-24",
-    "deadline_date": "2026-10-14",
-    "vacancy_count": 1,
-    "min_education": "সংশ্লিষ্ট বিষয়ে স্নাতক/সমমান অথবা এইচএসসি",
-    "circular_url": "https://alljobs.teletalk.com.bd/media/public/uploads/governments/jobs/advertisement-1789885269810.pdf",
-    "local_pdf_path": "circulars/2026-10-04/MOLE_Circular_2026.pdf",
-    "application_portal_url": "https://mole.teletalk.com.bd/",
-    "is_verified": true,
-    "source": "Official Live Verified Circulars",
-    "last_updated": "2026-10-04T11:59:15.774Z"
-  },
-  {
     "id": "AJ-14780",
     "title": "অফিস সহায়ক (Office Support Staff)",
     "title_en": "Office Support Staff",
@@ -822,27 +759,6 @@ window.CIRCULARS_DATA = window.BUBU_DUDU_CIRCULARS = [
     "is_verified": true,
     "source": "Official Live Verified Circulars",
     "last_updated": "2026-10-04T11:59:16.814Z"
-  },
-  {
-    "id": "AJ-14757",
-    "title": "অফিস সহকারী-কাম-হিসাব রক্ষক (Office Assistant-Cum-Accountant)",
-    "title_en": "Office Assistant-Cum-Accountant",
-    "title_bn": "অফিস সহকারী-কাম-হিসাব রক্ষক",
-    "organization": "Bangladesh Agricultural Research Institute (BARI)",
-    "org_code": "BARI",
-    "grade": 16,
-    "designation_category": "ACCOUNTS",
-    "candidate_eligibility": "BUBU",
-    "published_date": "2026-09-21",
-    "deadline_date": "2026-10-11",
-    "vacancy_count": 8,
-    "min_education": "সংশ্লিষ্ট বিষয়ে স্নাতক/সমমান অথবা এইচএসসি",
-    "circular_url": "https://alljobs.teletalk.com.bd/media/public/uploads/governments/jobs/advertisement-1789883107844.pdf",
-    "local_pdf_path": "circulars/2026-10-04/BARI_Circular_2026.pdf",
-    "application_portal_url": "https://bari.teletalk.com.bd/",
-    "is_verified": true,
-    "source": "Official Live Verified Circulars",
-    "last_updated": "2026-10-04T11:59:16.840Z"
   },
   {
     "id": "AJ-14756",
