@@ -32,6 +32,16 @@ async function loadCirculars() {
   const countEl = document.getElementById('visible-count');
   if (countEl) countEl.textContent = 'Loading...';
 
+  // Check preloaded window data (file:/// and offline support)
+  const preloaded = window.BUBU_DUDU_CIRCULARS || window.CIRCULARS_DATA;
+  if (preloaded && Array.isArray(preloaded) && preloaded.length > 0) {
+    state.circulars = preloaded;
+    computeAndRenderMetrics();
+    renderJobs();
+    // If not over http, we're done
+    if (!window.location.protocol.startsWith('http')) return;
+  }
+
   try {
     const res = await fetch(`./data/circulars.json?_t=${Date.now()}`);
     if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);

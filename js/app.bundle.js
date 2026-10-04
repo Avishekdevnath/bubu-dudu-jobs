@@ -323,10 +323,11 @@
 
     let loadedData = null;
 
-    // 1. First check if window.BUBU_DUDU_CIRCULARS is already present (instant, zero CORS, file:// compatible)
-    if (window.BUBU_DUDU_CIRCULARS && Array.isArray(window.BUBU_DUDU_CIRCULARS) && window.BUBU_DUDU_CIRCULARS.length > 0) {
-      loadedData = window.BUBU_DUDU_CIRCULARS;
-      console.log('✅ Loaded', loadedData.length, 'circulars via window.BUBU_DUDU_CIRCULARS');
+    // 1. First check if window.BUBU_DUDU_CIRCULARS or window.CIRCULARS_DATA is present (instant, zero CORS, file:// compatible)
+    const preloaded = window.BUBU_DUDU_CIRCULARS || window.CIRCULARS_DATA;
+    if (preloaded && Array.isArray(preloaded) && preloaded.length > 0) {
+      loadedData = preloaded;
+      console.log('✅ Loaded', loadedData.length, 'circulars via preloaded script data');
     }
 
     // 2. If running over http/https, attempt fetch for freshest data

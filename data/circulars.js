@@ -1,5 +1,5 @@
 // Pre-loaded circulars data for file:/// and local access
-window.CIRCULARS_DATA = [
+window.CIRCULARS_DATA = window.BUBU_DUDU_CIRCULARS = [
   {
     "id": "AJ-14892",
     "title": "অফিস সহায়ক (Office Assistant)",
