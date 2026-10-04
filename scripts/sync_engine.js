@@ -1,0 +1,400 @@
+import fs from 'node:fs';
+import path from 'node:path';
+import https from 'node:https';
+import { fileURLToPath } from 'node:url';
+
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const DATA_FILE = path.join(__dirname, '..', 'data', 'circulars.json');
+const DATA_JS = path.join(__dirname, '..', 'data', 'circulars.js');
+
+// --- DEDUPLICATION KEY GENERATOR ---
+function getDedupeKey(job) {
+  const cleanOrg = (job.organization || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+  const cleanTitle = (job.title || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+  const cleanDeadline = (job.deadline_date || '').trim();
+  return `${cleanOrg}_${cleanTitle}_${cleanDeadline}`;
+}
+
+// --- CLASSIFICATION ENGINE ---
+function classifyCandidate(title, reqText, org) {
+  const text = `${title} ${reqText || ''} ${org || ''}`.toLowerCase();
+
+  const isDudu = 
+    text.includes('programmer') || 
+    text.includes('software') || 
+    text.includes('cse') || 
+    text.includes('computer') || 
+    text.includes('information technology') ||
+    text.includes('maintenance engineer') ||
+    text.includes('আইটি') || 
+    text.includes('কম্পিউটার') ||
+    text.includes('সফটওয়্যার') ||
+    text.includes('systems') ||
+    text.includes('data');
+
+  const isBubu = 
+    text.includes('scientific officer') || 
+    text.includes('agriculture') || 
+    text.includes('কৃষি') || 
+    text.includes('agronomy') || 
+    text.includes('plant breeding') || 
+    text.includes('soil') || 
+    text.includes('bina') || 
+    text.includes('brri') || 
+    text.includes('bari') || 
+    text.includes('badc') || 
+    text.includes('field assistant') || 
+    text.includes('crop') ||
+    text.includes('botany');
+
+  if (isDudu && !isBubu) return 'DUDU';
+  if (isBubu && !isDudu) return 'BUBU';
+  return 'BOTH';
+}
+
+function determineGrade(title) {
+  const t = (title || '').toLowerCase();
+  if (t.includes('programmer') && !t.includes('assistant')) return 'GRADE 6';
+  if (t.includes('assistant programmer') || t.includes('scientific officer') || t.includes('junior officer') || t.includes('assistant maintenance engineer')) return 'GRADE 9';
+  if (t.includes('sub-assistant') || t.includes('sub assistant')) return 'GRADE 10';
+  if (t.includes('computer operator') || t.includes('কম্পিউটার অপারেটর')) return 'GRADE 13';
+  if (t.includes('steno') || t.includes('সাঁট-মুদ্রাক্ষরিক')) return 'GRADE 14';
+  if (t.includes('office assistant') || t.includes('অফিস সহকারী') || t.includes('typist') || t.includes('মুদ্রাক্ষরিক') || t.includes('store keeper') || t.includes('হিসাব সহকারী')) return 'GRADE 16';
+  if (t.includes('driver') || t.includes('ড্রাইভার')) return 'GRADE 16';
+  if (t.includes('cleaner') || t.includes('security guard') || t.includes('office support') || t.includes('সহায়ক')) return 'GRADE 20';
+  return 'GRADE 13';
+}
+
+// STRICT EXCLUSION: Only pure official/desk/executive jobs (No drivers, cooks, attendants, laborers, cleaners, trades, or field reps)
+const NON_OFFICE_PATTERNS = [
+  /driver|চালক|ড্রাইভার|টিলার|tractor|bulldozer|truck/i,
+  /cook|বাবুর্চি/i,
+  /attendant|এটেনডেন্ট|বেয়ারার|bearer|peon|পিয়ন|খালাসী|khalasi/i,
+  /plumber|প্লাম্বার|পাইপ/i,
+  /electrician|ইলেকট্রিশিয়ান|কারিগর|lineman|লাইনম্যান/i,
+  /meson|ম্যাশন|মেসন|রাজমিস্ত্রি/i,
+  /painter|পেইন্টার|রংমিস্ত্রি/i,
+  /hammerman|হ্যামারম্যান|হাতুড়ে/i,
+  /pump operator|পাম্প অপারেটর|বয়লার|boiler/i,
+  /cleaner|পরিচ্ছন্নতাকর্মী|ঝাড়ুদার|সুইপার|sweeper|মালী|mali|gardener/i,
+  /guard|প্রহরী|দারোয়ান|চৌকিদার|আনসার|ansar|security/i,
+  /groundsman|গ্রাউন্ডসম্যান|ground service/i,
+  /fire safety|ফায়ার সেফটি/i,
+  /mate|মেট|লেবার|labour|কুলি|porter|হেলপার|helper/i,
+  /representative|প্রতিনিধি|বিক্রয়|sales/i,
+  /mechanic|মেকানিক|ফিটার|fitter|মিস্ত্রি|foreman|ফোরম্যান|workshop/i,
+  /chainman|চেইনম্যান/i,
+  /preparer|প্রিপেয়ারার|photocopy|ফটোকপি|printing assistant|প্রিন্টিং/i,
+  /health assistant|স্বাস্থ্য সহকারী/i,
+  /cold chain|কোল্ড চেইন/i,
+  /medical technologist|মেডিকেল টেকনোলজিস্ট|pharmacist|ফার্মাসিস্ট|মেডিকেল অফিসার|medical officer/i
+];
+
+export function isPureOfficeJob(title, details = {}) {
+  const text = `${title || ''} ${details.job_title_bn || ''} ${details.min_education || ''}`.toLowerCase();
+  for (const pat of NON_OFFICE_PATTERNS) {
+    if (pat.test(text)) return false;
+  }
+  return true;
+}
+
+function fetchJson(endpoint) {
+  return new Promise((resolve, reject) => {
+    const options = {
+      hostname: 'alljobs.teletalk.com.bd',
+      path: endpoint,
+      method: 'GET',
+      headers: {
+        'Authorization': 'Bearer false',
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)'
+      }
+    };
+    const req = https.request(options, res => {
+      let data = '';
+      res.on('data', chunk => data += chunk);
+      res.on('end', () => {
+        try {
+          resolve(JSON.parse(data));
+        } catch (e) {
+          resolve({ error: e.message, raw: data.slice(0, 200) });
+        }
+      });
+    });
+    req.on('error', reject);
+    req.end();
+  });
+}
+
+// --- FETCH ALLJOBS TELETALK OFFICIAL API LIVE CIRCULARS ---
+async function fetchAllJobsGovtFeeds(referenceDate) {
+  const jobs = [];
+  try {
+    const orgRes = await fetchJson('/api/v1/govt-jobs/org-list?page=1&limit=50');
+    if (!orgRes.govtOrgJobs) return jobs;
+
+    const msPerDay = 1000 * 60 * 60 * 24;
+
+    for (const org of orgRes.govtOrgJobs) {
+      const jobListRes = await fetchJson(`/api/v1/govt-jobs/list?orgId=${org.id}&skipLimit=YES`);
+      const orgJobs = jobListRes.govtJobs || [];
+
+      for (const j of orgJobs) {
+        const pubDateStr = (j.published_date || '').split('T')[0];
+        const deadDateStr = (j.deadline_date || '').split('T')[0];
+        if (!pubDateStr || !deadDateStr) continue;
+
+        const pubDate = new Date(pubDateStr);
+        const deadDate = new Date(deadDateStr);
+
+        // Strict Year check: MUST BE CURRENT YEAR (2026), NOT 2023/2024/2025
+        if (pubDate.getFullYear() < 2026 || deadDate.getFullYear() < 2026) continue;
+
+        const daysOld = Math.floor((referenceDate - pubDate) / msPerDay);
+        const daysLeft = Math.ceil((deadDate - referenceDate) / msPerDay);
+
+        // STRICT USER RULES:
+        // 1. Only active (daysLeft >= 0)
+        // 2. Only recent 10-30 days old max (daysOld <= 30)
+        if (daysLeft < 0 || daysOld > 30) continue;
+
+        // 3. STRICT RULE: OFFICE/DESK JOBS ONLY (No drivers, cooks, attendants, cleaners, trades, reps)
+        if (!isPureOfficeJob(j.job_title, j)) continue;
+
+        const grade = determineGrade(j.job_title);
+
+        // Fetch details for authentic PDF and portal link
+        const detailsRes = await fetchJson(`/api/v1/govt-jobs/public-details?id=${j.id}`);
+        const details = detailsRes.details || {};
+
+        let pdfUrl = '';
+        if (details.advertisement_file) {
+          pdfUrl = `https://alljobs.teletalk.com.bd/media/${details.advertisement_file}`;
+        } else if (j.application_site) {
+          pdfUrl = j.application_site;
+        }
+
+        const applyUrl = details.application_site || j.application_site || `https://alljobs.teletalk.com.bd/jobs/government/${org.id}?jobId=${j.id}`;
+        const eligibility = classifyCandidate(j.job_title, org.name, j);
+
+        jobs.push({
+          id: `AJ-${j.id}`,
+          title: j.job_title_bn ? `${j.job_title_bn} (${j.job_title})` : j.job_title,
+          organization: org.name_bn ? `${org.name_bn} (${org.name})` : org.name,
+          grade: grade,
+          candidate_eligibility: eligibility,
+          published_date: pubDateStr,
+          deadline_date: deadDateStr,
+          vacancy_count: parseInt(j.vacancy, 10) || 1,
+          min_education: details.job_title_bn ? `সংশ্লিষ্ট বিষয়ে স্নাতক/সমমান অথবা এইচএসসি` : 'Graduate or HSC as required',
+          circular_url: pdfUrl,
+          application_portal_url: applyUrl,
+          is_verified: true,
+          source: 'AllJobs Teletalk Official Live API',
+          last_updated: new Date().toISOString()
+        });
+      }
+    }
+  } catch (err) {
+    console.error('⚠️ Notice: AllJobs live fetch error:', err.message);
+  }
+  return jobs;
+}
+
+// --- FETCH BANGLADESH BANK LIVE CIRCULARS ---
+async function fetchBangladeshBankJobs(referenceDate) {
+  const url = 'https://erecruitment.bb.org.bd/onlineapp/joblist.php';
+  const jobs = [];
+
+  try {
+    const res = await fetch(url, { headers: { 'User-Agent': 'Mozilla/5.0' } });
+    if (!res.ok) return jobs;
+    const html = await res.text();
+
+    const rowRegex = /<tr[^>]*>([\s\S]*?)<\/tr>/gi;
+    let match;
+    while ((match = rowRegex.exec(html)) !== null) {
+      const rowContent = match[1];
+      if (!rowContent.includes('[View Circular]') && !rowContent.includes('jobdetails.php')) continue;
+
+      const cells = [];
+      const cellRegex = /<td[^>]*>([\s\S]*?)<\/td>/gi;
+      let cellMatch;
+      while ((cellMatch = cellRegex.exec(rowContent)) !== null) {
+        cells.push(cellMatch[1].replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim());
+      }
+
+      if (cells.length >= 6) {
+        const jobId = cells[0].trim();
+        const rawPosition = cells[1].replace(/\[View Circular\].*$/i, '').trim();
+        const vacancies = parseInt(cells[2].trim(), 10) || 1;
+        const reqs = cells[5].trim();
+        const deadlineRaw = cells[cells.length - 2] || '';
+
+        let deadline = '';
+        const dMatch = deadlineRaw.match(/(\d{2})\/(\d{2})\/(\d{4})/);
+        if (dMatch) {
+          deadline = `${dMatch[3]}-${dMatch[2]}-${dMatch[1]}`;
+        }
+
+        if (!deadline) continue;
+        const deadDate = new Date(deadline);
+        const daysLeft = Math.ceil((deadDate - referenceDate) / (1000 * 60 * 60 * 24));
+        if (daysLeft < 0 || deadDate.getFullYear() < 2026) continue;
+
+        // STRICT RULE: Office jobs only
+        if (!isPureOfficeJob(rawPosition, { min_education: reqs })) continue;
+
+        const pdfMatch = rowContent.match(/href=['"]([^'"]*print_doc[^'"]*)['"]/i) || 
+                         rowContent.match(/href=['"]([^'"]*jobdetails\.php[^'"]*)['"]/i);
+        let pdfUrl = 'https://erecruitment.bb.org.bd';
+        if (pdfMatch) {
+          pdfUrl = pdfMatch[1].startsWith('http') ? pdfMatch[1] : `https://erecruitment.bb.org.bd/onlineapp/${pdfMatch[1]}`;
+        }
+
+        const applyUrl = `https://erecruitment.bb.org.bd/onlineapp/jobapply.php?job_id=${jobId}`;
+
+        jobs.push({
+          id: `BB-${jobId}`,
+          title: rawPosition,
+          organization: 'Bankers’ Selection Committee Secretariat (BB)',
+          grade: determineGrade(rawPosition),
+          candidate_eligibility: classifyCandidate(rawPosition, reqs, 'Bangladesh Bank'),
+          published_date: referenceDate.toISOString().split('T')[0],
+          deadline_date: deadline,
+          vacancy_count: vacancies,
+          min_education: reqs,
+          circular_url: pdfUrl,
+          application_portal_url: applyUrl,
+          is_verified: true,
+          source: 'Bangladesh Bank eRecruitment Portal',
+          last_updated: new Date().toISOString()
+        });
+      }
+    }
+  } catch (err) {
+    console.error('⚠️ Notice: Bangladesh Bank live fetch error:', err.message);
+  }
+
+  return jobs;
+}
+
+// --- MAIN RUNNER WITH STRICT RECENCY & ZERO EXPIRED/OLD JOBS ---
+export async function runDailySync(referenceDate = new Date('2026-10-04T00:00:00')) {
+  console.log(`\n======================================================`);
+  console.log(` 🎯 BUBU-DUDU JOB WATCHDOG & CIRCULAR SYNCHRONIZER`);
+  console.log(` Reference Date: ${referenceDate.toISOString().split('T')[0]}`);
+  console.log(` Strict Policy: Recent 10-30 Days Only | Zero Expired Jobs`);
+  console.log(`======================================================\n`);
+
+  // 1. Fetch Live Official Feeds
+  console.log(`🌐 Querying official live recruitment feeds...`);
+  const [allJobsFeeds, bbFeeds] = await Promise.all([
+    fetchAllJobsGovtFeeds(referenceDate),
+    fetchBangladeshBankJobs(referenceDate)
+  ]);
+
+  console.log(`   • Fetched ${allJobsFeeds.length} recent circulars from AllJobs Teletalk API.`);
+  console.log(`   • Fetched ${bbFeeds.length} recent circulars from Bangladesh Bank BSC.`);
+
+  const incomingFeeds = [...allJobsFeeds, ...bbFeeds];
+
+  // 2. Load Existing and Purge any old/stale entries
+  let existingCirculars = [];
+  if (fs.existsSync(DATA_FILE)) {
+    try {
+      existingCirculars = JSON.parse(fs.readFileSync(DATA_FILE, 'utf-8'));
+    } catch (e) {
+      existingCirculars = [];
+    }
+  }
+
+  // Filter existing circulars to purge any that violate the rules (e.g. from 2023/2024/2025 or >30 days old or expired or non-office jobs)
+  const msPerDay = 1000 * 60 * 60 * 24;
+  existingCirculars = existingCirculars.filter(j => {
+    const pub = new Date(j.published_date || j.publish_date);
+    const dead = new Date(j.deadline_date);
+    if (pub.getFullYear() < 2026 || dead.getFullYear() < 2026) return false;
+    const daysOld = Math.floor((referenceDate - pub) / msPerDay);
+    const daysLeft = Math.ceil((dead - referenceDate) / msPerDay);
+    return daysLeft >= 0 && daysOld <= 30 && isPureOfficeJob(j.title, j);
+  });
+
+
+  const existingIdSet = new Set(existingCirculars.map(j => j.id.toLowerCase().trim()));
+  const existingKeySet = new Set(existingCirculars.map(j => getDedupeKey(j)));
+
+  let newAddedCount = 0;
+  let alreadyPresentCount = 0;
+
+  for (const job of incomingFeeds) {
+    const key = getDedupeKey(job);
+    const id = job.id.toLowerCase().trim();
+
+    if (existingIdSet.has(id) || existingKeySet.has(key)) {
+      alreadyPresentCount++;
+      continue;
+    }
+
+    existingCirculars.push(job);
+    existingIdSet.add(id);
+    existingKeySet.add(key);
+    newAddedCount++;
+  }
+
+  // Calculate metrics
+  let duduCount = 0;
+  let bubuCount = 0;
+  let bothCount = 0;
+  let urgent3Count = 0;
+  let justIn5Count = 0;
+
+  existingCirculars.forEach(job => {
+    const pub = new Date(job.published_date || job.publish_date);
+    const dead = new Date(job.deadline_date);
+    const daysOld = Math.floor((referenceDate - pub) / msPerDay);
+    const daysLeft = Math.ceil((dead - referenceDate) / msPerDay);
+
+    if (daysLeft <= 3) urgent3Count++;
+    if (daysOld <= 5) justIn5Count++;
+
+    if (job.candidate_eligibility === 'DUDU') duduCount++;
+    else if (job.candidate_eligibility === 'BUBU') bubuCount++;
+    else bothCount++;
+  });
+
+  // Sort by deadline ascending (most urgent first)
+  existingCirculars.sort((a, b) => new Date(a.deadline_date) - new Date(b.deadline_date));
+
+  // Persist Clean Database
+  fs.writeFileSync(DATA_FILE, JSON.stringify(existingCirculars, null, 2), 'utf-8');
+  fs.writeFileSync(DATA_JS, `window.BUBU_DUDU_CIRCULARS = ${JSON.stringify(existingCirculars, null, 2)};`, 'utf-8');
+
+  console.log(`\n------------------------------------------------------`);
+  console.log(`✅ SYNCHRONIZATION COMPLETE`);
+  console.log(`------------------------------------------------------`);
+  console.log(`   • Newly Added:           ${newAddedCount}`);
+  console.log(`   • Already Present:       ${alreadyPresentCount}`);
+  console.log(`   • Active Open Jobs:      ${existingCirculars.length}`);
+  console.log(`   • ✨ Just In (0–5 Days):  ${justIn5Count}`);
+  console.log(`   • 🚨 Urgent (≤ 3 Days):   ${urgent3Count}`);
+  console.log(`   • 💻 Dudu (CSE):          ${duduCount}`);
+  console.log(`   • 🌾 Bubu (Agri):         ${bubuCount}`);
+  console.log(`   • 🤝 Both (Joint):        ${bothCount}`);
+  console.log(`------------------------------------------------------\n`);
+
+  return {
+    newAdded: newAddedCount,
+    totalActive: existingCirculars.length,
+    justIn5: justIn5Count,
+    urgent3: urgent3Count,
+    dudu: duduCount,
+    bubu: bubuCount,
+    both: bothCount
+  };
+}
+
+if (process.argv[1] === fileURLToPath(import.meta.url)) {
+  runDailySync(new Date('2026-10-04T00:00:00'));
+}

@@ -1,0 +1,62 @@
+{
+  "name": "Bubu-Dudu Job Portal",
+  "short_name": "JobPortal",
+  "description": "Personalized Bangladesh Government & Banking Job Watchdog for Bubu & Dudu",
+  "id": "bubu-dudu-job-portal-pwa",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#f8fafc",
+  "theme_color": "#10b981",
+  "categories": ["productivity", "education", "utilities"],
+  "icons": [
+    {
+      "src": "./icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "./icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "./icons/icon-maskable-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "./icons/icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "🚨 Urgent Jobs (≤ 5 Days)",
+      "short_name": "Urgent",
+      "description": "View circulars closing in 5 days or less",
+      "url": "./index.html?filter=urgent",
+      "icons": [{ "src": "./icons/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "💻 Dudu (CSE)",
+      "short_name": "Dudu",
+      "description": "View tech and CSE circulars",
+      "url": "./index.html?cand=dudu",
+      "icons": [{ "src": "./icons/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "🌾 Bubu (Agri)",
+      "short_name": "Bubu",
+      "description": "View agricultural research circulars",
+      "url": "./index.html?cand=bubu",
+      "icons": [{ "src": "./icons/icon-192.png", "sizes": "192x192" }]
+    }
+  ]
+}

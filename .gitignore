@@ -1,0 +1,6 @@
+# Ignore binaries and temporary files
+*.exe
+*.log
+scratch*
+.DS_Store
+Thumbs.db
