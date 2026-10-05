@@ -1,9 +1,4 @@
-/**
- * BUBU-DUDU JOB CIRCULARS DATABASE (MIRROR)
- * Automatically synced from Official Teletalk AllJobs API
- * Last Synced: 2026-10-05T01:08:22.057518
- */
-window.CIRCULARS_DATA = window.BUBU_DUDU_CIRCULARS = [
+window.CIRCULARS_DATA = [
   {
     "id": "AJ-14886",
     "title": "অফিস সহায়ক (Office Support Staff)",
@@ -254,7 +249,14 @@ window.CIRCULARS_DATA = window.BUBU_DUDU_CIRCULARS = [
     "application_portal_url": "https://parjatan.teletalk.com.bd/",
     "is_verified": true,
     "source": "Official Live Verified Circulars",
-    "last_updated": "2026-10-04T11:58:38.981Z"
+    "last_updated": "2026-10-04T11:58:38.981Z",
+    "application_record": {
+      "applied_by": "Avishek",
+      "candidate": "DUDU",
+      "payment_status": "PAID",
+      "user_id": "MCBAKX4P",
+      "applied_date": "2026-10-04"
+    }
   },
   {
     "id": "AJ-14845",

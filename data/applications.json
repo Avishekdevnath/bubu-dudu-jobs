@@ -1,6 +1,5 @@
 {
-  "generated": "2026-10-05 00:35:10",
-  "total": 3,
+  "total": 4,
   "applications": [
     {
       "id": 1,
@@ -55,6 +54,24 @@
       "result": null,
       "notes": null,
       "created_at": "2026-10-04 21:15:47"
+    },
+    {
+      "id": 7,
+      "teletalk_user_id": "MCBAKX4P",
+      "teletalk_password": null,
+      "applicant_name": "AVISHEK DEVNATH",
+      "candidate": "DUDU",
+      "post_title": "সহকারী প্রোগ্রামার (Assistant Programmer)",
+      "organization": "Bangladesh Parjatan Corporation (PARJATAN)",
+      "applied_date": "2026-10-04",
+      "source_url": "https://parjatan.teletalk.com.bd/",
+      "confidence": 100,
+      "status": "APPLIED",
+      "admit_downloaded": "NO",
+      "exam_date": null,
+      "result": null,
+      "notes": "Tracking copy at: S:/Bubu-Dudu Job Gallary/Job Apply  Bubu Dudu/Dudu/New Job Tracking Page/IT/PARJATAN_MCBAKX4P.pdf",
+      "created_at": "2026-10-05 07:28:11"
     }
   ]
 }
