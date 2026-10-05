@@ -91,7 +91,10 @@
     }
 
     if (window.renderJobs) window.renderJobs();
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    const mainScroll = document.getElementById('main-content-scroll') || document.querySelector('main');
+    if (mainScroll && typeof mainScroll.scrollTo === 'function') {
+      mainScroll.scrollTo({ top: 0, behavior: 'smooth' });
+    }
   }
 
   window.initSidebar = initSidebar;

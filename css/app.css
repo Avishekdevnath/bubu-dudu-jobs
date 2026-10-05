@@ -3,17 +3,18 @@
    Mobile-First, Responsive, PWA-Ready, Dashboard & Sidebar
    ========================================================================== */
 
-/* Universal Box Sizing & Mobile Boundary Hardening */
+/* Universal Box Sizing & Boundary Hardening */
 *, *::before, *::after {
   box-sizing: border-box;
 }
 
 html, body {
+  height: 100%;
+  height: 100dvh;
   max-width: 100vw;
-  overflow-x: hidden;
-  position: relative;
   margin: 0;
   padding: 0;
+  overflow: hidden; /* Lock viewport: window never scrolls */
 }
 
 /* Ensure select elements shrink properly inside CSS grid / flex containers */
@@ -50,16 +51,24 @@ header {
 }
 
 .mobile-bottom-nav {
-  padding-bottom: max(env(safe-area-inset-bottom, 0px), 8px);
+  padding-bottom: max(env(safe-area-inset-bottom, 0px), 6px);
 }
 
-/* Custom Scrollbar for Filters & Sidebar */
+/* Custom Scrollbar for Filters, Sidebar & Main Content */
 .hide-scrollbar::-webkit-scrollbar {
   display: none;
 }
 .hide-scrollbar {
   -ms-overflow-style: none;
   scrollbar-width: none;
+}
+
+/* Smooth scrolling for main content container */
+#main-content-scroll {
+  flex: 1 1 0%;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
 }
 
 /* Card Hover Animation */
@@ -160,7 +169,7 @@ header {
 
 /* ==========================================
    PROFESSIONAL DASHBOARD & SIDEBAR LAYOUT
-   Left-most sidebar & top-most header
+   Left-most sidebar, top-most static header, and ONLY main page scrolls
    ========================================== */
 
 #app-sidebar {
@@ -176,13 +185,18 @@ header {
     bottom: 0;
     left: 0;
     height: 100vh;
+    height: 100dvh;
     z-index: 40;
   }
   
   .dashboard-main {
     margin-left: 16rem;
     width: calc(100% - 16rem);
-    min-height: 100vh;
+    height: 100vh;
+    height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden; /* Header locked, ONLY main content scrolls */
     transition: margin-left 0.3s cubic-bezier(0.16, 1, 0.3, 1), width 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
@@ -218,13 +232,18 @@ header {
     bottom: 0;
     left: 0;
     height: 100vh;
+    height: 100dvh;
     z-index: 50;
   }
 
   .dashboard-main {
     margin-left: 0 !important;
     width: 100% !important;
-    min-height: 100vh;
+    height: 100vh;
+    height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden; /* Header and bottom nav locked, ONLY main scrolls */
   }
 }
 
