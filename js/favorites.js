@@ -65,9 +65,11 @@
   }
 
   function toggleFavoritesFilter() {
-    window.state.filters.showFavoritesOnly = !window.state.filters.showFavoritesOnly;
-    updateFavoritesButtonUI(window.state.filters.showFavoritesOnly);
-    if (window.renderJobs) window.renderJobs();
+    if (window.state.currentView === 'FAVORITES') {
+      if (window.switchView) window.switchView('FEED');
+    } else {
+      if (window.switchView) window.switchView('FAVORITES');
+    }
   }
 
   function updateFavoritesButtonUI(isActive) {

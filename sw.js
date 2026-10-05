@@ -1,6 +1,6 @@
 // Bubu-Dudu Job Portal Service Worker
-// Version: 20261005-modular (Network-First with modular scripts & favorites)
-const CACHE_NAME = 'bubu-dudu-jobportal-v20261005-modular';
+// Version: 20261005-dashboard (Network-First with sidebar, applied & ignored features)
+const CACHE_NAME = 'bubu-dudu-jobportal-v20261005-dashboard';
 const CORE_ASSETS = [
   './',
   './index.html',
@@ -9,6 +9,8 @@ const CORE_ASSETS = [
   './js/timeline.js',
   './js/state.js',
   './js/favorites.js',
+  './js/ignored.js',
+  './js/sidebar.js',
   './js/components.js',
   './js/pwa.js',
   './js/app.js',

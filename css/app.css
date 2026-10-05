@@ -1,6 +1,6 @@
 /* ==========================================================================
    Bubu-Dudu Job Portal - Modular Styles
-   Mobile-First, Responsive, PWA-Ready
+   Mobile-First, Responsive, PWA-Ready, Dashboard & Sidebar
    ========================================================================== */
 
 /* Universal Box Sizing & Mobile Boundary Hardening */
@@ -51,7 +51,7 @@ header {
   padding-bottom: env(safe-area-inset-bottom, 0px);
 }
 
-/* Custom Scrollbar for Filters */
+/* Custom Scrollbar for Filters & Sidebar */
 .hide-scrollbar::-webkit-scrollbar {
   display: none;
 }
@@ -89,7 +89,7 @@ header {
 }
 
 /* ==========================================
-   FAVORITES SYSTEM
+   FAVORITES & IGNORE ACTION BUTTONS
    ========================================== */
 
 /* Favorite Heart Button */
@@ -130,12 +130,69 @@ header {
   100% { transform: scale(1); }
 }
 
+/* Ignore / Reject Button */
+.ignore-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  background: transparent;
+  flex-shrink: 0;
+}
+
+.ignore-btn:hover {
+  background: rgba(239, 68, 68, 0.1);
+  color: #dc2626 !important;
+  transform: scale(1.1);
+}
+
 /* Favorited card subtle gold left accent */
 .job-card.is-favorited {
   border-left: 3px solid #f59e0b;
 }
 
-/* Favorites filter active state glow */
-.fav-filter-active {
-  box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.3);
+/* ==========================================
+   SIDEBAR & DASHBOARD SYSTEM
+   ========================================== */
+
+#app-sidebar {
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), width 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@media (min-width: 1024px) {
+  #app-sidebar.desktop-collapsed {
+    width: 72px;
+  }
+  #app-sidebar.desktop-collapsed .sidebar-label,
+  #app-sidebar.desktop-collapsed .sidebar-badge,
+  #app-sidebar.desktop-collapsed .sidebar-heading,
+  #app-sidebar.desktop-collapsed .user-info {
+    display: none !important;
+  }
+  #app-sidebar.desktop-collapsed .sidebar-link {
+    justify-content: center;
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
+
+.sidebar-link {
+  display: flex;
+  align-items: center;
+  padding: 0.6rem 0.85rem;
+  border-radius: 0.75rem;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  transition: all 0.15s ease;
+  cursor: pointer;
+  user-select: none;
+}
+
+.sidebar-link:hover {
+  background: rgba(241, 245, 249, 0.8);
 }

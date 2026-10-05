@@ -1,6 +1,6 @@
 /**
- * Bubu-Dudu Job Portal - Main Orchestrator Module
- * Connects Timeline, State, Favorites, Components, and PWA into a cohesive application.
+ * Bubu-Dudu Job Portal - Main Application Orchestrator
+ * Coordinates State, Views (Feed, Applied, Favorites, Ignored), Filtering, and Sidebar.
  */
 (function(window) {
   'use strict';
@@ -15,7 +15,7 @@
 
     let loadedData = null;
 
-    // 1. Instant file:/// and offline support
+    // 1. Instant file:/// and offline preloaded data
     const preloaded = window.BUBU_DUDU_CIRCULARS || window.CIRCULARS_DATA;
     if (preloaded && Array.isArray(preloaded) && preloaded.length > 0) {
       loadedData = preloaded;
@@ -39,6 +39,8 @@
       if (window.populateDateReportedOptions) window.populateDateReportedOptions();
       computeAndRenderMetrics();
       if (window.updateFavoritesCount) window.updateFavoritesCount();
+      if (window.updateIgnoredCount) window.updateIgnoredCount();
+      if (window.updateAppliedCount) window.updateAppliedCount();
       renderJobs();
     } else {
       if (container) {
@@ -59,11 +61,21 @@
   function computeAndRenderMetrics() {
     const refDate = window.state.referenceDate;
     let active = 0, justIn = 0, urgent3 = 0, dudu = 0, bubu = 0, both = 0;
+    let applied = 0, favorites = 0, ignored = 0;
 
     window.state.circulars.forEach(job => {
       if (!window.isPureOfficeJob(job)) return;
       const info = window.classifyJobTimeline(job, refDate);
-      if (!info.isExpired && info.daysLeft >= 0) {
+      const isApp = window.isJobApplied ? window.isJobApplied(job) : false;
+      const isIgn = window.isIgnored ? window.isIgnored(job.id) : false;
+      const isFav = window.isFavorite ? window.isFavorite(job.id) : false;
+
+      if (isApp) applied++;
+      if (isIgn) ignored++;
+      if (isFav && !info.isExpired && info.daysLeft >= 0) favorites++;
+
+      // Active radar: non-expired, unapplied, unignored
+      if (!info.isExpired && info.daysLeft >= 0 && !isApp && !isIgn) {
         active++;
         if (info.isJustIn5) justIn++;
         if (info.isClosingSoon3) urgent3++;
@@ -74,7 +86,7 @@
     });
 
     if (window.renderMetrics) {
-      window.renderMetrics({ active, justIn, urgent3, dudu, bubu, both });
+      window.renderMetrics({ active, justIn, urgent3, dudu, bubu, both, applied, favorites, ignored });
     }
   }
 
@@ -85,21 +97,43 @@
     if (!container) return;
 
     const refDate = window.state.referenceDate;
-    const { timeline, candidate, grade, search, postType, dateReported, showFavoritesOnly, sortBy } = window.state.filters;
+    const view = window.state.currentView || 'FEED';
+    const { timeline, candidate, grade, search, postType, dateReported, sortBy } = window.state.filters;
     const pt = postType || 'ALL';
 
     const filtered = window.state.circulars.filter(job => {
       if (!window.isPureOfficeJob(job)) return false;
 
+      const isApp = window.isJobApplied ? window.isJobApplied(job) : false;
+      const isIgn = window.isIgnored ? window.isIgnored(job.id) : false;
+      const isFav = window.isFavorite ? window.isFavorite(job.id) : false;
       const info = window.classifyJobTimeline(job, refDate);
-      if (info.isExpired || info.daysLeft < 0) return false;
 
-      // 0. Favorites Filter
-      if (showFavoritesOnly && window.isFavorite && !window.isFavorite(job.id)) return false;
+      // ==========================================
+      // VIEW ROUTING
+      // ==========================================
+      if (view === 'APPLIED') {
+        if (!isApp) return false;
+      } else if (view === 'IGNORED') {
+        if (!isIgn) return false;
+      } else if (view === 'FAVORITES') {
+        if (!isFav) return false;
+        if (info.isExpired || info.daysLeft < 0) return false;
+      } else {
+        // 'FEED' View: Strict Home Radar
+        // 1. MUST NOT BE EXPIRED
+        if (info.isExpired || info.daysLeft < 0) return false;
+        // 2. MUST NOT BE APPLIED (Hidden to Applied section)
+        if (isApp) return false;
+        // 3. MUST NOT BE IGNORED (Hidden to Ignored section)
+        if (isIgn) return false;
+      }
 
-      // 1. Timeline Category Filter
-      if (timeline === window.TIMELINE_TYPES.JUST_IN_5 && !info.isJustIn5) return false;
-      if (timeline === window.TIMELINE_TYPES.CLOSING_SOON_3 && !info.isClosingSoon3) return false;
+      // 1. Timeline Category Filter (Active Only)
+      if (view === 'FEED') {
+        if (timeline === window.TIMELINE_TYPES.JUST_IN_5 && !info.isJustIn5) return false;
+        if (timeline === window.TIMELINE_TYPES.CLOSING_SOON_3 && !info.isClosingSoon3) return false;
+      }
 
       // 2. Candidate Filter
       if (candidate === 'DUDU' && job.candidate_eligibility !== 'DUDU' && job.candidate_eligibility !== 'BOTH') return false;
@@ -202,11 +236,16 @@
       }
     });
 
-    if (countEl) countEl.textContent = `${filtered.length} Active Circular${filtered.length === 1 ? '' : 's'}`;
+    // Header counter and status text
+    const viewNoun = (view === 'APPLIED') ? 'Applied Job' : (view === 'IGNORED') ? 'Ignored Job' : (view === 'FAVORITES') ? 'Saved Job' : 'Active Circular';
+    if (countEl) countEl.textContent = `${filtered.length} ${viewNoun}${filtered.length === 1 ? '' : 's'}`;
 
     if (statusEl) {
-      let tLabel = 'All Active Circulars';
-      if (timeline === window.TIMELINE_TYPES.JUST_IN_5) tLabel = '✨ Just In (0–5 Days)';
+      let tLabel = 'Active Radar';
+      if (view === 'APPLIED') tLabel = '✅ Applied Applications';
+      else if (view === 'IGNORED') tLabel = '🚫 Ignored Circulars';
+      else if (view === 'FAVORITES') tLabel = '❤️ Favorites';
+      else if (timeline === window.TIMELINE_TYPES.JUST_IN_5) tLabel = '✨ Just In (0–5 Days)';
       else if (timeline === window.TIMELINE_TYPES.CLOSING_SOON_3) tLabel = '🚨 Closing in ≤ 3 Days';
 
       let cLabel = '';
@@ -214,8 +253,7 @@
       else if (candidate === 'BUBU') cLabel = ' • Bubu (Agri)';
       else if (candidate === 'BOTH') cLabel = ' • Both (Joint)';
 
-      let favLabel = showFavoritesOnly ? ' • ❤️ Favorites Only' : '';
-      statusEl.textContent = `Showing: ${tLabel}${cLabel}${favLabel}`;
+      statusEl.textContent = `Showing: ${tLabel}${cLabel}`;
     }
 
     container.innerHTML = '';
@@ -237,6 +275,10 @@
   };
 
   window.setUrgencyFilter = function(filterType) {
+    if (window.state.currentView !== 'FEED') {
+      window.state.currentView = 'FEED';
+      if (window.switchView) window.switchView('FEED');
+    }
     if (filterType === 'JUST_IN_5' || filterType === 'JUSTIN') {
       window.state.filters.timeline = window.TIMELINE_TYPES.JUST_IN_5;
     } else if (filterType === 'URGENT_3' || filterType === 'URGENT') {
@@ -296,7 +338,7 @@
     window.state.filters.dateReported = 'ALL';
     window.state.filters.sortBy = 'GRADE_ASC';
     window.state.filters.search = '';
-    window.state.filters.showFavoritesOnly = false;
+    window.state.currentView = 'FEED';
     dayWindowFilter = 'ALL';
 
     const searchInput = document.getElementById('search-input');
@@ -313,7 +355,7 @@
     if (dateRepSelect) dateRepSelect.value = 'ALL';
     if (sortSelect) sortSelect.value = 'GRADE_ASC';
 
-    if (window.updateFavoritesButtonUI) window.updateFavoritesButtonUI(false);
+    if (window.switchView) window.switchView('FEED');
     renderJobs();
   };
 
@@ -333,12 +375,15 @@
 
   function parseURLParams() {
     const params = new URLSearchParams(window.location.search);
+    const view = params.get('view');
     const cand = params.get('cand');
     const filter = params.get('filter');
     const sort = params.get('sort');
     const reported = params.get('reported') || params.get('date');
-    const favs = params.get('favs');
 
+    if (view && ['FEED', 'APPLIED', 'FAVORITES', 'IGNORED'].includes(view.toUpperCase())) {
+      window.state.currentView = view.toUpperCase();
+    }
     if (cand && ['DUDU', 'BUBU', 'BOTH', 'ALL'].includes(cand.toUpperCase())) {
       window.state.filters.candidate = cand.toUpperCase();
     }
@@ -358,10 +403,6 @@
     if (sort) {
       window.state.filters.sortBy = sort.toUpperCase();
     }
-    if (favs === '1' || favs === 'true') {
-      window.state.filters.showFavoritesOnly = true;
-      if (window.updateFavoritesButtonUI) window.updateFavoritesButtonUI(true);
-    }
   }
 
   function updateClockDisplay() {
@@ -375,6 +416,8 @@
   function boot() {
     if (window.loadAppliedRecords) window.loadAppliedRecords();
     if (window.loadFavorites) window.loadFavorites();
+    if (window.loadIgnored) window.loadIgnored();
+    if (window.initSidebar) window.initSidebar();
     if (window.initPWA) window.initPWA();
     parseURLParams();
     updateClockDisplay();
