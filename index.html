@@ -84,6 +84,13 @@
             <span>Install</span>
           </button>
 
+          <!-- Favorites Toggle Button (Header) -->
+          <button id="header-fav-btn" onclick="toggleFavoritesFilter()" title="View Favorited / Bookmarked Circulars" class="inline-flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-bold text-slate-700 bg-white hover:bg-slate-50 border border-slate-300 rounded-lg shadow-sm transition active:scale-95">
+            <span class="text-rose-500">❤️</span>
+            <span class="hidden sm:inline">Saved</span>
+            <span id="stat-favs" class="px-1.5 py-0.2 text-[10px] bg-rose-100 text-rose-700 rounded-full font-extrabold">0</span>
+          </button>
+
           <button onclick="reloadCirculars()" title="Refresh Circulars" class="inline-flex items-center gap-1 p-2 sm:px-3 sm:py-1.5 text-xs font-semibold text-slate-700 bg-white hover:bg-slate-50 border border-slate-300 rounded-lg shadow-sm transition active:scale-95">
             <svg class="w-4 h-4 text-slate-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
             <span class="hidden sm:inline">Refresh</span>
@@ -134,8 +141,8 @@
           <div id="stat-urgent-3-m" class="text-base font-black text-rose-700">0</div>
         </div>
       </div>
-      <!-- Row 2: Candidates Mini Chips -->
-      <div class="grid grid-cols-3 gap-1 pt-1.5 border-t border-slate-100 text-center w-full">
+      <!-- Row 2: Candidates & Favorites Mini Chips -->
+      <div class="grid grid-cols-4 gap-1 pt-1.5 border-t border-slate-100 text-center w-full">
         <button onclick="setCandidateFilter('DUDU')" class="py-1 px-0.5 rounded-lg bg-blue-50 text-blue-700 text-[10px] font-bold flex items-center justify-center gap-0.5 active:scale-95 truncate">
           💻 Dudu: <span id="stat-dudu-m">0</span>
         </button>
@@ -145,11 +152,14 @@
         <button onclick="setCandidateFilter('BOTH')" class="py-1 px-0.5 rounded-lg bg-purple-50 text-purple-700 text-[10px] font-bold flex items-center justify-center gap-0.5 active:scale-95 truncate">
           🤝 Joint: <span id="stat-both-m">0</span>
         </button>
+        <button onclick="toggleFavoritesFilter()" id="fav-btn-m" class="py-1 px-0.5 rounded-lg bg-rose-50 text-rose-700 text-[10px] font-bold flex items-center justify-center gap-0.5 active:scale-95 truncate">
+          ❤️ Saved: <span id="stat-favs-m">0</span>
+        </button>
       </div>
     </section>
 
     <!-- DESKTOP KPI / STATS BAR -->
-    <section class="hidden sm:grid grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4">
+    <section class="hidden sm:grid grid-cols-3 lg:grid-cols-7 gap-3 sm:gap-4">
       
       <!-- 1. All Active -->
       <div onclick="setUrgencyFilter('ACTIVE')" class="cursor-pointer bg-white p-3.5 sm:p-4 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition hover:border-emerald-400 group">
@@ -224,6 +234,18 @@
         <div class="mt-2 flex items-baseline justify-between">
           <span id="stat-both" class="text-2xl font-bold text-slate-900 group-hover:text-purple-600 transition">0</span>
           <span class="text-[11px] text-purple-600 font-semibold">General Posts</span>
+        </div>
+      </div>
+
+      <!-- 7. Favorites (Saved) -->
+      <div onclick="toggleFavoritesFilter()" class="cursor-pointer bg-white p-3.5 sm:p-4 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition hover:border-rose-400 group">
+        <div class="flex items-center justify-between">
+          <span class="text-[11px] font-semibold text-slate-500 uppercase tracking-wider">Favorites</span>
+          <span class="p-1.5 rounded-lg bg-rose-50 text-rose-600 text-sm">❤️</span>
+        </div>
+        <div class="mt-2 flex items-baseline justify-between">
+          <span id="stat-favs-desktop" class="text-2xl font-bold text-slate-900 group-hover:text-rose-600 transition">0</span>
+          <span class="text-[11px] text-rose-600 font-semibold">Saved</span>
         </div>
       </div>
 
@@ -396,7 +418,13 @@
       <span>Joint</span>
     </button>
 
-    <!-- 5. Install PWA (Shows if installable) -->
+    <!-- 5. Favorites (Saved) -->
+    <button id="nav-btn-favs" onclick="toggleFavoritesFilter()" class="flex flex-col items-center justify-center p-1 text-slate-500 text-[10px] active:scale-95 transition">
+      <span class="text-lg">❤️</span>
+      <span>Saved (<span id="nav-fav-count">0</span>)</span>
+    </button>
+
+    <!-- 6. Install PWA (Shows if installable) -->
     <button id="nav-install-btn" onclick="installPWA()" class="hidden flex flex-col items-center justify-center p-1 text-emerald-600 font-bold text-[10px] active:scale-95 transition">
       <span class="text-lg">📲</span>
       <span>Install</span>
@@ -416,8 +444,13 @@
   </footer>
 
   <!-- Pre-loaded data for seamless file:/// protocol access (zero CORS errors) -->
-  <script src="data/circulars.js?v=20261005"></script>
-  <!-- Universal Production Bundle (Runs on both file:/// and http://) -->
-  <script src="js/app.bundle.js?v=20261005"></script>
+  <script src="data/circulars.js?v=20261005_mod"></script>
+  <!-- Modular Architecture: Each sub-system in its own lightweight file -->
+  <script src="js/timeline.js?v=20261005_mod"></script>
+  <script src="js/state.js?v=20261005_mod"></script>
+  <script src="js/favorites.js?v=20261005_mod"></script>
+  <script src="js/components.js?v=20261005_mod"></script>
+  <script src="js/pwa.js?v=20261005_mod"></script>
+  <script src="js/app.js?v=20261005_mod"></script>
 </body>
 </html>

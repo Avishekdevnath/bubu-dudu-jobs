@@ -1,12 +1,17 @@
 // Bubu-Dudu Job Portal Service Worker
-// Version: 20261005-v2 (Forces instant cache purge & Network-First fresh UI)
-const CACHE_NAME = 'bubu-dudu-jobportal-v20261005';
+// Version: 20261005-modular (Network-First with modular scripts & favorites)
+const CACHE_NAME = 'bubu-dudu-jobportal-v20261005-modular';
 const CORE_ASSETS = [
   './',
   './index.html',
   './manifest.json',
   './css/app.css',
-  './js/app.bundle.js',
+  './js/timeline.js',
+  './js/state.js',
+  './js/favorites.js',
+  './js/components.js',
+  './js/pwa.js',
+  './js/app.js',
   './data/circulars.js',
   './data/circulars.json',
   './data/applications.json',

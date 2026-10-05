@@ -1,537 +1,393 @@
 /**
- * Bubu-Dudu Job Portal - Main Application Orchestrator
- * Connects State, Timeline Engine, Component Renderer, and PWA Subsystem.
+ * Bubu-Dudu Job Portal - Main Orchestrator Module
+ * Connects Timeline, State, Favorites, Components, and PWA into a cohesive application.
  */
+(function(window) {
+  'use strict';
 
-import { state, loadAppliedRecords, saveAppliedRecord, subscribe } from './state.js';
-import { TIMELINE_TYPES, classifyJobTimeline, getDaysUntilDeadline, isPureOfficeJob } from './timeline.js';
-import { renderJobCard, renderMetrics, renderEmptyState } from './components.js';
-import { initPWA, installPWA, dismissMobileBanner } from './pwa.js';
+  let dayWindowFilter = 'ALL';
+  let searchTimeout = null;
 
+  async function loadCirculars() {
+    const container = document.getElementById('jobs-grid');
+    const countEl = document.getElementById('visible-count');
+    if (countEl) countEl.textContent = 'Loading...';
 
-// Additional UI State
-let dayWindowFilter = 'ALL';
+    let loadedData = null;
 
-/**
- * Initialize Application
- */
-async function init() {
-  loadAppliedRecords();
-  initPWA();
-  setupEventListeners();
-  parseURLParams();
-  await loadCirculars();
-  updateClockDisplay();
-}
+    // 1. Instant file:/// and offline support
+    const preloaded = window.BUBU_DUDU_CIRCULARS || window.CIRCULARS_DATA;
+    if (preloaded && Array.isArray(preloaded) && preloaded.length > 0) {
+      loadedData = preloaded;
+    }
 
-/**
- * Load circulars data from JSON
- */
-async function loadCirculars() {
-  const container = document.getElementById('jobs-grid');
-  const countEl = document.getElementById('visible-count');
-  if (countEl) countEl.textContent = 'Loading...';
+    // 2. Fetch fresh JSON over HTTP/HTTPS
+    if (window.location.protocol.startsWith('http')) {
+      try {
+        const res = await fetch(`./data/circulars.json?_t=${Date.now()}`);
+        if (res.ok) {
+          const fresh = await res.json();
+          if (Array.isArray(fresh) && fresh.length > 0) loadedData = fresh;
+        }
+      } catch (e) {
+        console.warn('Network fetch skipped, using preloaded data:', e);
+      }
+    }
 
-  // Check preloaded window data (file:/// and offline support)
-  const preloaded = window.BUBU_DUDU_CIRCULARS || window.CIRCULARS_DATA;
-  if (preloaded && Array.isArray(preloaded) && preloaded.length > 0) {
-    state.circulars = preloaded;
-    computeAndRenderMetrics();
-    renderJobs();
-    // If not over http, we're done
-    if (!window.location.protocol.startsWith('http')) return;
-  }
-
-  try {
-    const res = await fetch(`./data/circulars.json?_t=${Date.now()}`);
-    if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
-    const data = await res.json();
-    state.circulars = Array.isArray(data) ? data : [];
-    
-    computeAndRenderMetrics();
-    renderJobs();
-  } catch (err) {
-    console.error('Failed to load circulars:', err);
-    if (container) {
-      container.innerHTML = `
-        <div class="col-span-full py-12 text-center bg-white rounded-2xl border border-red-200 p-6 space-y-3">
-          <div class="text-4xl">⚠️</div>
-          <h3 class="text-base font-bold text-red-700">Failed to Load Circulars</h3>
-          <p class="text-xs text-slate-500">${err.message}</p>
-          <button onclick="window.reloadCirculars()" class="px-4 py-2 text-xs font-bold text-white bg-red-600 rounded-xl hover:bg-red-700">
-            Retry Loading
-          </button>
-        </div>
-      `;
+    if (loadedData) {
+      window.state.circulars = loadedData;
+      if (window.populateDateReportedOptions) window.populateDateReportedOptions();
+      computeAndRenderMetrics();
+      if (window.updateFavoritesCount) window.updateFavoritesCount();
+      renderJobs();
+    } else {
+      if (container) {
+        container.innerHTML = `
+          <div class="col-span-full py-12 text-center bg-white rounded-2xl border border-red-200 p-6 space-y-3">
+            <div class="text-4xl">⚠️</div>
+            <h3 class="text-base font-bold text-red-700">Data File Not Loaded</h3>
+            <p class="text-xs text-slate-500">Ensure data/circulars.js or data/circulars.json is present.</p>
+            <button onclick="window.reloadCirculars()" class="px-4 py-2 text-xs font-bold text-white bg-red-600 rounded-xl hover:bg-red-700">
+              Retry Loading
+            </button>
+          </div>
+        `;
+      }
     }
   }
-}
 
-/**
- * Compute global metrics & timeline badges
- */
-function computeAndRenderMetrics() {
-  const refDate = state.referenceDate;
-  let active = 0;
-  let justIn = 0;
-  let urgent3 = 0;
-  let dudu = 0;
-  let bubu = 0;
-  let both = 0;
+  function computeAndRenderMetrics() {
+    const refDate = window.state.referenceDate;
+    let active = 0, justIn = 0, urgent3 = 0, dudu = 0, bubu = 0, both = 0;
 
-  state.circulars.forEach(job => {
-    // STRICT RULE: Office Jobs Only!
-    if (!isPureOfficeJob(job)) return;
+    window.state.circulars.forEach(job => {
+      if (!window.isPureOfficeJob(job)) return;
+      const info = window.classifyJobTimeline(job, refDate);
+      if (!info.isExpired && info.daysLeft >= 0) {
+        active++;
+        if (info.isJustIn5) justIn++;
+        if (info.isClosingSoon3) urgent3++;
+        if (job.candidate_eligibility === 'DUDU' || job.candidate_eligibility === 'BOTH') dudu++;
+        if (job.candidate_eligibility === 'BUBU' || job.candidate_eligibility === 'BOTH') bubu++;
+        if (job.candidate_eligibility === 'BOTH') both++;
+      }
+    });
 
-    const info = classifyJobTimeline(job, refDate);
-    // STRICT RULE: Only active circulars
-    if (!info.isExpired && info.daysLeft >= 0) {
-      active++;
-      if (info.isJustIn5) justIn++;
-      if (info.isClosingSoon3) urgent3++;
-
-      if (job.candidate_eligibility === 'DUDU' || job.candidate_eligibility === 'BOTH') dudu++;
-      if (job.candidate_eligibility === 'BUBU' || job.candidate_eligibility === 'BOTH') bubu++;
-      if (job.candidate_eligibility === 'BOTH') both++;
+    if (window.renderMetrics) {
+      window.renderMetrics({ active, justIn, urgent3, dudu, bubu, both });
     }
-  });
+  }
 
-  renderMetrics({ active, justIn, urgent3, dudu, bubu, both });
-}
+  function renderJobs() {
+    const container = document.getElementById('jobs-grid');
+    const countEl = document.getElementById('visible-count');
+    const statusEl = document.getElementById('filter-status-text');
+    if (!container) return;
 
-/**
- * Filter and render circular cards
- */
-function renderJobs() {
-  const container = document.getElementById('jobs-grid');
-  const countEl = document.getElementById('visible-count');
-  if (!container) return;
+    const refDate = window.state.referenceDate;
+    const { timeline, candidate, grade, search, postType, dateReported, showFavoritesOnly, sortBy } = window.state.filters;
+    const pt = postType || 'ALL';
 
-  const refDate = state.referenceDate;
-  const { timeline, candidate, grade, search, postType } = state.filters;
-  const pt = postType || 'ALL';
+    const filtered = window.state.circulars.filter(job => {
+      if (!window.isPureOfficeJob(job)) return false;
 
-  const filtered = state.circulars.filter(job => {
-    // STRICT RULE: Office Jobs Only!
-    if (!isPureOfficeJob(job)) return false;
+      const info = window.classifyJobTimeline(job, refDate);
+      if (info.isExpired || info.daysLeft < 0) return false;
 
-    const info = classifyJobTimeline(job, refDate);
+      // 0. Favorites Filter
+      if (showFavoritesOnly && window.isFavorite && !window.isFavorite(job.id)) return false;
 
-    // STRICT RULE: NEVER SHOW EXPIRED CIRCULARS ON FRONTEND PAGE!
-    if (info.isExpired || info.daysLeft < 0) return false;
+      // 1. Timeline Category Filter
+      if (timeline === window.TIMELINE_TYPES.JUST_IN_5 && !info.isJustIn5) return false;
+      if (timeline === window.TIMELINE_TYPES.CLOSING_SOON_3 && !info.isClosingSoon3) return false;
 
+      // 2. Candidate Filter
+      if (candidate === 'DUDU' && job.candidate_eligibility !== 'DUDU' && job.candidate_eligibility !== 'BOTH') return false;
+      if (candidate === 'BUBU' && job.candidate_eligibility !== 'BUBU' && job.candidate_eligibility !== 'BOTH') return false;
+      if (candidate === 'BOTH' && job.candidate_eligibility !== 'BOTH') return false;
 
-    // 1. Timeline Category Filter (Active Only)
-    if (timeline === TIMELINE_TYPES.JUST_IN_5) {
-      if (!info.isJustIn5) return false;
-    } else if (timeline === TIMELINE_TYPES.CLOSING_SOON_3) {
-      if (!info.isClosingSoon3) return false;
-    }
+      // 3. Day Window Filter
+      if (dayWindowFilter !== 'ALL') {
+        const maxDays = parseInt(dayWindowFilter, 10);
+        if (info.daysLeft > maxDays) return false;
+      }
 
-    // 2. Candidate Filter
-    if (candidate === 'DUDU' && job.candidate_eligibility !== 'DUDU' && job.candidate_eligibility !== 'BOTH') return false;
-    if (candidate === 'BUBU' && job.candidate_eligibility !== 'BUBU' && job.candidate_eligibility !== 'BOTH') return false;
-    if (candidate === 'BOTH' && job.candidate_eligibility !== 'BOTH') return false;
-
-    // 3. Day Window Filter (<= N days left)
-    if (dayWindowFilter !== 'ALL') {
-      const maxDays = parseInt(dayWindowFilter, 10);
-      if (info.isExpired || info.daysLeft > maxDays) return false;
-    }
-
-    // 4. Grade Filter (Integer comparison)
-    if (grade !== 'ALL') {
-      const gNum = parseInt(String(job.grade).replace(/\D+/g, ''), 10);
-      if (grade === '14-16') {
-        if (![14, 15, 16].includes(gNum)) return false;
-      } else {
+      // 4. Grade Filter
+      if (grade !== 'ALL') {
+        const gNum = parseInt(String(job.grade).replace(/\D+/g, ''), 10);
         if (gNum !== parseInt(grade, 10)) return false;
       }
-    }
 
-    // 5. Post Type / Designation Filter
-    const pt = state.filters.postType || 'ALL';
-    if (pt !== 'ALL') {
-      const titleLower = (job.title || '').toLowerCase();
-      const cat = job.designation_category || '';
-      const gNum = parseInt(String(job.grade).replace(/\D+/g, ''), 10);
-
-      if (pt === 'TOP_POSTS') {
-        const isTop = cat === 'TOP_POSTS' || gNum <= 9 || /assistant programmer|সহকারী প্রোগ্রামার|assistant maintenance|রক্ষণাবেক্ষণ|assistant director|সহকারী পরিচালক|assistant manager|সহকারী ব্যবস্থাপক|programmer|প্রোগ্রামার|junior officer|কনিষ্ঠ কর্মকর্তা|sub-assistant engineer/i.test(titleLower);
-        if (!isTop) return false;
-      } else if (pt === 'IT_OFFICER') {
-        const isIt = cat === 'IT_OFFICER' || /programmer|প্রোগ্রামার|maintenance engineer|রক্ষণাবেক্ষণ|system analyst|কম্পিউটার প্রকৌশলী|আইটি/i.test(titleLower);
-        if (!isIt) return false;
-      } else if (pt === 'AM_AD') {
-        const isAmAd = /assistant manager|সহকারী ব্যবস্থাপক|assistant director|সহকারী পরিচালক/i.test(titleLower);
-        if (!isAmAd) return false;
-      } else if (pt === 'COMP_OPERATOR') {
-        if (cat !== 'COMP_OPERATOR' && !/computer operator|কম্পিউটার অপারেটর/i.test(titleLower)) return false;
-      } else if (pt === 'STENO_TYPIST') {
-        if (cat !== 'STENO_TYPIST' && !/steno|সাঁট|typist|মুদ্রাক্ষরিক/i.test(titleLower)) return false;
-      } else if (pt === 'OFFICE_SOHAYOK') {
-        if (cat !== 'OFFICE_SOHAYOK' && !/সহায়ক|সহায়ক|sohayok|shohayok|support staff/i.test(titleLower)) return false;
-      } else if (pt === 'ACCOUNTS') {
-        if (cat !== 'ACCOUNTS' && !/account|হিসাব|cashier|ক্যাশিয়ার|auditor/i.test(titleLower)) return false;
-      } else if (pt === 'OFFICE_ASST') {
-        if (cat !== 'OFFICE_ASST' && !/office assistant|অফিস সহকারী|upper division|উচ্চমান সহকারী|head assistant/i.test(titleLower)) return false;
+      // 5. Post Type / Designation Category Filter
+      if (pt !== 'ALL') {
+        if (pt === 'TOP_POSTS') {
+          if (job.grade > 9 && job.designation_category !== 'TOP_POSTS') return false;
+        } else if (job.designation_category !== pt) {
+          return false;
+        }
       }
-    }
 
-    // 6. Search Text Filter with Smart Abbreviation Aliases
-    if (search && search.trim() !== '') {
-      const q = search.trim().toLowerCase();
-      const titleLower = (job.title || '').toLowerCase();
-      const orgLower = (job.organization || '').toLowerCase();
-      const reqLower = (job.education_requirements || job.min_education || '').toLowerCase();
-      const candLower = (job.candidate_eligibility || '').toLowerCase();
+      // 6. Search Term Filter
+      if (search && search.trim() !== '') {
+        const q = search.trim().toLowerCase();
+        const titleLower = `${job.title || ''} ${job.title_en || ''} ${job.title_bn || ''}`.toLowerCase();
+        const orgLower = `${job.organization || ''} ${job.org_code || ''}`.toLowerCase();
+        const reqLower = `${job.min_education || job.education_requirements || ''}`.toLowerCase();
+        const candLower = `${job.candidate_eligibility || ''}`.toLowerCase();
 
-      // Smart Designation Abbreviation Matching
-      if (q === 'ap') {
-        if (!titleLower.includes('assistant programmer') && !titleLower.includes('সহকারী প্রোগ্রামার')) return false;
-      } else if (q === 'ame') {
-        if (!titleLower.includes('maintenance engineer') && !titleLower.includes('রক্ষণাবেক্ষণ প্রকৌশলী')) return false;
-      } else if (q === 'ad') {
-        if (!titleLower.includes('assistant director') && !titleLower.includes('সহকারী পরিচালক')) return false;
-      } else if (q === 'am') {
-        if (!titleLower.includes('assistant manager') && !titleLower.includes('সহকারী ব্যবস্থাপক')) return false;
-      } else {
-        const matchTitle = titleLower.includes(q);
-        const matchOrg = orgLower.includes(q);
-        const matchReq = reqLower.includes(q);
-        const matchCand = candLower.includes(q);
-        if (!matchTitle && !matchOrg && !matchReq && !matchCand) return false;
+        if (q === 'ap') {
+          if (!titleLower.includes('assistant programmer') && !titleLower.includes('সহকারী প্রোগ্রামার')) return false;
+        } else if (q === 'ame') {
+          if (!titleLower.includes('maintenance engineer') && !titleLower.includes('রক্ষণাবেক্ষণ প্রকৌশলী')) return false;
+        } else if (q === 'ad') {
+          if (!titleLower.includes('assistant director') && !titleLower.includes('সহকারী পরিচালক')) return false;
+        } else if (q === 'am') {
+          if (!titleLower.includes('assistant manager') && !titleLower.includes('সহকারী ব্যবস্থাপক')) return false;
+        } else {
+          if (!titleLower.includes(q) && !orgLower.includes(q) && !reqLower.includes(q) && !candLower.includes(q)) return false;
+        }
       }
-    }
 
-    return true;
-  });
+      // 7. Date Reported / Published Filter
+      const dr = dateReported || 'ALL';
+      if (dr !== 'ALL') {
+        const pubStr = (job.published_date || job.publish_date || '').split('T')[0];
+        if (!pubStr) return false;
+        const refDateIso = refDate.toISOString().split('T')[0];
+        if (dr === 'TODAY') {
+          if (pubStr !== refDateIso) return false;
+        } else if (dr === 'LAST_3_DAYS') {
+          if (info.daysOld > 3) return false;
+        } else if (dr === 'LAST_7_DAYS') {
+          if (info.daysOld > 7) return false;
+        } else if (dr === 'LAST_14_DAYS') {
+          if (info.daysOld > 14) return false;
+        } else {
+          if (pubStr !== dr) return false;
+        }
+      }
 
-  // Multi-Mode Sorting (Grade Wise, Deadline, Newest)
-  const sortBy = state.filters.sortBy || 'GRADE_ASC';
-  filtered.sort((a, b) => {
-    const da = getDaysUntilDeadline(a.deadline_date, refDate);
-    const db = getDaysUntilDeadline(b.deadline_date, refDate);
-    const ga = parseInt(String(a.grade || 99).replace(/\D+/g, ''), 10) || 99;
-    const gb = parseInt(String(b.grade || 99).replace(/\D+/g, ''), 10) || 99;
-
-    if (sortBy === 'GRADE_ASC') {
-      if (ga !== gb) return ga - gb;
-      return da - db;
-    } else if (sortBy === 'GRADE_DESC') {
-      if (ga !== gb) return gb - ga;
-      return da - db;
-    } else if (sortBy === 'DEADLINE_DESC') {
-      return db - da;
-    } else if (sortBy === 'NEWEST') {
-      const pa = new Date(a.published_date || a.publish_date || '2026-01-01').getTime();
-      const pb = new Date(b.published_date || b.publish_date || '2026-01-01').getTime();
-      if (pa !== pb) return pb - pa;
-      return da - db;
-    } else { // DEADLINE_ASC
-      if (da !== db) return da - db;
-      return ga - gb;
-    }
-  });
-
-  // Update counter
-  if (countEl) countEl.textContent = `${filtered.length} Circular${filtered.length === 1 ? '' : 's'}`;
-
-  const statusEl = document.getElementById('filter-status-text');
-  if (statusEl) {
-    let tLabel = 'All Active Circulars';
-    if (timeline === TIMELINE_TYPES.JUST_IN_5) tLabel = '✨ Just In (0–5 Days)';
-    else if (timeline === TIMELINE_TYPES.CLOSING_SOON_3) tLabel = '🚨 Closing in ≤ 3 Days';
-    else if (timeline === TIMELINE_TYPES.EXPIRED) tLabel = '📦 Expired / Archived Circulars';
-
-    let cLabel = '';
-    if (candidate === 'DUDU') cLabel = ' • Dudu (CSE)';
-    else if (candidate === 'BUBU') cLabel = ' • Bubu (Agri)';
-    else if (candidate === 'BOTH') cLabel = ' • Both (Joint)';
-
-    let ptLabel = '';
-    if (pt === 'TOP_POSTS') ptLabel = ' • 👑 Top Posts';
-    else if (pt === 'IT_OFFICER') ptLabel = ' • 💻 IT Officers';
-    else if (pt === 'AM_AD') ptLabel = ' • 🎯 AM & AD';
-    else if (pt === 'COMP_OPERATOR') ptLabel = ' • 🖥️ Computer Op';
-    else if (pt === 'OFFICE_SOHAYOK') ptLabel = ' • 🏢 Office Sohayok';
-    else if (pt === 'ACCOUNTS') ptLabel = ' • 💰 Accounts';
-
-    let gLabel = grade !== 'ALL' ? ` • Grade ${grade}` : '';
-    let dLabel = dayWindowFilter !== 'ALL' ? ` • ≤ ${dayWindowFilter}d Left` : '';
-
-    statusEl.textContent = `Showing: ${tLabel}${cLabel}${ptLabel}${gLabel}${dLabel}`;
-  }
-
-  // Clear & render
-  container.innerHTML = '';
-  if (filtered.length === 0) {
-    container.appendChild(renderEmptyState());
-  } else {
-    filtered.forEach(job => {
-      const info = classifyJobTimeline(job, refDate);
-      const userAppliedRecord = state.appliedRecords[job.id];
-      container.appendChild(renderJobCard(job, info, userAppliedRecord));
+      return true;
     });
-  }
 
-  updateTabStyles();
-}
+    // Sorting
+    const activeSort = sortBy || 'GRADE_ASC';
+    filtered.sort((a, b) => {
+      const da = window.getDaysUntilDeadline(a.deadline_date, refDate);
+      const db = window.getDaysUntilDeadline(b.deadline_date, refDate);
+      const ga = parseInt(String(a.grade || 99).replace(/\D+/g, ''), 10) || 99;
+      const gb = parseInt(String(b.grade || 99).replace(/\D+/g, ''), 10) || 99;
 
-/**
- * Update active styles on tabs and buttons
- */
-function updateTabStyles() {
-  const { timeline, candidate, postType } = state.filters;
-
-  // Candidate tabs
-  ['all', 'dudu', 'bubu', 'both'].forEach(c => {
-    const btn = document.getElementById(`tab-cand-${c}`);
-    if (btn) {
-      if (candidate.toLowerCase() === c) {
-        btn.className = 'px-3.5 py-1.5 rounded-lg text-xs font-bold bg-white text-slate-900 shadow-sm transition';
-      } else {
-        btn.className = 'px-3.5 py-1.5 rounded-lg text-xs font-bold text-slate-600 hover:text-slate-900 transition';
+      if (activeSort === 'GRADE_ASC') {
+        if (ga !== gb) return ga - gb;
+        return da - db;
+      } else if (activeSort === 'GRADE_DESC') {
+        if (ga !== gb) return gb - ga;
+        return da - db;
+      } else if (activeSort === 'REPORTED_DESC' || activeSort === 'NEWEST') {
+        const pa = new Date(a.published_date || a.publish_date || '2026-01-01').getTime();
+        const pb = new Date(b.published_date || b.publish_date || '2026-01-01').getTime();
+        if (pa !== pb) return pb - pa;
+        return ga - gb;
+      } else if (activeSort === 'REPORTED_ASC') {
+        const pa = new Date(a.published_date || a.publish_date || '2026-01-01').getTime();
+        const pb = new Date(b.published_date || b.publish_date || '2026-01-01').getTime();
+        if (pa !== pb) return pa - pb;
+        return ga - gb;
+      } else if (activeSort === 'DEADLINE_DESC') {
+        return db - da;
+      } else { // DEADLINE_ASC
+        if (da !== db) return da - db;
+        return ga - gb;
       }
+    });
+
+    if (countEl) countEl.textContent = `${filtered.length} Active Circular${filtered.length === 1 ? '' : 's'}`;
+
+    if (statusEl) {
+      let tLabel = 'All Active Circulars';
+      if (timeline === window.TIMELINE_TYPES.JUST_IN_5) tLabel = '✨ Just In (0–5 Days)';
+      else if (timeline === window.TIMELINE_TYPES.CLOSING_SOON_3) tLabel = '🚨 Closing in ≤ 3 Days';
+
+      let cLabel = '';
+      if (candidate === 'DUDU') cLabel = ' • Dudu (CSE)';
+      else if (candidate === 'BUBU') cLabel = ' • Bubu (Agri)';
+      else if (candidate === 'BOTH') cLabel = ' • Both (Joint)';
+
+      let favLabel = showFavoritesOnly ? ' • ❤️ Favorites Only' : '';
+      statusEl.textContent = `Showing: ${tLabel}${cLabel}${favLabel}`;
     }
-  });
 
-  // Urgency tabs
-  const tabActive = document.getElementById('tab-urg-active');
-  const tabJustIn = document.getElementById('tab-urg-justin');
-  const tabUrgent3 = document.getElementById('tab-urg-urgent');
-  const tabArchived = document.getElementById('tab-urg-archived');
-
-  if (tabActive) {
-    tabActive.className = timeline === TIMELINE_TYPES.ALL_ACTIVE
-      ? 'px-3 py-1.5 rounded-lg text-xs font-bold bg-white text-slate-900 shadow-sm transition'
-      : 'px-3 py-1.5 rounded-lg text-xs font-bold text-slate-600 hover:text-slate-900 transition';
-  }
-
-  if (tabJustIn) {
-    tabJustIn.className = timeline === TIMELINE_TYPES.JUST_IN_5
-      ? 'px-3 py-1.5 rounded-lg text-xs font-bold bg-emerald-600 text-white shadow-sm transition flex items-center gap-1'
-      : 'px-3 py-1.5 rounded-lg text-xs font-bold text-emerald-700 hover:bg-emerald-100 transition flex items-center gap-1';
-  }
-
-  if (tabUrgent3) {
-    tabUrgent3.className = timeline === TIMELINE_TYPES.CLOSING_SOON_3
-      ? 'px-3 py-1.5 rounded-lg text-xs font-bold bg-rose-600 text-white shadow-sm transition flex items-center gap-1'
-      : 'px-3 py-1.5 rounded-lg text-xs font-bold text-rose-700 hover:bg-rose-100 transition flex items-center gap-1';
-  }
-
-  if (tabArchived) {
-    tabArchived.className = timeline === TIMELINE_TYPES.EXPIRED
-      ? 'px-3 py-1.5 rounded-lg text-xs font-bold bg-slate-700 text-white shadow-sm transition'
-      : 'px-3 py-1.5 rounded-lg text-xs font-bold text-slate-600 hover:text-slate-900 transition';
-  }
-
-  // Quick chip active styling
-  const chips = [
-    { id: 'chip-top', val: 'TOP_POSTS', activeCls: 'bg-amber-600 text-white ring-2 ring-amber-400 font-bold', inactiveCls: 'bg-amber-50 text-amber-800 border border-amber-200/80 font-bold hover:bg-amber-100' },
-    { id: 'chip-it', val: 'IT_OFFICER', activeCls: 'bg-blue-600 text-white ring-2 ring-blue-400 font-bold', inactiveCls: 'bg-blue-50 text-blue-800 border border-blue-200/80 font-bold hover:bg-blue-100' },
-    { id: 'chip-amad', val: 'AM_AD', activeCls: 'bg-indigo-600 text-white ring-2 ring-indigo-400 font-bold', inactiveCls: 'bg-indigo-50 text-indigo-800 border border-indigo-200/80 font-bold hover:bg-indigo-100' },
-    { id: 'chip-co', val: 'COMP_OPERATOR', activeCls: 'bg-slate-700 text-white ring-2 ring-slate-400 font-bold', inactiveCls: 'bg-slate-100 text-slate-800 border border-slate-200 font-semibold hover:bg-slate-200' },
-    { id: 'chip-os', val: 'OFFICE_SOHAYOK', activeCls: 'bg-emerald-700 text-white ring-2 ring-emerald-400 font-bold', inactiveCls: 'bg-emerald-50 text-emerald-800 border border-emerald-200/80 font-semibold hover:bg-emerald-100' },
-    { id: 'chip-acc', val: 'ACCOUNTS', activeCls: 'bg-teal-700 text-white ring-2 ring-teal-400 font-bold', inactiveCls: 'bg-teal-50 text-teal-800 border border-teal-200/80 font-semibold hover:bg-teal-100' },
-    { id: 'chip-steno', val: 'STENO_TYPIST', activeCls: 'bg-slate-700 text-white ring-2 ring-slate-400 font-bold', inactiveCls: 'bg-slate-100 text-slate-800 border border-slate-200 font-semibold hover:bg-slate-200' },
-  ];
-
-  chips.forEach(c => {
-    const el = document.getElementById(c.id);
-    if (el) {
-      if (postType === c.val) {
-        el.className = `px-2.5 py-1 rounded-lg ${c.activeCls} transition whitespace-nowrap active:scale-95 flex items-center gap-1 shadow-sm`;
-      } else {
-        el.className = `px-2.5 py-1 rounded-lg ${c.inactiveCls} transition whitespace-nowrap active:scale-95 flex items-center gap-1`;
-      }
-    }
-  });
-
-  const postSelect = document.getElementById('post-type-select');
-  if (postSelect && postSelect.value !== (postType || 'ALL')) {
-    postSelect.value = postType || 'ALL';
-  }
-
-  const sortSelect = document.getElementById('sort-select');
-  if (sortSelect && sortSelect.value !== (state.filters.sortBy || 'GRADE_ASC')) {
-    sortSelect.value = state.filters.sortBy || 'GRADE_ASC';
-  }
-
-  // Mobile Bottom Navigation active states
-  ['active', 'justin', 'urgent'].forEach(navId => {
-    const navBtn = document.getElementById(`nav-btn-${navId}`);
-    if (!navBtn) return;
-    let isActive = false;
-    if (navId === 'active' && timeline === TIMELINE_TYPES.ALL_ACTIVE) isActive = true;
-    if (navId === 'justin' && timeline === TIMELINE_TYPES.JUST_IN_5) isActive = true;
-    if (navId === 'urgent' && timeline === TIMELINE_TYPES.CLOSING_SOON_3) isActive = true;
-
-    if (isActive) {
-      navBtn.classList.add('text-emerald-600', 'font-bold');
-      navBtn.classList.remove('text-slate-500', 'font-medium');
+    container.innerHTML = '';
+    if (filtered.length === 0) {
+      container.appendChild(window.renderEmptyState());
     } else {
-      navBtn.classList.remove('text-emerald-600', 'font-bold');
-      navBtn.classList.add('text-slate-500', 'font-medium');
-    }
-  });
-
-  const navBoth = document.getElementById('nav-btn-both');
-  if (navBoth) {
-    if (candidate === 'BOTH') {
-      navBoth.classList.add('text-purple-600', 'font-bold');
-      navBoth.classList.remove('text-slate-500', 'font-medium');
-    } else {
-      navBoth.classList.remove('text-purple-600', 'font-bold');
-      navBoth.classList.add('text-slate-500', 'font-medium');
+      filtered.forEach(job => {
+        const info = window.classifyJobTimeline(job, refDate);
+        const userAppliedRecord = window.state.appliedRecords[job.id];
+        container.appendChild(window.renderJobCard(job, info, userAppliedRecord));
+      });
     }
   }
-}
 
-/**
- * System clock display
- */
-function updateClockDisplay() {
-  const display = document.getElementById('current-date-display');
-  if (display) {
-    const today = state.referenceDate;
-    display.textContent = `Today: ${today.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}`;
-  }
-}
-
-/**
- * Setup event listeners & register global handlers
- */
-function setupEventListeners() {
-  // Global handlers for inline HTML event attributes
-  window.setCandidateFilter = (candidate) => {
-    state.filters.candidate = candidate;
+  // Window Event Handlers
+  window.setCandidateFilter = function(cand) {
+    window.state.filters.candidate = cand;
     renderJobs();
   };
 
-  window.setUrgencyFilter = (filterType) => {
-    if (filterType === 'ACTIVE') state.filters.timeline = TIMELINE_TYPES.ALL_ACTIVE;
-    else if (filterType === 'JUST_IN_5' || filterType === 'JUSTIN') state.filters.timeline = TIMELINE_TYPES.JUST_IN_5;
-    else if (filterType === 'URGENT_3' || filterType === 'URGENT_5' || filterType === 'URGENT') state.filters.timeline = TIMELINE_TYPES.CLOSING_SOON_3;
-    else if (filterType === 'ARCHIVED' || filterType === 'EXPIRED') state.filters.timeline = TIMELINE_TYPES.EXPIRED;
-    else state.filters.timeline = TIMELINE_TYPES.ALL;
-
+  window.setUrgencyFilter = function(filterType) {
+    if (filterType === 'JUST_IN_5' || filterType === 'JUSTIN') {
+      window.state.filters.timeline = window.TIMELINE_TYPES.JUST_IN_5;
+    } else if (filterType === 'URGENT_3' || filterType === 'URGENT') {
+      window.state.filters.timeline = window.TIMELINE_TYPES.CLOSING_SOON_3;
+    } else {
+      window.state.filters.timeline = window.TIMELINE_TYPES.ALL_ACTIVE;
+    }
     renderJobs();
   };
 
-  window.handleDayWindowChange = (val) => {
+  window.handleDayWindowChange = function(val) {
     dayWindowFilter = val;
     renderJobs();
   };
 
-  window.handleGradeChange = (val) => {
-    state.filters.grade = val;
+  window.handleGradeChange = function(val) {
+    window.state.filters.grade = val;
     renderJobs();
   };
 
-  window.handleSortChange = (val) => {
-    state.filters.sortBy = val;
+  window.handleSortChange = function(val) {
+    window.state.filters.sortBy = val;
     renderJobs();
   };
 
-  let searchTimeout = null;
-  window.handleSearch = (val) => {
+  window.handleSearch = function(val) {
     clearTimeout(searchTimeout);
     searchTimeout = setTimeout(() => {
-      state.filters.search = val;
+      window.state.filters.search = val;
       renderJobs();
     }, 150);
   };
 
-  window.setPostTypeFilter = (pt) => {
-    state.filters.postType = pt;
-    const s = document.getElementById('post-type-select');
-    if (s) s.value = pt;
+  window.handlePostTypeChange = function(val) {
+    window.state.filters.postType = val;
     renderJobs();
   };
 
-  window.handlePostTypeChange = (val) => {
-    state.filters.postType = val;
+  window.handleDateReportedChange = function(val) {
+    window.state.filters.dateReported = val;
     renderJobs();
   };
 
-  window.resetAllFilters = () => {
-    state.filters.timeline = TIMELINE_TYPES.ALL_ACTIVE;
-    state.filters.candidate = 'ALL';
-    state.filters.grade = 'ALL';
-    state.filters.postType = 'ALL';
-    state.filters.sortBy = 'GRADE_ASC';
-    state.filters.search = '';
+  window.setDateReportedFilter = function(dateStr) {
+    window.state.filters.dateReported = dateStr;
+    const sel = document.getElementById('date-reported-select');
+    if (sel) sel.value = dateStr;
+    renderJobs();
+    document.getElementById('jobs-grid')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  };
+
+  window.resetAllFilters = function() {
+    window.state.filters.timeline = window.TIMELINE_TYPES.ALL_ACTIVE;
+    window.state.filters.candidate = 'ALL';
+    window.state.filters.grade = 'ALL';
+    window.state.filters.postType = 'ALL';
+    window.state.filters.dateReported = 'ALL';
+    window.state.filters.sortBy = 'GRADE_ASC';
+    window.state.filters.search = '';
+    window.state.filters.showFavoritesOnly = false;
     dayWindowFilter = 'ALL';
 
     const searchInput = document.getElementById('search-input');
     const daySelect = document.getElementById('day-window-select');
     const gradeSelect = document.getElementById('grade-select');
     const postSelect = document.getElementById('post-type-select');
+    const dateRepSelect = document.getElementById('date-reported-select');
     const sortSelect = document.getElementById('sort-select');
 
     if (searchInput) searchInput.value = '';
     if (daySelect) daySelect.value = 'ALL';
     if (gradeSelect) gradeSelect.value = 'ALL';
     if (postSelect) postSelect.value = 'ALL';
+    if (dateRepSelect) dateRepSelect.value = 'ALL';
     if (sortSelect) sortSelect.value = 'GRADE_ASC';
 
+    if (window.updateFavoritesButtonUI) window.updateFavoritesButtonUI(false);
     renderJobs();
   };
 
-  window.resetFiltersHandler = window.resetAllFilters;
-
-  window.reloadCirculars = () => {
-    loadCirculars();
+  window.reloadCirculars = async function() {
+    if ('caches' in window) {
+      try {
+        const keys = await caches.keys();
+        await Promise.all(keys.map(k => caches.delete(k)));
+      } catch (e) {}
+    }
+    if (window.location.protocol.startsWith('http')) {
+      window.location.reload();
+    } else {
+      loadCirculars();
+    }
   };
 
-  window.installPWA = installPWA;
-  window.dismissMobileBanner = dismissMobileBanner;
-}
+  function parseURLParams() {
+    const params = new URLSearchParams(window.location.search);
+    const cand = params.get('cand');
+    const filter = params.get('filter');
+    const sort = params.get('sort');
+    const reported = params.get('reported') || params.get('date');
+    const favs = params.get('favs');
 
-/**
- * Parse URL query parameters
- */
-function parseURLParams() {
-  const params = new URLSearchParams(window.location.search);
-  const cand = params.get('cand');
-  const filter = params.get('filter');
-
-  if (cand) {
-    const uc = cand.toUpperCase();
-    if (['DUDU', 'BUBU', 'BOTH', 'ALL'].includes(uc)) {
-      state.filters.candidate = uc;
+    if (cand && ['DUDU', 'BUBU', 'BOTH', 'ALL'].includes(cand.toUpperCase())) {
+      window.state.filters.candidate = cand.toUpperCase();
+    }
+    if (filter) {
+      const lf = filter.toLowerCase();
+      if (['just_in', 'justin', 'fresh'].includes(lf)) {
+        window.state.filters.timeline = window.TIMELINE_TYPES.JUST_IN_5;
+      } else if (['urgent', 'urgent_3'].includes(lf)) {
+        window.state.filters.timeline = window.TIMELINE_TYPES.CLOSING_SOON_3;
+      }
+    }
+    if (reported) {
+      window.state.filters.dateReported = reported;
+      const sel = document.getElementById('date-reported-select');
+      if (sel) sel.value = reported;
+    }
+    if (sort) {
+      window.state.filters.sortBy = sort.toUpperCase();
+    }
+    if (favs === '1' || favs === 'true') {
+      window.state.filters.showFavoritesOnly = true;
+      if (window.updateFavoritesButtonUI) window.updateFavoritesButtonUI(true);
     }
   }
 
-  if (filter) {
-    const lf = filter.toLowerCase();
-    if (lf === 'just_in' || lf === 'justin' || lf === 'fresh') {
-      state.filters.timeline = TIMELINE_TYPES.JUST_IN_5;
-    } else if (lf === 'urgent' || lf === 'urgent_3') {
-      state.filters.timeline = TIMELINE_TYPES.CLOSING_SOON_3;
-    } else if (lf === 'archived' || lf === 'expired') {
-      state.filters.timeline = TIMELINE_TYPES.EXPIRED;
-    }
+  function updateClockDisplay() {
+    const el = document.getElementById('current-date-display');
+    if (!el) return;
+    const now = new Date();
+    const opts = { weekday: 'short', day: '2-digit', month: 'short', year: 'numeric' };
+    el.textContent = `Today: ${now.toLocaleDateString('en-GB', opts)}`;
   }
 
-  const sort = params.get('sort');
-  if (sort) {
-    const su = sort.toUpperCase();
-    if (['GRADE_ASC', 'GRADE_DESC', 'DEADLINE_ASC', 'DEADLINE_DESC', 'NEWEST'].includes(su)) {
-      state.filters.sortBy = su;
-    }
+  function boot() {
+    if (window.loadAppliedRecords) window.loadAppliedRecords();
+    if (window.loadFavorites) window.loadFavorites();
+    if (window.initPWA) window.initPWA();
+    parseURLParams();
+    updateClockDisplay();
+    loadCirculars();
   }
-}
 
-// Subscribe reactive state listener
-subscribe(() => {
-  renderJobs();
-});
+  window.renderJobs = renderJobs;
+  window.computeAndRenderMetrics = computeAndRenderMetrics;
 
-// Start on DOM ready
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', init);
-} else {
-  init();
-}
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', boot);
+  } else {
+    boot();
+  }
+
+})(window);

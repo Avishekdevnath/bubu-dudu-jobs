@@ -1,112 +1,107 @@
 /**
  * Bubu-Dudu Job Portal - PWA Module
- * Handles Service Worker registration, Install Prompts, and Offline indicators.
+ * Handles Service Worker registration, auto-update detection, and Install Prompts.
  */
+(function(window) {
+  'use strict';
 
-let deferredPrompt = null;
+  let deferredPrompt = null;
 
-export function initPWA() {
-  // 1. Service Worker Registration
-  if ('serviceWorker' in navigator && window.location.protocol.startsWith('http')) {
-    window.addEventListener('load', () => {
-      navigator.serviceWorker.register('./sw.js')
-        .then(registration => {
-          console.log('✅ PWA ServiceWorker registered with scope:', registration.scope);
-          registration.update().catch(() => {});
-          if (registration.waiting) {
-            registration.waiting.postMessage({ action: 'skipWaiting' });
+  function initPWA() {
+    if ('serviceWorker' in navigator && window.location.protocol.startsWith('http')) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js')
+          .then(reg => {
+            console.log('✅ PWA ServiceWorker Registered:', reg.scope);
+            reg.update().catch(() => {});
+            if (reg.waiting) {
+              reg.waiting.postMessage({ action: 'skipWaiting' });
+            }
+          })
+          .catch(err => console.warn('PWA ServiceWorker Notice:', err));
+
+        let isRefreshing = false;
+        navigator.serviceWorker.addEventListener('controllerchange', () => {
+          if (!isRefreshing) {
+            isRefreshing = true;
+            console.log('🔄 New Service Worker controller active - reloading UI');
+            window.location.reload();
           }
-        })
-        .catch(err => {
-          console.warn('⚠️ PWA ServiceWorker registration failed:', err);
         });
-
-      let refreshing = false;
-      navigator.serviceWorker.addEventListener('controllerchange', () => {
-        if (!refreshing) {
-          refreshing = true;
-          console.log('🔄 New Service Worker controller active - reloading UI');
-          window.location.reload();
-        }
       });
+    }
+
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+      const headerBtn = document.getElementById('pwa-install-btn');
+      const mobileBanner = document.getElementById('mobile-pwa-banner');
+      const bottomNavInstall = document.getElementById('nav-install-btn');
+
+      if (headerBtn) headerBtn.classList.remove('hidden');
+      if (bottomNavInstall) bottomNavInstall.classList.remove('hidden');
+      if (mobileBanner && !sessionStorage.getItem('mobile_pwa_dismissed')) {
+        mobileBanner.classList.remove('hidden');
+      }
+    });
+
+    window.addEventListener('appinstalled', () => {
+      deferredPrompt = null;
+      document.getElementById('pwa-install-btn')?.classList.add('hidden');
+      document.getElementById('mobile-pwa-banner')?.classList.add('hidden');
+      document.getElementById('nav-install-btn')?.classList.add('hidden');
+    });
+
+    window.addEventListener('online', () => {
+      showNetworkToast('🟢 You are back online. Live radar active.', 'bg-emerald-600');
+    });
+    window.addEventListener('offline', () => {
+      showNetworkToast('📦 You are offline. Showing cached circulars.', 'bg-amber-600');
     });
   }
 
-  // 2. Before Install Prompt (Android / Chrome / Edge)
-  window.addEventListener('beforeinstallprompt', (e) => {
-    e.preventDefault();
-    deferredPrompt = e;
-    
-    // Show install buttons
-    const headerBtn = document.getElementById('pwa-install-btn');
-    const mobileBanner = document.getElementById('mobile-pwa-banner');
-    const bottomNavInstall = document.getElementById('nav-install-btn');
-
-    if (headerBtn) headerBtn.classList.remove('hidden');
-    if (bottomNavInstall) bottomNavInstall.classList.remove('hidden');
-    if (mobileBanner && !sessionStorage.getItem('mobile_pwa_dismissed')) {
-      mobileBanner.classList.remove('hidden');
-    }
-  });
-
-  // 3. Track App Installed
-  window.addEventListener('appinstalled', () => {
-    console.log('🎉 Bubu-Dudu Job Portal installed successfully!');
-    deferredPrompt = null;
-    document.getElementById('pwa-install-btn')?.classList.add('hidden');
-    document.getElementById('mobile-pwa-banner')?.classList.add('hidden');
-    document.getElementById('nav-install-btn')?.classList.add('hidden');
-  });
-
-  // 4. Online/Offline Network Status
-  window.addEventListener('online', () => {
-    showNetworkToast('🟢 You are back online. Live radar active.', 'bg-emerald-600');
-  });
-  window.addEventListener('offline', () => {
-    showNetworkToast('📦 You are offline. Showing cached circulars.', 'bg-amber-600');
-  });
-}
-
-export async function installPWA() {
-  if (deferredPrompt) {
-    deferredPrompt.prompt();
-    const { outcome } = await deferredPrompt.userChoice;
-    console.log('User response to PWA prompt:', outcome);
-    deferredPrompt = null;
-    document.getElementById('pwa-install-btn')?.classList.add('hidden');
-    document.getElementById('mobile-pwa-banner')?.classList.add('hidden');
-    document.getElementById('nav-install-btn')?.classList.add('hidden');
-  } else {
-    // Helpful guidance for iOS Safari or desktop browser
-    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
-    if (isIOS) {
-      alert("📱 To install on iPhone/iPad:\n1. Tap the Share button at bottom center (square with arrow up)\n2. Tap 'Add to Home Screen'\n3. Tap 'Add' at top right!");
+  async function installPWA() {
+    if (deferredPrompt) {
+      deferredPrompt.prompt();
+      const { outcome } = await deferredPrompt.userChoice;
+      deferredPrompt = null;
+      document.getElementById('pwa-install-btn')?.classList.add('hidden');
+      document.getElementById('mobile-pwa-banner')?.classList.add('hidden');
+      document.getElementById('nav-install-btn')?.classList.add('hidden');
     } else {
-      alert("💡 To install this app:\nUse Chrome, Edge, or Brave and click 'Install Job Portal' in your browser URL bar or settings menu.");
+      const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+      if (isIOS) {
+        alert("📱 To install on iPhone/iPad:\n1. Tap Share (square with arrow up)\n2. Tap 'Add to Home Screen'\n3. Tap 'Add'!");
+      } else {
+        alert("💡 To install this app:\nOpen in Chrome or Edge and click 'Install Job Portal' in your browser URL bar or settings.");
+      }
     }
   }
-}
 
-export function dismissMobileBanner() {
-  const banner = document.getElementById('mobile-pwa-banner');
-  if (banner) banner.classList.add('hidden');
-  sessionStorage.setItem('mobile_pwa_dismissed', 'true');
-}
-
-function showNetworkToast(message, bgColor) {
-  let toast = document.getElementById('network-toast');
-  if (!toast) {
-    toast = document.createElement('div');
-    toast.id = 'network-toast';
-    toast.className = `fixed bottom-20 left-1/2 -translate-x-1/2 z-50 text-white text-xs font-semibold px-4 py-2 rounded-full shadow-lg transition-opacity duration-300 pointer-events-none ${bgColor}`;
-    document.body.appendChild(toast);
-  } else {
-    toast.className = `fixed bottom-20 left-1/2 -translate-x-1/2 z-50 text-white text-xs font-semibold px-4 py-2 rounded-full shadow-lg transition-opacity duration-300 pointer-events-none ${bgColor}`;
+  function dismissMobileBanner() {
+    const banner = document.getElementById('mobile-pwa-banner');
+    if (banner) banner.classList.add('hidden');
+    sessionStorage.setItem('mobile_pwa_dismissed', 'true');
   }
-  toast.textContent = message;
-  toast.style.opacity = '1';
 
-  setTimeout(() => {
-    toast.style.opacity = '0';
-  }, 4000);
-}
+  function showNetworkToast(message, bgColor) {
+    let toast = document.getElementById('network-toast');
+    if (!toast) {
+      toast = document.createElement('div');
+      toast.id = 'network-toast';
+      toast.className = `fixed bottom-20 left-1/2 -translate-x-1/2 z-50 text-white text-xs font-semibold px-4 py-2 rounded-full shadow-lg transition-opacity duration-300 pointer-events-none ${bgColor}`;
+      document.body.appendChild(toast);
+    } else {
+      toast.className = `fixed bottom-20 left-1/2 -translate-x-1/2 z-50 text-white text-xs font-semibold px-4 py-2 rounded-full shadow-lg transition-opacity duration-300 pointer-events-none ${bgColor}`;
+    }
+    toast.textContent = message;
+    toast.style.opacity = '1';
+    setTimeout(() => { toast.style.opacity = '0'; }, 4000);
+  }
+
+  window.initPWA = initPWA;
+  window.installPWA = installPWA;
+  window.dismissMobileBanner = dismissMobileBanner;
+  window.showNetworkToast = showNetworkToast;
+
+})(window);
