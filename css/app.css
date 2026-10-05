@@ -12,6 +12,8 @@ html, body {
   max-width: 100vw;
   overflow-x: hidden;
   position: relative;
+  margin: 0;
+  padding: 0;
 }
 
 /* Ensure select elements shrink properly inside CSS grid / flex containers */
@@ -33,13 +35,13 @@ body {
 
 /* Glassmorphism Navigation */
 .glass-nav {
-  background: rgba(255, 255, 255, 0.92);
+  background: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
 }
 
 .dark .glass-nav {
-  background: rgba(15, 23, 42, 0.92);
+  background: rgba(15, 23, 42, 0.95);
 }
 
 /* Safe Area Insets for Modern Mobile Notches & Navigation Bars */
@@ -48,7 +50,7 @@ header {
 }
 
 .mobile-bottom-nav {
-  padding-bottom: env(safe-area-inset-bottom, 0px);
+  padding-bottom: max(env(safe-area-inset-bottom, 0px), 8px);
 }
 
 /* Custom Scrollbar for Filters & Sidebar */
@@ -157,27 +159,72 @@ header {
 }
 
 /* ==========================================
-   SIDEBAR & DASHBOARD SYSTEM
+   PROFESSIONAL DASHBOARD & SIDEBAR LAYOUT
+   Left-most sidebar & top-most header
    ========================================== */
 
 #app-sidebar {
+  width: 16rem; /* 256px */
   transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), width 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
+/* Desktop: Sidebar fixed at leftmost edge (x=0, y=0) */
 @media (min-width: 1024px) {
-  #app-sidebar.desktop-collapsed {
-    width: 72px;
+  #app-sidebar {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    height: 100vh;
+    z-index: 40;
   }
+  
+  .dashboard-main {
+    margin-left: 16rem;
+    width: calc(100% - 16rem);
+    min-height: 100vh;
+    transition: margin-left 0.3s cubic-bezier(0.16, 1, 0.3, 1), width 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  #app-sidebar.desktop-collapsed {
+    width: 4.5rem; /* 72px */
+  }
+
+  #app-sidebar.desktop-collapsed ~ .dashboard-main {
+    margin-left: 4.5rem;
+    width: calc(100% - 4.5rem);
+  }
+
   #app-sidebar.desktop-collapsed .sidebar-label,
   #app-sidebar.desktop-collapsed .sidebar-badge,
   #app-sidebar.desktop-collapsed .sidebar-heading,
-  #app-sidebar.desktop-collapsed .user-info {
+  #app-sidebar.desktop-collapsed .sidebar-brand-text,
+  #app-sidebar.desktop-collapsed .sidebar-footer-card {
     display: none !important;
   }
+
   #app-sidebar.desktop-collapsed .sidebar-link {
     justify-content: center;
     padding-left: 0;
     padding-right: 0;
+  }
+}
+
+/* Mobile & Tablet: Drawer layout */
+@media (max-width: 1023px) {
+  #app-sidebar {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    height: 100vh;
+    z-index: 50;
+  }
+
+  .dashboard-main {
+    margin-left: 0 !important;
+    width: 100% !important;
+    min-height: 100vh;
   }
 }
 
@@ -194,5 +241,5 @@ header {
 }
 
 .sidebar-link:hover {
-  background: rgba(241, 245, 249, 0.8);
+  background: rgba(241, 245, 249, 0.85);
 }

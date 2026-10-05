@@ -24,7 +24,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
   
   <!-- Modular Custom CSS -->
-  <link rel="stylesheet" href="css/app.css?v=20261005_v3" />
+  <link rel="stylesheet" href="css/app.css?v=20261005_v4" />
 
   <script>
     tailwind.config = {
@@ -49,166 +49,177 @@
     }
   </script>
 </head>
-<body class="bg-slate-50 text-slate-900 min-h-screen flex flex-col antialiased selection:bg-emerald-500 selection:text-white pb-20 lg:pb-8 w-full overflow-x-hidden">
+<body class="bg-slate-50 text-slate-900 min-h-screen antialiased selection:bg-emerald-500 selection:text-white pb-20 lg:pb-0 w-full overflow-x-hidden">
 
-  <!-- TOP HEADER / NAV -->
-  <header class="sticky top-0 z-40 glass-nav border-b border-slate-200 w-full overflow-hidden">
-    <div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
-      <div class="flex items-center justify-between h-14 sm:h-16">
+  <!-- ==========================================
+       1. LEFT-MOST SIDEBAR (top=0, left=0, full height)
+       ========================================== -->
+  <aside id="app-sidebar" class="-translate-x-full lg:translate-x-0 bg-white border-r border-slate-200 z-50 flex flex-col justify-between p-4 overflow-y-auto hide-scrollbar shadow-2xl lg:shadow-none">
+    
+    <div class="space-y-6">
+      
+      <!-- Brand Logo & Header -->
+      <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+        <div class="flex items-center space-x-2.5 min-w-0">
+          <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-emerald-600 to-teal-500 flex items-center justify-center text-white font-bold text-lg shadow-md shadow-emerald-500/20 shrink-0">
+            🎯
+          </div>
+          <div class="sidebar-brand-text min-w-0">
+            <h1 class="text-sm font-black tracking-tight text-slate-900 flex items-center gap-1.5 truncate">
+              <span>Bubu-Dudu</span>
+              <span class="text-[9px] px-1.5 py-0.2 rounded-full bg-emerald-100 text-emerald-800 font-semibold uppercase tracking-wider">Jobs</span>
+            </h1>
+            <p class="text-[10px] text-slate-400 font-medium truncate">Avishek & Chandrima</p>
+          </div>
+        </div>
+
+        <!-- Close Button (Mobile only) -->
+        <button onclick="closeMobileSidebar()" class="lg:hidden p-1.5 rounded-lg text-slate-400 hover:text-slate-600 hover:bg-slate-100">
+          ✕
+        </button>
+      </div>
+
+      <!-- Navigation Section 1: Views -->
+      <div class="space-y-1">
+        <div class="sidebar-heading px-2 text-[10px] font-bold uppercase tracking-wider text-slate-400">Main Radar</div>
         
-        <!-- Left: Sidebar Toggle + Brand Logo -->
-        <div class="flex items-center space-x-2 sm:space-x-3 min-w-0">
-          <button onclick="toggleSidebar()" aria-label="Toggle Sidebar" class="p-1.5 sm:p-2 rounded-xl text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition active:scale-95">
-            <svg class="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
-          </button>
-          
-          <div class="flex items-center space-x-2 min-w-0">
-            <div class="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-gradient-to-tr from-emerald-600 to-teal-500 flex items-center justify-center text-white font-bold text-base shadow-md shadow-emerald-500/20 shrink-0">
-              🎯
-            </div>
-            <div class="min-w-0">
-              <h1 class="text-sm sm:text-base font-bold tracking-tight text-slate-900 flex items-center gap-1.5 truncate">
-                <span>Bubu-Dudu Jobs</span>
-                <span class="text-[9px] px-1.5 py-0.2 rounded-full bg-emerald-100 text-emerald-800 font-semibold uppercase tracking-wider shrink-0">Dashboard</span>
-              </h1>
-              <p class="text-[10px] text-slate-500 truncate hidden sm:block">Avishek (CSE) & Chandrima (Agri) Radar</p>
-            </div>
-          </div>
-        </div>
+        <button onclick="switchView('FEED')" data-view-target="FEED" class="sidebar-link w-full text-left bg-emerald-50 text-emerald-700 font-bold border-l-4 border-emerald-600">
+          <span class="mr-2.5 text-base">⚡</span>
+          <span class="sidebar-label flex-1 truncate">Active Radar</span>
+          <span id="sidebar-active-badge" class="sidebar-badge text-[10px] font-extrabold px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800">0</span>
+        </button>
 
-        <!-- Right: Status & Quick Controls -->
-        <div class="flex items-center space-x-1.5 sm:space-x-3 shrink-0">
-          <div class="hidden md:flex items-center gap-2 text-xs font-medium text-slate-600 bg-slate-100 px-3 py-1.5 rounded-lg border border-slate-200">
-            <span class="relative flex h-2 w-2">
-              <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-              <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
-            </span>
-            <span id="current-date-display">Today: Loading...</span>
-          </div>
+        <button onclick="setUrgencyFilter('JUST_IN_5')" class="sidebar-link w-full text-left text-slate-600 hover:bg-slate-50">
+          <span class="mr-2.5 text-base">✨</span>
+          <span class="sidebar-label flex-1 truncate">Fresh (0–5d)</span>
+          <span id="sidebar-justin-badge" class="sidebar-badge text-[10px] font-bold px-1.5 py-0.5 rounded-full bg-slate-100 text-slate-600">0</span>
+        </button>
 
-          <!-- PWA Install Button (Header) -->
-          <button id="pwa-install-btn" onclick="installPWA()" class="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold text-white bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 rounded-lg shadow-sm shadow-emerald-500/20 transition active:scale-95">
-            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
-            <span>Install</span>
-          </button>
+        <button onclick="setUrgencyFilter('URGENT_3')" class="sidebar-link w-full text-left text-slate-600 hover:bg-slate-50">
+          <span class="mr-2.5 text-base">🚨</span>
+          <span class="sidebar-label flex-1 truncate">Closing &le; 3d</span>
+          <span id="sidebar-urgent-badge" class="sidebar-badge text-[10px] font-bold px-1.5 py-0.5 rounded-full bg-rose-50 text-rose-700">0</span>
+        </button>
 
-          <!-- Favorites Quick View Button -->
-          <button id="header-fav-btn" onclick="switchView('FAVORITES')" title="View Favorited / Bookmarked Circulars" class="inline-flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-bold text-slate-700 bg-white hover:bg-slate-50 border border-slate-300 rounded-lg shadow-sm transition active:scale-95">
-            <span class="text-rose-500">❤️</span>
-            <span class="hidden sm:inline">Saved</span>
-            <span id="stat-favs" class="px-1.5 py-0.2 text-[10px] bg-rose-100 text-rose-700 rounded-full font-extrabold">0</span>
-          </button>
+        <button onclick="switchView('FAVORITES')" data-view-target="FAVORITES" class="sidebar-link w-full text-left text-slate-600 hover:bg-slate-50">
+          <span class="mr-2.5 text-base">❤️</span>
+          <span class="sidebar-label flex-1 truncate">Saved Favorites</span>
+          <span id="sidebar-fav-badge" class="sidebar-badge text-[10px] font-bold px-2 py-0.5 rounded-full bg-rose-100 text-rose-700">0</span>
+        </button>
 
-          <!-- Reload Button -->
-          <button onclick="reloadCirculars()" title="Refresh Radar" class="inline-flex items-center gap-1 p-2 sm:px-3 sm:py-1.5 text-xs font-semibold text-slate-700 bg-white hover:bg-slate-50 border border-slate-300 rounded-lg shadow-sm transition active:scale-95">
-            <svg class="w-4 h-4 text-slate-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
-            <span class="hidden sm:inline">Sync</span>
-          </button>
-        </div>
+        <button onclick="switchView('APPLIED')" data-view-target="APPLIED" class="sidebar-link w-full text-left text-slate-600 hover:bg-slate-50">
+          <span class="mr-2.5 text-base">✅</span>
+          <span class="sidebar-label flex-1 truncate">Applied Jobs</span>
+          <span id="sidebar-applied-badge" class="sidebar-badge text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-700">0</span>
+        </button>
+
+        <button onclick="switchView('IGNORED')" data-view-target="IGNORED" class="sidebar-link w-full text-left text-slate-600 hover:bg-slate-50">
+          <span class="mr-2.5 text-base">🚫</span>
+          <span class="sidebar-label flex-1 truncate">Ignored / Hidden</span>
+          <span id="sidebar-ignored-badge" class="sidebar-badge text-[10px] font-bold px-2 py-0.5 rounded-full bg-slate-100 text-slate-500">0</span>
+        </button>
+      </div>
+
+      <!-- Navigation Section 2: Candidate Profiles -->
+      <div class="space-y-1 pt-2 border-t border-slate-100">
+        <div class="sidebar-heading px-2 text-[10px] font-bold uppercase tracking-wider text-slate-400">Profiles</div>
+        
+        <button onclick="setCandidateFilter('DUDU')" class="sidebar-link w-full text-left text-slate-600 hover:bg-blue-50 hover:text-blue-700">
+          <span class="mr-2.5 text-base">💻</span>
+          <span class="sidebar-label flex-1 truncate">Dudu (CSE)</span>
+          <span id="sidebar-dudu-badge" class="sidebar-badge text-[10px] font-semibold text-blue-600">0</span>
+        </button>
+
+        <button onclick="setCandidateFilter('BUBU')" class="sidebar-link w-full text-left text-slate-600 hover:bg-teal-50 hover:text-teal-700">
+          <span class="mr-2.5 text-base">🌾</span>
+          <span class="sidebar-label flex-1 truncate">Bubu (Agri)</span>
+          <span id="sidebar-bubu-badge" class="sidebar-badge text-[10px] font-semibold text-teal-600">0</span>
+        </button>
+
+        <button onclick="setCandidateFilter('BOTH')" class="sidebar-link w-full text-left text-slate-600 hover:bg-purple-50 hover:text-purple-700">
+          <span class="mr-2.5 text-base">🤝</span>
+          <span class="sidebar-label flex-1 truncate">Both (Joint)</span>
+          <span id="sidebar-both-badge" class="sidebar-badge text-[10px] font-semibold text-purple-600">0</span>
+        </button>
       </div>
     </div>
-  </header>
 
-  <!-- MOBILE SIDEBAR BACKDROP -->
+    <!-- Sidebar Bottom Status Card -->
+    <div class="sidebar-footer-card pt-4 border-t border-slate-100 space-y-2">
+      <div class="bg-slate-50 p-2.5 rounded-xl border border-slate-200/80 text-[11px] text-slate-600">
+        <div class="font-bold text-slate-800 flex items-center gap-1">
+          <span>🛡️</span> Office Radar Active
+        </div>
+        <div class="text-[10px] text-slate-400 mt-0.5">Grade 9–20 Dhaka &bull; Clean ELT</div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- MOBILE SIDEBAR BACKDROP OVERLAY -->
   <div id="sidebar-backdrop" class="hidden fixed inset-0 bg-slate-900/50 backdrop-blur-xs z-40 transition-opacity lg:hidden"></div>
 
-  <!-- MAIN DASHBOARD WRAPPER (SIDEBAR + CONTENT) -->
-  <div class="flex-1 max-w-7xl mx-auto w-full flex min-h-[calc(100vh-4rem)]">
-    
-    <!-- LEFT SIDEBAR -->
-    <aside id="app-sidebar" class="fixed lg:sticky top-0 lg:top-16 inset-y-0 left-0 -translate-x-full lg:translate-x-0 w-64 bg-white border-r border-slate-200 z-50 flex flex-col justify-between p-4 h-screen lg:h-[calc(100vh-4rem)] overflow-y-auto hide-scrollbar shadow-xl lg:shadow-none transition-transform duration-300">
-      
-      <div class="space-y-6">
-        <!-- Sidebar Brand / Close Header (Mobile only) -->
-        <div class="flex items-center justify-between lg:hidden pb-3 border-b border-slate-100">
-          <div class="flex items-center space-x-2">
-            <span class="text-xl">🎯</span>
-            <span class="font-bold text-slate-900 text-sm">Dashboard Menu</span>
+  <!-- ==========================================
+       2. DASHBOARD MAIN CANVAS (To the right of sidebar on desktop)
+       ========================================== -->
+  <div class="dashboard-main flex flex-col flex-1 min-w-0">
+
+    <!-- TOP-MOST HEADER (Stretches across canvas at top=0) -->
+    <header class="sticky top-0 z-30 w-full glass-nav border-b border-slate-200">
+      <div class="w-full px-3.5 sm:px-6 lg:px-8">
+        <div class="flex items-center justify-between h-14 sm:h-16">
+          
+          <!-- Left: Hamburger Menu (Mobile drawer & Desktop collapse) -->
+          <div class="flex items-center space-x-2 sm:space-x-3">
+            <button onclick="toggleSidebar()" aria-label="Toggle Sidebar" class="p-2 rounded-xl text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition active:scale-95">
+              <svg class="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+            </button>
+            
+            <div class="min-w-0">
+              <span class="text-xs sm:text-sm font-bold text-slate-800 flex items-center gap-1.5">
+                <span class="hidden sm:inline text-slate-400 font-normal">Dashboard /</span>
+                <span id="breadcrumb-view-name">Active Radar</span>
+              </span>
+            </div>
           </div>
-          <button onclick="closeMobileSidebar()" class="p-1.5 rounded-lg text-slate-400 hover:text-slate-600">
-            ✕
-          </button>
-        </div>
 
-        <!-- Section 1: Main Views -->
-        <div class="space-y-1">
-          <div class="sidebar-heading px-2 text-[10px] font-bold uppercase tracking-wider text-slate-400">Navigation</div>
-          
-          <button onclick="switchView('FEED')" data-view-target="FEED" class="sidebar-link w-full text-left bg-emerald-50 text-emerald-700 font-bold border-l-4 border-emerald-600">
-            <span class="mr-2.5 text-base">⚡</span>
-            <span class="sidebar-label flex-1 truncate">Active Radar</span>
-            <span id="sidebar-active-badge" class="sidebar-badge text-[10px] font-extrabold px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800">0</span>
-          </button>
+          <!-- Right: Clock, Install, Saved, Sync -->
+          <div class="flex items-center space-x-1.5 sm:space-x-3 shrink-0">
+            
+            <!-- Live Date Pill -->
+            <div class="hidden md:flex items-center gap-2 text-xs font-medium text-slate-600 bg-slate-100 px-3 py-1.5 rounded-lg border border-slate-200">
+              <span class="relative flex h-2 w-2">
+                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+              </span>
+              <span id="current-date-display">Today: Loading...</span>
+            </div>
 
-          <button onclick="setUrgencyFilter('JUST_IN_5')" class="sidebar-link w-full text-left text-slate-600 hover:bg-slate-50">
-            <span class="mr-2.5 text-base">✨</span>
-            <span class="sidebar-label flex-1 truncate">Fresh (0–5d)</span>
-            <span id="sidebar-justin-badge" class="sidebar-badge text-[10px] font-bold px-1.5 py-0.5 rounded-full bg-slate-100 text-slate-600">0</span>
-          </button>
+            <!-- PWA Install Button -->
+            <button id="pwa-install-btn" onclick="installPWA()" class="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold text-white bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 rounded-lg shadow-sm shadow-emerald-500/20 transition active:scale-95">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+              <span>Install</span>
+            </button>
 
-          <button onclick="setUrgencyFilter('URGENT_3')" class="sidebar-link w-full text-left text-slate-600 hover:bg-slate-50">
-            <span class="mr-2.5 text-base">🚨</span>
-            <span class="sidebar-label flex-1 truncate">Closing ≤ 3d</span>
-            <span id="sidebar-urgent-badge" class="sidebar-badge text-[10px] font-bold px-1.5 py-0.5 rounded-full bg-rose-50 text-rose-700">0</span>
-          </button>
+            <!-- Saved Favorites Quick Shortcut -->
+            <button id="header-fav-btn" onclick="switchView('FAVORITES')" title="View Favorited / Bookmarked Circulars" class="inline-flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-bold text-slate-700 bg-white hover:bg-slate-50 border border-slate-300 rounded-lg shadow-sm transition active:scale-95">
+              <span class="text-rose-500">❤️</span>
+              <span class="hidden sm:inline">Saved</span>
+              <span id="stat-favs" class="px-1.5 py-0.2 text-[10px] bg-rose-100 text-rose-700 rounded-full font-extrabold">0</span>
+            </button>
 
-          <button onclick="switchView('FAVORITES')" data-view-target="FAVORITES" class="sidebar-link w-full text-left text-slate-600 hover:bg-slate-50">
-            <span class="mr-2.5 text-base">❤️</span>
-            <span class="sidebar-label flex-1 truncate">Saved Favorites</span>
-            <span id="sidebar-fav-badge" class="sidebar-badge text-[10px] font-bold px-2 py-0.5 rounded-full bg-rose-100 text-rose-700">0</span>
-          </button>
-
-          <button onclick="switchView('APPLIED')" data-view-target="APPLIED" class="sidebar-link w-full text-left text-slate-600 hover:bg-slate-50">
-            <span class="mr-2.5 text-base">✅</span>
-            <span class="sidebar-label flex-1 truncate">Applied Jobs</span>
-            <span id="sidebar-applied-badge" class="sidebar-badge text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-700">0</span>
-          </button>
-
-          <button onclick="switchView('IGNORED')" data-view-target="IGNORED" class="sidebar-link w-full text-left text-slate-600 hover:bg-slate-50">
-            <span class="mr-2.5 text-base">🚫</span>
-            <span class="sidebar-label flex-1 truncate">Ignored / Hidden</span>
-            <span id="sidebar-ignored-badge" class="sidebar-badge text-[10px] font-bold px-2 py-0.5 rounded-full bg-slate-100 text-slate-500">0</span>
-          </button>
-        </div>
-
-        <!-- Section 2: Candidate Profiles -->
-        <div class="space-y-1 pt-2 border-t border-slate-100">
-          <div class="sidebar-heading px-2 text-[10px] font-bold uppercase tracking-wider text-slate-400">Profiles</div>
-          
-          <button onclick="setCandidateFilter('DUDU')" class="sidebar-link w-full text-left text-slate-600 hover:bg-blue-50 hover:text-blue-700">
-            <span class="mr-2.5 text-base">💻</span>
-            <span class="sidebar-label flex-1 truncate">Dudu (CSE)</span>
-            <span id="sidebar-dudu-badge" class="sidebar-badge text-[10px] font-semibold text-blue-600">0</span>
-          </button>
-
-          <button onclick="setCandidateFilter('BUBU')" class="sidebar-link w-full text-left text-slate-600 hover:bg-teal-50 hover:text-teal-700">
-            <span class="mr-2.5 text-base">🌾</span>
-            <span class="sidebar-label flex-1 truncate">Bubu (Agri)</span>
-            <span id="sidebar-bubu-badge" class="sidebar-badge text-[10px] font-semibold text-teal-600">0</span>
-          </button>
-
-          <button onclick="setCandidateFilter('BOTH')" class="sidebar-link w-full text-left text-slate-600 hover:bg-purple-50 hover:text-purple-700">
-            <span class="mr-2.5 text-base">🤝</span>
-            <span class="sidebar-label flex-1 truncate">Both (Joint)</span>
-            <span id="sidebar-both-badge" class="sidebar-badge text-[10px] font-semibold text-purple-600">0</span>
-          </button>
+            <!-- Sync Button -->
+            <button onclick="reloadCirculars()" title="Sync Circulars" class="inline-flex items-center gap-1 p-2 sm:px-3 sm:py-1.5 text-xs font-semibold text-slate-700 bg-white hover:bg-slate-50 border border-slate-300 rounded-lg shadow-sm transition active:scale-95">
+              <svg class="w-4 h-4 text-slate-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+              <span class="hidden sm:inline">Sync</span>
+            </button>
+          </div>
         </div>
       </div>
+    </header>
 
-      <!-- Sidebar Footer -->
-      <div class="pt-4 border-t border-slate-100 space-y-2">
-        <div class="bg-slate-50 p-2.5 rounded-xl border border-slate-200/80 text-[11px] text-slate-600">
-          <div class="font-bold text-slate-800 flex items-center gap-1">
-            <span>🛡️</span> Office Radar Active
-          </div>
-          <div class="text-[10px] text-slate-400 mt-0.5">Grade 9–20 Dhaka &bull; Auto-Sync</div>
-        </div>
-      </div>
-    </aside>
+    <!-- CONTENT BODY (Fluid max-w-7xl) -->
+    <main class="flex-1 w-full max-w-7xl mx-auto p-3 sm:p-6 lg:p-8 space-y-4 sm:space-y-6">
 
-    <!-- MAIN CONTENT AREA -->
-    <main class="flex-1 min-w-0 p-3.5 sm:p-6 lg:p-8 space-y-4 sm:space-y-6 overflow-x-hidden">
-      
       <!-- Mobile PWA Install Banner -->
       <div id="mobile-pwa-banner" class="hidden sm:hidden w-full bg-gradient-to-r from-emerald-600 to-teal-700 text-white p-2.5 rounded-2xl shadow-md flex items-center justify-between gap-2 overflow-hidden">
         <div class="flex items-center space-x-2 min-w-0">
@@ -226,7 +237,7 @@
         </div>
       </div>
 
-      <!-- STREAMLINED 4 DASHBOARD KPI CARDS (Reduced from 7 cards to clean executive metrics) -->
+      <!-- 4 STREAMLINED METRICS (Replaces the 7-card cluttered row) -->
       <section class="grid grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-4">
         
         <!-- 1. Available Open Jobs -->
@@ -378,10 +389,20 @@
       </section>
 
     </main>
+
+    <!-- DESKTOP FOOTER -->
+    <footer class="hidden lg:block py-6 border-t border-slate-200 text-center text-xs text-slate-400">
+      <div class="max-w-7xl mx-auto px-4 space-y-1">
+        <p>Bubu-Dudu Job Portal & Watchdog &bull; Avishek (CSE) & Chandrima (Agri)</p>
+        <p class="text-[11px]">Autonomous Sync with Bangladesh Bank eRecruitment, AllJobs Teletalk & BPSC.</p>
+      </div>
+    </footer>
   </div>
 
-  <!-- MOBILE BOTTOM NAVIGATION (Fixed, App-Like Experience) -->
-  <nav class="mobile-bottom-nav fixed bottom-0 left-0 right-0 z-40 glass-nav border-t border-slate-200 lg:hidden flex justify-around items-center px-1 py-1.5">
+  <!-- ==========================================
+       3. MOBILE BOTTOM NAVIGATION (Fixed, App-Like Experience)
+       ========================================== -->
+  <nav class="mobile-bottom-nav fixed bottom-0 left-0 right-0 z-40 glass-nav border-t border-slate-200 lg:hidden flex justify-around items-center px-1 py-1.5 shadow-lg">
     <button onclick="switchView('FEED')" class="flex flex-col items-center justify-center p-1 text-emerald-600 font-bold text-[10px] active:scale-95 transition">
       <span class="text-lg">⚡</span>
       <span>Radar</span>
@@ -409,15 +430,15 @@
   </nav>
 
   <!-- Pre-loaded data for seamless file:/// protocol access (zero CORS errors) -->
-  <script src="data/circulars.js?v=20261005_v3"></script>
+  <script src="data/circulars.js?v=20261005_v4"></script>
   <!-- Modular Architecture: Each sub-system in its own lightweight file -->
-  <script src="js/timeline.js?v=20261005_v3"></script>
-  <script src="js/state.js?v=20261005_v3"></script>
-  <script src="js/favorites.js?v=20261005_v3"></script>
-  <script src="js/ignored.js?v=20261005_v3"></script>
-  <script src="js/sidebar.js?v=20261005_v3"></script>
-  <script src="js/components.js?v=20261005_v3"></script>
-  <script src="js/pwa.js?v=20261005_v3"></script>
-  <script src="js/app.js?v=20261005_v3"></script>
+  <script src="js/timeline.js?v=20261005_v4"></script>
+  <script src="js/state.js?v=20261005_v4"></script>
+  <script src="js/favorites.js?v=20261005_v4"></script>
+  <script src="js/ignored.js?v=20261005_v4"></script>
+  <script src="js/sidebar.js?v=20261005_v4"></script>
+  <script src="js/components.js?v=20261005_v4"></script>
+  <script src="js/pwa.js?v=20261005_v4"></script>
+  <script src="js/app.js?v=20261005_v4"></script>
 </body>
 </html>

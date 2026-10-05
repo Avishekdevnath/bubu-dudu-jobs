@@ -67,23 +67,27 @@
       }
     });
 
-    // Update main section title
+    // Update main section title and breadcrumb
     const titleEl = document.getElementById('view-title-text');
     const descEl = document.getElementById('view-desc-text');
-    if (titleEl) {
-      if (viewName === 'FEED') {
-        titleEl.textContent = '⚡ Active Job Radar';
-        if (descEl) descEl.textContent = 'Verified office positions ready to apply. Expired, applied, and ignored jobs are auto-filtered.';
-      } else if (viewName === 'FAVORITES') {
-        titleEl.textContent = '❤️ Saved / Favorite Circulars';
-        if (descEl) descEl.textContent = 'Your bookmarked positions for quick access and tracking.';
-      } else if (viewName === 'APPLIED') {
-        titleEl.textContent = '✅ Applied Jobs & Tracking';
-        if (descEl) descEl.textContent = 'Archived record of jobs you have already submitted applications and fees for.';
-      } else if (viewName === 'IGNORED') {
-        titleEl.textContent = '🚫 Ignored / Hidden Circulars';
-        if (descEl) descEl.textContent = 'Positions you passed on. You can restore any job back to your active radar at any time.';
-      }
+    const breadcrumbEl = document.getElementById('breadcrumb-view-name');
+
+    if (viewName === 'FEED') {
+      if (titleEl) titleEl.textContent = '⚡ Active Job Radar';
+      if (descEl) descEl.textContent = 'Verified office positions ready to apply. Expired, applied, and ignored jobs are auto-filtered.';
+      if (breadcrumbEl) breadcrumbEl.textContent = 'Active Radar';
+    } else if (viewName === 'FAVORITES') {
+      if (titleEl) titleEl.textContent = '❤️ Saved / Favorite Circulars';
+      if (descEl) descEl.textContent = 'Your bookmarked positions for quick access and tracking.';
+      if (breadcrumbEl) breadcrumbEl.textContent = 'Saved Favorites';
+    } else if (viewName === 'APPLIED') {
+      if (titleEl) titleEl.textContent = '✅ Applied Jobs & Tracking';
+      if (descEl) descEl.textContent = 'Archived record of jobs you have already submitted applications and fees for.';
+      if (breadcrumbEl) breadcrumbEl.textContent = 'Applied Jobs';
+    } else if (viewName === 'IGNORED') {
+      if (titleEl) titleEl.textContent = '🚫 Ignored / Hidden Circulars';
+      if (descEl) descEl.textContent = 'Positions you passed on. You can restore any job back to your active radar at any time.';
+      if (breadcrumbEl) breadcrumbEl.textContent = 'Ignored Jobs';
     }
 
     if (window.renderJobs) window.renderJobs();
