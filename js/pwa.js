@@ -7,24 +7,28 @@ let deferredPrompt = null;
 
 export function initPWA() {
   // 1. Service Worker Registration
-  if ('serviceWorker' in navigator) {
+  if ('serviceWorker' in navigator && window.location.protocol.startsWith('http')) {
     window.addEventListener('load', () => {
       navigator.serviceWorker.register('./sw.js')
         .then(registration => {
           console.log('✅ PWA ServiceWorker registered with scope:', registration.scope);
-          // Check for worker updates
-          registration.addEventListener('updatefound', () => {
-            const newWorker = registration.installing;
-            newWorker.addEventListener('statechange', () => {
-              if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-                console.log('🔄 New Job Portal version available. Refresh to update.');
-              }
-            });
-          });
+          registration.update().catch(() => {});
+          if (registration.waiting) {
+            registration.waiting.postMessage({ action: 'skipWaiting' });
+          }
         })
         .catch(err => {
           console.warn('⚠️ PWA ServiceWorker registration failed:', err);
         });
+
+      let refreshing = false;
+      navigator.serviceWorker.addEventListener('controllerchange', () => {
+        if (!refreshing) {
+          refreshing = true;
+          console.log('🔄 New Service Worker controller active - reloading UI');
+          window.location.reload();
+        }
+      });
     });
   }
 

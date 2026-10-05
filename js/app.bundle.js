@@ -809,8 +809,25 @@
     if ('serviceWorker' in navigator && window.location.protocol.startsWith('http')) {
       window.addEventListener('load', () => {
         navigator.serviceWorker.register('./sw.js')
-          .then(reg => console.log('✅ PWA ServiceWorker Registered:', reg.scope))
+          .then(reg => {
+            console.log('✅ PWA ServiceWorker Registered:', reg.scope);
+            // Proactively query GitHub Pages for newer sw.js
+            reg.update().catch(() => {});
+            if (reg.waiting) {
+              reg.waiting.postMessage({ action: 'skipWaiting' });
+            }
+          })
           .catch(err => console.warn('PWA ServiceWorker Registration Notice:', err));
+
+        // When a newer Service Worker activates, reload to immediately show latest UI/UX
+        let isRefreshing = false;
+        navigator.serviceWorker.addEventListener('controllerchange', () => {
+          if (!isRefreshing) {
+            isRefreshing = true;
+            console.log('🔄 New service worker controller active - reloading to display updated UI');
+            window.location.reload();
+          }
+        });
       });
     }
 
@@ -947,7 +964,19 @@
   };
 
   window.resetFiltersHandler = window.resetAllFilters;
-  window.reloadCirculars = loadCirculars;
+  window.reloadCirculars = async function() {
+    if ('caches' in window) {
+      try {
+        const keys = await caches.keys();
+        await Promise.all(keys.map(k => caches.delete(k)));
+      } catch (e) {}
+    }
+    if (window.location.protocol.startsWith('http')) {
+      window.location.reload();
+    } else {
+      loadCirculars();
+    }
+  };
   window.installPWA = installPWA;
   window.dismissMobileBanner = dismissMobileBanner;
 
