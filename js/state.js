@@ -49,9 +49,50 @@
     updateAppliedCount();
   }
 
+  function getAppliedRecord(job) {
+    if (!job) return null;
+    if (job.application_record) return job.application_record;
+    if (state.appliedRecords[job.id]) return state.appliedRecords[job.id];
+
+    // Department Single-Application Rule:
+    // If a candidate already applied to another post in this department,
+    // this post is mutually fulfilled/locked out under the 1-post limit.
+    const orgCode = (job.org_code || '').toUpperCase();
+    const orgName = (job.organization || '').toLowerCase();
+    const jobCand = (job.candidate_eligibility || 'BOTH').toUpperCase();
+
+    if (Array.isArray(state.circulars)) {
+      for (let i = 0; i < state.circulars.length; i++) {
+        const other = state.circulars[i];
+        if (other.id === job.id) continue;
+        const rec = other.application_record || state.appliedRecords[other.id];
+        if (!rec) continue;
+
+        const otherCode = (other.org_code || '').toUpperCase();
+        const otherName = (other.organization || '').toLowerCase();
+
+        const sameOrg = (orgCode && otherCode && orgCode === otherCode) ||
+                        (orgName.includes('parjatan') && otherName.includes('parjatan')) ||
+                        (orgName.length > 5 && otherName.length > 5 && (orgName.includes(otherName) || otherName.includes(orgName)));
+
+        if (sameOrg) {
+          const appCand = (rec.candidate || '').toUpperCase();
+          if (jobCand === 'BOTH' || appCand === jobCand || !appCand) {
+            return {
+              ...rec,
+              is_dept_mutual: true,
+              parent_applied_title: other.title || other.title_en || 'Applied Post in Department'
+            };
+          }
+        }
+      }
+    }
+    return null;
+  }
+
   function isJobApplied(job) {
     if (!job) return false;
-    return !!(job.application_record || state.appliedRecords[job.id]);
+    return !!getAppliedRecord(job);
   }
 
   function getAppliedCount() {
@@ -74,6 +115,7 @@
   window.loadAppliedRecords = loadAppliedRecords;
   window.saveAppliedRecord = saveAppliedRecord;
   window.isJobApplied = isJobApplied;
+  window.getAppliedRecord = getAppliedRecord;
   window.getAppliedCount = getAppliedCount;
   window.updateAppliedCount = updateAppliedCount;
 

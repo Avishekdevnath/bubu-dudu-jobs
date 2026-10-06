@@ -76,20 +76,33 @@
     const freshBadge = window.renderFreshnessBadge(timelineInfo.daysOld);
 
     // Applied Banner
-    const appliedInfo = userAppliedRecord || job.application_record;
+    const appliedInfo = userAppliedRecord || job.application_record || (window.getAppliedRecord ? window.getAppliedRecord(job) : null);
     let appliedBanner = '';
     if (appliedInfo) {
-      appliedBanner = `
-        <div class="bg-emerald-50 border-t border-emerald-100 px-3.5 py-2.5 flex items-center justify-between text-[11px] font-semibold text-emerald-900">
-          <span class="flex items-center gap-1.5 truncate">
-            <span class="text-sm">✅</span> Applied by <strong class="font-bold text-emerald-800">${appliedInfo.applied_by || 'Avishek'}</strong>
-            ${appliedInfo.applicant_user_id ? `<span class="text-[10px] text-emerald-600 bg-white px-1.5 py-0.5 rounded border border-emerald-200 font-mono">ID: ${appliedInfo.applicant_user_id}</span>` : ''}
-          </span>
-          <span class="text-[10px] uppercase font-black tracking-wider px-2 py-0.5 rounded bg-emerald-200 text-emerald-900 shrink-0">
-            ${appliedInfo.payment_status || 'PAID'}
-          </span>
-        </div>
-      `;
+      if (appliedInfo.is_dept_mutual) {
+        appliedBanner = `
+          <div class="bg-blue-50 border-t border-blue-100 px-3.5 py-2.5 flex items-center justify-between text-[11px] font-semibold text-blue-900">
+            <span class="flex items-center gap-1.5 truncate">
+              <span class="text-sm">🔒</span> Quota Fulfilled: Applied to <strong class="font-bold text-blue-800">${appliedInfo.parent_applied_title}</strong>
+            </span>
+            <span class="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded bg-blue-200 text-blue-900 shrink-0">
+              1-POST LIMIT
+            </span>
+          </div>
+        `;
+      } else {
+        appliedBanner = `
+          <div class="bg-emerald-50 border-t border-emerald-100 px-3.5 py-2.5 flex items-center justify-between text-[11px] font-semibold text-emerald-900">
+            <span class="flex items-center gap-1.5 truncate">
+              <span class="text-sm">✅</span> Applied by <strong class="font-bold text-emerald-800">${appliedInfo.applied_by || 'Avishek'}</strong>
+              ${appliedInfo.applicant_user_id || appliedInfo.user_id ? `<span class="text-[10px] text-emerald-600 bg-white px-1.5 py-0.5 rounded border border-emerald-200 font-mono">ID: ${appliedInfo.applicant_user_id || appliedInfo.user_id}</span>` : ''}
+            </span>
+            <span class="text-[10px] uppercase font-black tracking-wider px-2 py-0.5 rounded bg-emerald-200 text-emerald-900 shrink-0">
+              ${appliedInfo.payment_status || 'PAID'}
+            </span>
+          </div>
+        `;
+      }
     }
 
     // Top Post Badge
