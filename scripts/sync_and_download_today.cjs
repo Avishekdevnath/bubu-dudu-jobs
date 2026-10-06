@@ -192,9 +192,26 @@ async function main() {
   console.log(`📁 Daywise Folder: ${DAILY_DIR}`);
   console.log('========================================================\n');
 
-  const orgListRes = await fetchJson('https://alljobs.teletalk.com.bd/api/v1/govt-jobs/org-list?page=1&limit=50');
-  const orgs = (orgListRes && orgListRes.govtOrgJobs) || [];
-  console.log(`[*] Found ${orgs.length} government organizations on AllJobs.\n`);
+  const allOrgs = [];
+  let page = 1;
+  while (true) {
+    const orgListRes = await fetchJson(`https://alljobs.teletalk.com.bd/api/v1/govt-jobs/org-list?page=${page}&limit=50`);
+    if (!orgListRes || !orgListRes.govtOrgJobs || orgListRes.govtOrgJobs.length === 0) break;
+    allOrgs.push(...orgListRes.govtOrgJobs);
+    if (orgListRes.govtOrgJobs.length < 20) break;
+    page++;
+  }
+
+  const seenOrgIds = new Set();
+  const orgs = [];
+  for (const org of allOrgs) {
+    if (!seenOrgIds.has(org.id)) {
+      seenOrgIds.add(org.id);
+      orgs.push(org);
+    }
+  }
+
+  console.log(`[*] Found ${orgs.length} government organizations across ${page} pages on AllJobs.\n`);
 
   const verifiedJobs = [];
   const downloadedPdfs = new Set();

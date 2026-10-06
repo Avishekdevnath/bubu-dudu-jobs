@@ -18,89 +18,122 @@ function getDedupeKey(job) {
 }
 
 // --- CLASSIFICATION ENGINE ---
-function classifyCandidate(title, reqText, org) {
-  const text = `${title} ${reqText || ''} ${org || ''}`.toLowerCase();
+function classifyCandidate(title, orgName, details = {}) {
+  const t = (title || '').toLowerCase();
+  const req = `${details.min_education || ''} ${details.job_title_bn || ''}`.toLowerCase();
 
-  const isDudu = 
-    text.includes('programmer') || 
-    text.includes('software') || 
-    text.includes('cse') || 
-    text.includes('computer') || 
-    text.includes('information technology') ||
-    text.includes('maintenance engineer') ||
-    text.includes('আইটি') || 
-    text.includes('কম্পিউটার') ||
-    text.includes('সফটওয়্যার') ||
-    text.includes('systems') ||
-    text.includes('data');
+  // DUDU (CSE / IT)
+  const isCse = 
+    t.includes('programmer') || t.includes('প্রোগ্রামার') ||
+    t.includes('software') || t.includes('সফটওয়্যার') ||
+    t.includes('computer') || t.includes('কম্পিউটার') ||
+    t.includes('maintenance engineer') || t.includes('রক্ষণাবেক্ষণ প্রকৌশলী') ||
+    t.includes('information technology') || t.includes('আইটি') ||
+    t.includes('systems') || t.includes('data entry') || t.includes('ডাটা এন্ট্রি');
 
-  const isBubu = 
-    text.includes('scientific officer') || 
-    text.includes('agriculture') || 
-    text.includes('কৃষি') || 
-    text.includes('agronomy') || 
-    text.includes('plant breeding') || 
-    text.includes('soil') || 
-    text.includes('bina') || 
-    text.includes('brri') || 
-    text.includes('bari') || 
-    text.includes('badc') || 
-    text.includes('field assistant') || 
-    text.includes('crop') ||
-    text.includes('botany');
+  // BUBU (Agriculture)
+  const isAgri = 
+    t.includes('scientific officer') || t.includes('বৈজ্ঞানিক কর্মকর্তা') ||
+    t.includes('agriculture') || t.includes('কৃষি') ||
+    t.includes('agronomy') || t.includes('plant breeding') ||
+    t.includes('soil') || t.includes('crop') || t.includes('botany');
 
-  if (isDudu && !isBubu) return 'DUDU';
-  if (isBubu && !isDudu) return 'BUBU';
+  if (isCse && !isAgri) return 'DUDU';
+  if (isAgri && !isCse) return 'BUBU';
+
+  // Both eligible for general administration, desk, and executive posts (e.g. Assistant Director Non-Technical)
   return 'BOTH';
 }
 
 function determineGrade(title) {
   const t = (title || '').toLowerCase();
   if (t.includes('programmer') && !t.includes('assistant')) return 'GRADE 6';
-  if (t.includes('assistant programmer') || t.includes('scientific officer') || t.includes('junior officer') || t.includes('assistant maintenance engineer')) return 'GRADE 9';
-  if (t.includes('sub-assistant') || t.includes('sub assistant')) return 'GRADE 10';
+  if (t.includes('maintenance engineer') && !t.includes('assistant')) return 'GRADE 6';
+  if ((t.includes('director') || t.includes('পরিচালক')) && !t.includes('assistant') && !t.includes('সহকারী')) return 'GRADE 5';
+
+  if (
+    t.includes('assistant programmer') || t.includes('সহকারী প্রোগ্রামার') ||
+    t.includes('assistant director') || t.includes('সহকারী পরিচালক') ||
+    t.includes('scientific officer') || t.includes('বৈজ্ঞানিক কর্মকর্তা') ||
+    t.includes('junior officer') || t.includes('কনিষ্ঠ কর্মকর্তা') ||
+    t.includes('assistant maintenance engineer') || t.includes('সহকারী রক্ষণাবেক্ষণ প্রকৌশলী') ||
+    t.includes('assistant engineer') || t.includes('সহকারী প্রকৌশলী')
+  ) return 'GRADE 9';
+
+  if (
+    t.includes('deputy assistant director') || t.includes('উপ সহকারী পরিচালক') || t.includes('উপ-সহকারী পরিচালক') ||
+    t.includes('sub-assistant') || t.includes('sub assistant') || t.includes('উপ-সহকারী')
+  ) return 'GRADE 10';
+
   if (t.includes('computer operator') || t.includes('কম্পিউটার অপারেটর')) return 'GRADE 13';
-  if (t.includes('steno') || t.includes('সাঁট-মুদ্রাক্ষরিক')) return 'GRADE 14';
-  if (t.includes('office assistant') || t.includes('অফিস সহকারী') || t.includes('typist') || t.includes('মুদ্রাক্ষরিক') || t.includes('store keeper') || t.includes('হিসাব সহকারী')) return 'GRADE 16';
+
+  if (
+    t.includes('steno') || t.includes('সাঁট-মুদ্রাক্ষরিক') || t.includes('সাঁট লিপিকার') || t.includes('stenographer') ||
+    t.includes('upper division assistant') || t.includes('উচ্চমান সহকারী') ||
+    t.includes('head assistant') || t.includes('প্রধান সহকারী')
+  ) return 'GRADE 14';
+
+  if (
+    t.includes('office assistant') || t.includes('অফিস সহকারী') ||
+    t.includes('typist') || t.includes('মুদ্রাক্ষরিক') ||
+    t.includes('data entry') || t.includes('ডাটা এন্ট্রি') ||
+    t.includes('store keeper') || t.includes('হিসাব সহকারী')
+  ) return 'GRADE 16';
+
   if (t.includes('driver') || t.includes('ড্রাইভার')) return 'GRADE 16';
-  if (t.includes('cleaner') || t.includes('security guard') || t.includes('office support') || t.includes('সহায়ক')) return 'GRADE 20';
+
+  if (
+    t.includes('cleaner') || t.includes('security guard') ||
+    t.includes('office support') || t.includes('সহায়ক') || t.includes('সহায়ক') ||
+    t.includes('sohayok') || t.includes('shohayok')
+  ) return 'GRADE 20';
+
   return 'GRADE 13';
 }
 
 // STRICT EXCLUSION: Only pure official/desk/executive jobs (No drivers, cooks, attendants, laborers, cleaners, trades, or field reps)
 const NON_OFFICE_PATTERNS = [
-  /driver|চালক|ড্রাইভার|টিলার|tractor|bulldozer|truck/i,
-  /cook|বাবুর্চি/i,
-  /attendant|এটেনডেন্ট|বেয়ারার|bearer|peon|পিয়ন|খালাসী|khalasi/i,
+  // Drivers & Transport
+  /driver|(?<!পরি)চালক|ড্রাইভার|টিলার|tractor|bulldozer|truck/iu,
+  // Trades & Manual Labor
+  /cook|বাবুর্চি|পাচক/i,
+  /attendant|এটেনডেন্ট|বেয়ারার|bearer|peon|পিয়ন|খালাসী|khalasi|orderly|আর্দালী/i,
   /plumber|প্লাম্বার|পাইপ/i,
-  /electrician|ইলেকট্রিশিয়ান|কারিগর|lineman|লাইনম্যান/i,
-  /meson|ম্যাশন|মেসন|রাজমিস্ত্রি/i,
+  /electrician|ইলেকট্রিশিয়ান|কারিগর|lineman|লাইনম্যান|লিফটম্যান|liftman/i,
+  /meson|ম্যাশন|মেসন|রাজমিস্ত্রি|রাজ_মিস্ত্রি/i,
   /painter|পেইন্টার|রংমিস্ত্রি/i,
   /hammerman|হ্যামারম্যান|হাতুড়ে/i,
   /pump operator|পাম্প অপারেটর|বয়লার|boiler/i,
   /cleaner|পরিচ্ছন্নতাকর্মী|ঝাড়ুদার|সুইপার|sweeper|মালী|mali|gardener/i,
-  /guard|প্রহরী|দারোয়ান|চৌকিদার|আনসার|ansar|security/i,
+  /guard|প্রহরী|দারোয়ান|চৌকিদার|আনসার|ansar|security|গেটের\s*প্রহরী|gate\s*inspector|গেইট\s*ইন্সপেক্টর/i,
   /groundsman|গ্রাউন্ডসম্যান|ground service/i,
-  /fire safety|ফায়ার সেফটি/i,
-  /mate|মেট|লেবার|labour|কুলি|porter|হেলপার|helper/i,
+  /fire safety|ফায়ার সেফটি|fireman|ফায়ারম্যান/i,
+  /mate|মেট|লেবার|labour|কুলি|porter|হেলপার|helper|semen\s*carrier|সিমেন\s*ক্যারিয়ার/i,
   /representative|প্রতিনিধি|বিক্রয়|sales/i,
-  /mechanic|মেকানিক|ফিটার|fitter|মিস্ত্রি|foreman|ফোরম্যান|workshop/i,
+  /mechanic|মেকানিক|ফিটার|fitter|মিস্ত্রি|foreman|ফোরম্যান|workshop|technician|টেকনিশিয়ান/i,
   /chainman|চেইনম্যান/i,
   /preparer|প্রিপেয়ারার|photocopy|ফটোকপি|printing assistant|প্রিন্টিং/i,
   /health assistant|স্বাস্থ্য সহকারী/i,
   /cold chain|কোল্ড চেইন/i,
+  // Medical & Pharmacy
+  /medical\s*technologist|মেডিকেল\s*টেকনোলজিস্ট|pharmacist|ফার্মাসিস্ট|compounder|কম্পাউন্ডার|মেডিকেল\s*অফিসার|medical\s*officer/i,
+  // Non-Office / Non-Target Specialties
   /statistic|পরিসংখ্যান|পরিসংখ্যানবিদ/i,
   /library|গ্রন্থাগার|লাইব্রেরি/i,
-  /surveyor|সার্ভেয়ার/i,
+  /surveyor|সার্ভেয়ার|সার্ভেয়ার/i,
   /draftsman|ড্রাফটসম্যান/i,
   /estimator|এস্টিমেটর/i,
   /avionics|এভিওনিক্স|aerospace|অ্যারোস্পেস|hangar|হ্যাঙ্গার/i,
-  /store\s*keeper|ভান্ডার\s*রক্ষক|স্টোর\s*কিপার|storekeeper|স্টোরকিপার|store\s*assistant|স্টোর\s*সহকারী/i,
+  // Blacklisted Roles
+  /store\s*keeper|ভান্ডার\s*রক্ষক|স্টোর\s*কিপার|storekeeper|স্টোরকিপার|store\s*assistant|স্টোর\s*সহকারী|store\s*officer|স্টোর\s*অফিসার|godown\s*keeper|গোডাউন\s*কিপার/i,
   /bench\s*assistant|বেঞ্চ\s*সহকারী/i,
   /cashier|ক্যাশিয়ার|নাজির\s*কাম-ক্যাশিয়ার|nazir\s*cum-cashier/i,
-  /diploma|ডিপ্লোমা|scientific\s*assistant|বৈজ্ঞানিক\s*সহকারী|sub-?\s*assistant|উপ-?\s*সহকারী/i,
-  /accountant|হিসাবরক্ষক|হিসাব\s*রক্ষক|হিসাব\s*সহকারী|accounts\s*assistant|office\s*assistant-cum-accountant|বাণিজ্য/i,
-  /mechanical|মেকানিক্যাল|civil\s*eng|সিভিল\s*ইঞ্জিনিয়ার|chemical\s*eng|কেমিক্যাল|petroleum|পেট্রোলিয়াম|junior\s*officer\s*\(operations\)|কনিষ্ঠ\s*কর্মকর্তা\s*\(পরিচালন\)/i
+  // Diploma Posts (Excluding Deputy Assistant Director)
+  /diploma|ডিপ্লোমা|scientific\s*assistant|বৈজ্ঞানিক\s*সহকারী|(?:sub-?\s*assistant|উপ-?\s*সহকারী)(?!\s*(?:director|পরিচালক))/i,
+  // Commerce / Accounting Background
+  /accountant|হিসাবরক্ষক|হিসাব\s*রক্ষক|হিসাব\s*সহকারী|accounts\s*assistant|account\s*assistant|office\s*assistant-cum-accountant|বাণিজ্য/i,
+  // Non-CSE Engineering Disciplines
+  /\b(?:civil|mechanical|electrical|chemical|petroleum)\b|সিভিল|মেকানিক্যাল|ইলেকট্রিক্যাল|কেমিক্যাল|পেট্রোলিয়াম|junior\s*officer\s*\(operations\)|কনিষ্ঠ\s*কর্মকর্তা\s*\(পরিচালন\)/i
 ];
 
 export const EXCLUDE_AREA_ORGS = [
@@ -110,7 +143,10 @@ export const EXCLUDE_AREA_ORGS = [
   /cox'?s\s*bazar\s*development|কক্সবাজার\s*উন্ন[য়য]ন/i,
   /eastern\s*lubricants|elbl|ইস্টার্ন\s*লুব্রিকেন্টস/i,
   /civil\s*surgeon|সিভিল\s*সার্জন|\bcs[a-z]+/i,
-  /dc\s*office|জেলা\s*প্রশাসক|\bdc(?!dhaka\b)[a-z]+/i
+  /dc\s*office|জেলা\s*প্রশাসক|\bdc(?!dhaka\b)[a-z]+/i,
+  /divisional\s*commissioner|বিভাগীয়\s*কমিশনার|mymensinghdiv/i,
+  /cevmym|pmasp/i,
+  /taxran|tax.*(?:rangpur|chittagong|rajshahi|sylhet|khulna|barisal|comilla|mymensingh|bogura)|কর\s*অঞ্চল.*(?:রংপুর|চট্টগ্রাম|রাজশাহী|সিলেট|খুলনা|বরিশাল|কুমিল্লা|ময়মনসিংহ|বগুড়া)/i
 ];
 
 export function isAreaDeptOutsideDhaka(orgText = '') {
@@ -170,12 +206,28 @@ function fetchJson(endpoint) {
 async function fetchAllJobsGovtFeeds(referenceDate) {
   const jobs = [];
   try {
-    const orgRes = await fetchJson('/api/v1/govt-jobs/org-list?page=1&limit=50');
-    if (!orgRes.govtOrgJobs) return jobs;
+    const allGovtOrgs = [];
+    let page = 1;
+    while (true) {
+      const orgRes = await fetchJson(`/api/v1/govt-jobs/org-list?page=${page}&limit=50`);
+      if (!orgRes || !orgRes.govtOrgJobs || orgRes.govtOrgJobs.length === 0) break;
+      allGovtOrgs.push(...orgRes.govtOrgJobs);
+      if (orgRes.govtOrgJobs.length < 20) break;
+      page++;
+    }
+
+    const seenOrgIds = new Set();
+    const uniqueOrgs = [];
+    for (const org of allGovtOrgs) {
+      if (!seenOrgIds.has(org.id)) {
+        seenOrgIds.add(org.id);
+        uniqueOrgs.push(org);
+      }
+    }
 
     const msPerDay = 1000 * 60 * 60 * 24;
 
-    for (const org of orgRes.govtOrgJobs) {
+    for (const org of uniqueOrgs) {
       const jobListRes = await fetchJson(`/api/v1/govt-jobs/list?orgId=${org.id}&skipLimit=YES`);
       const orgJobs = jobListRes.govtJobs || [];
 
