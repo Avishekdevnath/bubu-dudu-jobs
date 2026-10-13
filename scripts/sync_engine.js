@@ -145,8 +145,7 @@ export const EXCLUDE_AREA_ORGS = [
   /civil\s*surgeon|সিভিল\s*সার্জন|\bcs[a-z]+/i,
   /dc\s*office|জেলা\s*প্রশাসক|\bdc(?!dhaka\b)[a-z]+/i,
   /divisional\s*commissioner|বিভাগীয়\s*কমিশনার|mymensinghdiv/i,
-  /cevmym|pmasp/i,
-  /taxran|tax.*(?:rangpur|chittagong|rajshahi|sylhet|khulna|barisal|comilla|mymensingh|bogura)|কর\s*অঞ্চল.*(?:রংপুর|চট্টগ্রাম|রাজশাহী|সিলেট|খুলনা|বরিশাল|কুমিল্লা|ময়মনসিংহ|বগুড়া)/i
+  /taxran|tzc|\btz[a-z]*(?:com|cum|ctg|raj|khu|syl|bar)|tax.*(?:rangpur|chittagong|rajshahi|sylhet|khulna|barisal|comilla|cumilla|mymensingh|bogura)|কর\s*অঞ্চল.*(?:রংপুর|চট্টগ্রাম|রাজশাহী|সিলেট|খুলনা|বরিশাল|কুমিল্লা|ময়মনসিংহ|বগুড়া)/i
 ];
 
 export function isAreaDeptOutsideDhaka(orgText = '') {
@@ -154,6 +153,16 @@ export function isAreaDeptOutsideDhaka(orgText = '') {
   if (text.includes('dcdhaka') || (text.includes('dc office') && text.includes('dhaka') && !text.includes('outside'))) {
     return false;
   }
+
+  // Strict Tax Zone Policy: Avoid Tax Zones in far areas outside Dhaka!
+  const isTaxZone = /tax|কর\s*অঞ্চল|taxes\s*zone|\btz[a-z0-9]*/i.test(text);
+  if (isTaxZone) {
+    const hasFarArea = /cumilla|comilla|chittagong|chattogram|rajshahi|rangpur|sylhet|khulna|barisal|barishal|mymensingh|bogura|bogra|noakhali|jashore|jessore|dinajpur|kushtia|পটুয়াখালী|বরিশাল|কুমিল্লা|চট্টগ্রাম|রাজশাহী|রংপুর|সিলেট|খুলনা|ময়মনসিংহ|বগুড়া|নোয়াখালী|যশোর|কুষ্টিয়া/i.test(text);
+    if (hasFarArea) return true; // Far area tax zone -> avoid!
+    const isDhakaTax = /dhaka|ঢাকা/i.test(text);
+    if (!isDhakaTax) return true; // Avoid any tax zone not confirmed to be in Dhaka
+  }
+
   for (const pat of EXCLUDE_AREA_ORGS) {
     if (pat.test(text)) return true;
   }
@@ -372,7 +381,7 @@ async function fetchBangladeshBankJobs(referenceDate) {
 }
 
 // --- MAIN RUNNER WITH STRICT RECENCY & ZERO EXPIRED/OLD JOBS ---
-export async function runDailySync(referenceDate = new Date('2026-10-04T00:00:00')) {
+export async function runDailySync(referenceDate = new Date()) {
   console.log(`\n======================================================`);
   console.log(` 🎯 BUBU-DUDU JOB WATCHDOG & CIRCULAR SYNCHRONIZER`);
   console.log(` Reference Date: ${referenceDate.toISOString().split('T')[0]}`);
