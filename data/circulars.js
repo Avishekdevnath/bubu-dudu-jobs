@@ -1,7 +1,7 @@
 /**
  * BUBU-DUDU JOB CIRCULARS DATABASE (MIRROR)
  * Automatically synced from Official Teletalk AllJobs API
- * Last Synced: 2026-10-13T06:36:57.622Z
+ * Last Synced: 2026-10-13T07:07:10.750Z
  */
 window.BUBU_DUDU_CIRCULARS = [
   {
@@ -18,7 +18,7 @@ window.BUBU_DUDU_CIRCULARS = [
     "application_portal_url": "https://tax13.teletalk.com.bd/",
     "is_verified": true,
     "source": "AllJobs Teletalk Official Live API",
-    "last_updated": "2026-10-13T06:36:39.948Z"
+    "last_updated": "2026-10-13T07:06:52.499Z"
   },
   {
     "id": "AJ-14925",
@@ -34,7 +34,7 @@ window.BUBU_DUDU_CIRCULARS = [
     "application_portal_url": "https://tax13.teletalk.com.bd/",
     "is_verified": true,
     "source": "AllJobs Teletalk Official Live API",
-    "last_updated": "2026-10-13T06:36:40.069Z"
+    "last_updated": "2026-10-13T07:06:52.599Z"
   },
   {
     "id": "AJ-14924",
@@ -50,7 +50,7 @@ window.BUBU_DUDU_CIRCULARS = [
     "application_portal_url": "https://tax13.teletalk.com.bd/",
     "is_verified": true,
     "source": "AllJobs Teletalk Official Live API",
-    "last_updated": "2026-10-13T06:36:40.197Z"
+    "last_updated": "2026-10-13T07:06:52.682Z"
   },
   {
     "id": "AJ-14923",
@@ -66,7 +66,7 @@ window.BUBU_DUDU_CIRCULARS = [
     "application_portal_url": "https://tax13.teletalk.com.bd/",
     "is_verified": true,
     "source": "AllJobs Teletalk Official Live API",
-    "last_updated": "2026-10-13T06:36:40.308Z"
+    "last_updated": "2026-10-13T07:06:52.817Z"
   },
   {
     "id": "AJ-14922",
@@ -82,7 +82,7 @@ window.BUBU_DUDU_CIRCULARS = [
     "application_portal_url": "https://tax13.teletalk.com.bd/",
     "is_verified": true,
     "source": "AllJobs Teletalk Official Live API",
-    "last_updated": "2026-10-13T06:36:40.437Z"
+    "last_updated": "2026-10-13T07:06:52.923Z"
   },
   {
     "id": "AJ-14921",
@@ -98,7 +98,7 @@ window.BUBU_DUDU_CIRCULARS = [
     "application_portal_url": "https://tax13.teletalk.com.bd/",
     "is_verified": true,
     "source": "AllJobs Teletalk Official Live API",
-    "last_updated": "2026-10-13T06:36:40.543Z"
+    "last_updated": "2026-10-13T07:06:53.026Z"
   },
   {
     "id": "AJ-14920",
@@ -114,7 +114,7 @@ window.BUBU_DUDU_CIRCULARS = [
     "application_portal_url": "https://tax3.teletalk.com.bd/",
     "is_verified": true,
     "source": "AllJobs Teletalk Official Live API",
-    "last_updated": "2026-10-13T06:36:40.806Z"
+    "last_updated": "2026-10-13T07:06:53.192Z"
   },
   {
     "id": "AJ-14919",
@@ -130,7 +130,7 @@ window.BUBU_DUDU_CIRCULARS = [
     "application_portal_url": "https://tax3.teletalk.com.bd/",
     "is_verified": true,
     "source": "AllJobs Teletalk Official Live API",
-    "last_updated": "2026-10-13T06:36:40.920Z"
+    "last_updated": "2026-10-13T07:06:53.356Z"
   },
   {
     "id": "AJ-14917",
@@ -146,7 +146,7 @@ window.BUBU_DUDU_CIRCULARS = [
     "application_portal_url": "https://tax3.teletalk.com.bd/",
     "is_verified": true,
     "source": "AllJobs Teletalk Official Live API",
-    "last_updated": "2026-10-13T06:36:41.037Z"
+    "last_updated": "2026-10-13T07:06:53.454Z"
   },
   {
     "id": "AJ-14916",
@@ -162,7 +162,7 @@ window.BUBU_DUDU_CIRCULARS = [
     "application_portal_url": "https://tax3.teletalk.com.bd/",
     "is_verified": true,
     "source": "AllJobs Teletalk Official Live API",
-    "last_updated": "2026-10-13T06:36:41.149Z"
+    "last_updated": "2026-10-13T07:06:53.630Z"
   },
   {
     "id": "AJ-14915",
@@ -178,7 +178,7 @@ window.BUBU_DUDU_CIRCULARS = [
     "application_portal_url": "https://tax3.teletalk.com.bd/",
     "is_verified": true,
     "source": "AllJobs Teletalk Official Live API",
-    "last_updated": "2026-10-13T06:36:41.306Z"
+    "last_updated": "2026-10-13T07:06:53.750Z"
   },
   {
     "id": "AJ-14914",
@@ -194,7 +194,7 @@ window.BUBU_DUDU_CIRCULARS = [
     "application_portal_url": "https://tax3.teletalk.com.bd/",
     "is_verified": true,
     "source": "AllJobs Teletalk Official Live API",
-    "last_updated": "2026-10-13T06:36:41.449Z"
+    "last_updated": "2026-10-13T07:06:53.900Z"
   },
   {
     "id": "AJ-14913",
@@ -210,7 +210,7 @@ window.BUBU_DUDU_CIRCULARS = [
     "application_portal_url": "http://cid.teletalk.com.bd/",
     "is_verified": true,
     "source": "AllJobs Teletalk Official Live API",
-    "last_updated": "2026-10-13T06:36:41.816Z"
+    "last_updated": "2026-10-13T07:06:54.160Z"
   },
   {
     "id": "AJ-14912",
@@ -226,7 +226,7 @@ window.BUBU_DUDU_CIRCULARS = [
     "application_portal_url": "http://cid.teletalk.com.bd/",
     "is_verified": true,
     "source": "AllJobs Teletalk Official Live API",
-    "last_updated": "2026-10-13T06:36:41.947Z"
+    "last_updated": "2026-10-13T07:06:54.721Z"
   },
   {
     "id": "AJ-14911",
@@ -242,7 +242,7 @@ window.BUBU_DUDU_CIRCULARS = [
     "application_portal_url": "http://cid.teletalk.com.bd/",
     "is_verified": true,
     "source": "AllJobs Teletalk Official Live API",
-    "last_updated": "2026-10-13T06:36:42.109Z"
+    "last_updated": "2026-10-13T07:06:54.931Z"
   },
   {
     "id": "AJ-14910",
@@ -258,7 +258,7 @@ window.BUBU_DUDU_CIRCULARS = [
     "application_portal_url": "https://tax22.teletalk.com.bd/tax22_2026/",
     "is_verified": true,
     "source": "AllJobs Teletalk Official Live API",
-    "last_updated": "2026-10-13T06:36:42.759Z"
+    "last_updated": "2026-10-13T07:06:55.307Z"
   },
   {
     "id": "AJ-14909",
@@ -274,7 +274,7 @@ window.BUBU_DUDU_CIRCULARS = [
     "application_portal_url": "https://tax22.teletalk.com.bd/tax22_2026/",
     "is_verified": true,
     "source": "AllJobs Teletalk Official Live API",
-    "last_updated": "2026-10-13T06:36:42.943Z"
+    "last_updated": "2026-10-13T07:06:55.390Z"
   },
   {
     "id": "AJ-14908",
@@ -290,7 +290,7 @@ window.BUBU_DUDU_CIRCULARS = [
     "application_portal_url": "https://tax22.teletalk.com.bd/tax22_2026/",
     "is_verified": true,
     "source": "AllJobs Teletalk Official Live API",
-    "last_updated": "2026-10-13T06:36:43.088Z"
+    "last_updated": "2026-10-13T07:06:55.495Z"
   },
   {
     "id": "AJ-14907",
@@ -306,7 +306,7 @@ window.BUBU_DUDU_CIRCULARS = [
     "application_portal_url": "https://tax22.teletalk.com.bd/tax22_2026/",
     "is_verified": true,
     "source": "AllJobs Teletalk Official Live API",
-    "last_updated": "2026-10-13T06:36:43.192Z"
+    "last_updated": "2026-10-13T07:06:55.656Z"
   },
   {
     "id": "AJ-14906",
@@ -322,7 +322,7 @@ window.BUBU_DUDU_CIRCULARS = [
     "application_portal_url": "https://tax22.teletalk.com.bd/tax22_2026/",
     "is_verified": true,
     "source": "AllJobs Teletalk Official Live API",
-    "last_updated": "2026-10-13T06:36:43.300Z"
+    "last_updated": "2026-10-13T07:06:55.773Z"
   },
   {
     "id": "AJ-14905",
@@ -338,7 +338,7 @@ window.BUBU_DUDU_CIRCULARS = [
     "application_portal_url": "https://tax22.teletalk.com.bd/tax22_2026/",
     "is_verified": true,
     "source": "AllJobs Teletalk Official Live API",
-    "last_updated": "2026-10-13T06:36:43.443Z"
+    "last_updated": "2026-10-13T07:06:55.899Z"
   },
   {
     "id": "AJ-14904",
@@ -354,7 +354,7 @@ window.BUBU_DUDU_CIRCULARS = [
     "application_portal_url": "https://tax22.teletalk.com.bd/tax22_2026/",
     "is_verified": true,
     "source": "AllJobs Teletalk Official Live API",
-    "last_updated": "2026-10-13T06:36:43.558Z"
+    "last_updated": "2026-10-13T07:06:56.030Z"
   },
   {
     "id": "AJ-14903",
@@ -370,7 +370,7 @@ window.BUBU_DUDU_CIRCULARS = [
     "application_portal_url": "https://tax25.teletalk.com.bd/tax25_2026/",
     "is_verified": true,
     "source": "AllJobs Teletalk Official Live API",
-    "last_updated": "2026-10-13T06:36:43.845Z"
+    "last_updated": "2026-10-13T07:06:56.271Z"
   },
   {
     "id": "AJ-14902",
@@ -386,7 +386,7 @@ window.BUBU_DUDU_CIRCULARS = [
     "application_portal_url": "https://tax25.teletalk.com.bd/tax25_2026/",
     "is_verified": true,
     "source": "AllJobs Teletalk Official Live API",
-    "last_updated": "2026-10-13T06:36:43.968Z"
+    "last_updated": "2026-10-13T07:06:56.378Z"
   },
   {
     "id": "AJ-14901",
@@ -402,7 +402,7 @@ window.BUBU_DUDU_CIRCULARS = [
     "application_portal_url": "https://tax25.teletalk.com.bd/tax25_2026/",
     "is_verified": true,
     "source": "AllJobs Teletalk Official Live API",
-    "last_updated": "2026-10-13T06:36:44.055Z"
+    "last_updated": "2026-10-13T07:06:56.472Z"
   },
   {
     "id": "AJ-14900",
@@ -418,7 +418,7 @@ window.BUBU_DUDU_CIRCULARS = [
     "application_portal_url": "https://tax25.teletalk.com.bd/tax25_2026/",
     "is_verified": true,
     "source": "AllJobs Teletalk Official Live API",
-    "last_updated": "2026-10-13T06:36:44.156Z"
+    "last_updated": "2026-10-13T07:06:56.614Z"
   },
   {
     "id": "AJ-14899",
@@ -434,7 +434,7 @@ window.BUBU_DUDU_CIRCULARS = [
     "application_portal_url": "https://tax25.teletalk.com.bd/tax25_2026/",
     "is_verified": true,
     "source": "AllJobs Teletalk Official Live API",
-    "last_updated": "2026-10-13T06:36:44.319Z"
+    "last_updated": "2026-10-13T07:06:56.722Z"
   },
   {
     "id": "AJ-14898",
@@ -450,7 +450,7 @@ window.BUBU_DUDU_CIRCULARS = [
     "application_portal_url": "https://tax25.teletalk.com.bd/tax25_2026/",
     "is_verified": true,
     "source": "AllJobs Teletalk Official Live API",
-    "last_updated": "2026-10-13T06:36:44.448Z"
+    "last_updated": "2026-10-13T07:06:56.864Z"
   },
   {
     "id": "AJ-14879",
@@ -466,7 +466,7 @@ window.BUBU_DUDU_CIRCULARS = [
     "application_portal_url": "https://tphq.teletalk.com.bd/",
     "is_verified": true,
     "source": "AllJobs Teletalk Official Live API",
-    "last_updated": "2026-10-13T06:36:45.142Z"
+    "last_updated": "2026-10-13T07:06:57.903Z"
   },
   {
     "id": "AJ-14878",
@@ -482,7 +482,7 @@ window.BUBU_DUDU_CIRCULARS = [
     "application_portal_url": "https://tphq.teletalk.com.bd/",
     "is_verified": true,
     "source": "AllJobs Teletalk Official Live API",
-    "last_updated": "2026-10-13T06:36:45.297Z"
+    "last_updated": "2026-10-13T07:06:58.267Z"
   },
   {
     "id": "AJ-14876",
@@ -498,7 +498,7 @@ window.BUBU_DUDU_CIRCULARS = [
     "application_portal_url": "https://ds.teletalk.com.bd/",
     "is_verified": true,
     "source": "AllJobs Teletalk Official Live API",
-    "last_updated": "2026-10-13T06:36:46.158Z"
+    "last_updated": "2026-10-13T07:06:58.765Z"
   },
   {
     "id": "AJ-14873",
@@ -514,7 +514,23 @@ window.BUBU_DUDU_CIRCULARS = [
     "application_portal_url": "https://ds.teletalk.com.bd/",
     "is_verified": true,
     "source": "AllJobs Teletalk Official Live API",
-    "last_updated": "2026-10-13T06:36:46.247Z"
+    "last_updated": "2026-10-13T07:06:59.023Z"
+  },
+  {
+    "id": "AJ-14859",
+    "title": "সহকারী ব্যবস্থাপক প্রশিক্ষণ (প্যাসেঞ্জার সেলস/কার্গো সেলস/ব্যবস্থাপনা উন্নয়ন) (Assistant Manager Training (Passenger Sales/Cargo Sales/Management Development))",
+    "organization": "Biman Bangladesh Airlines Ltd (BBAL)",
+    "grade": "GRADE 13",
+    "candidate_eligibility": "BOTH",
+    "published_date": "2026-09-30",
+    "deadline_date": "2026-10-20",
+    "vacancy_count": 4,
+    "min_education": "সংশ্লিষ্ট বিষয়ে স্নাতক/সমমান অথবা এইচএসসি",
+    "circular_url": "https://alljobs.teletalk.com.bd/media/public/uploads/governments/jobs/advertisement-1790662335522.pdf",
+    "application_portal_url": "https://bbal.teletalk.com.bd/bbal12/",
+    "is_verified": true,
+    "source": "AllJobs Teletalk Official Live API",
+    "last_updated": "2026-10-13T07:06:59.504Z"
   },
   {
     "id": "AJ-14858",
@@ -530,7 +546,7 @@ window.BUBU_DUDU_CIRCULARS = [
     "application_portal_url": "https://bbal.teletalk.com.bd/bbal12/",
     "is_verified": true,
     "source": "AllJobs Teletalk Official Live API",
-    "last_updated": "2026-10-13T06:36:46.693Z"
+    "last_updated": "2026-10-13T07:07:00.024Z"
   },
   {
     "id": "AJ-14848",
@@ -546,7 +562,7 @@ window.BUBU_DUDU_CIRCULARS = [
     "application_portal_url": "https://parjatan.teletalk.com.bd/",
     "is_verified": true,
     "source": "AllJobs Teletalk Official Live API",
-    "last_updated": "2026-10-13T06:36:48.969Z"
+    "last_updated": "2026-10-13T07:07:00.544Z"
   },
   {
     "id": "AJ-14846",
@@ -562,7 +578,7 @@ window.BUBU_DUDU_CIRCULARS = [
     "application_portal_url": "https://parjatan.teletalk.com.bd/",
     "is_verified": true,
     "source": "AllJobs Teletalk Official Live API",
-    "last_updated": "2026-10-13T06:36:49.366Z"
+    "last_updated": "2026-10-13T07:07:00.684Z"
   },
   {
     "id": "AJ-14845",
@@ -578,7 +594,7 @@ window.BUBU_DUDU_CIRCULARS = [
     "application_portal_url": "https://parjatan.teletalk.com.bd/",
     "is_verified": true,
     "source": "AllJobs Teletalk Official Live API",
-    "last_updated": "2026-10-13T06:36:49.697Z"
+    "last_updated": "2026-10-13T07:07:00.870Z"
   },
   {
     "id": "AJ-14843",
@@ -594,7 +610,7 @@ window.BUBU_DUDU_CIRCULARS = [
     "application_portal_url": "https://tax2.teletalk.com.bd/",
     "is_verified": true,
     "source": "AllJobs Teletalk Official Live API",
-    "last_updated": "2026-10-13T06:36:49.958Z"
+    "last_updated": "2026-10-13T07:07:01.981Z"
   },
   {
     "id": "AJ-14841",
@@ -610,7 +626,7 @@ window.BUBU_DUDU_CIRCULARS = [
     "application_portal_url": "https://tax2.teletalk.com.bd/",
     "is_verified": true,
     "source": "AllJobs Teletalk Official Live API",
-    "last_updated": "2026-10-13T06:36:50.046Z"
+    "last_updated": "2026-10-13T07:07:02.749Z"
   },
   {
     "id": "AJ-14840",
@@ -626,7 +642,7 @@ window.BUBU_DUDU_CIRCULARS = [
     "application_portal_url": "https://tax2.teletalk.com.bd/",
     "is_verified": true,
     "source": "AllJobs Teletalk Official Live API",
-    "last_updated": "2026-10-13T06:36:50.149Z"
+    "last_updated": "2026-10-13T07:07:03.247Z"
   },
   {
     "id": "AJ-14839",
@@ -642,7 +658,7 @@ window.BUBU_DUDU_CIRCULARS = [
     "application_portal_url": "https://tax2.teletalk.com.bd/",
     "is_verified": true,
     "source": "AllJobs Teletalk Official Live API",
-    "last_updated": "2026-10-13T06:36:50.316Z"
+    "last_updated": "2026-10-13T07:07:03.771Z"
   },
   {
     "id": "AJ-14838",
@@ -658,7 +674,7 @@ window.BUBU_DUDU_CIRCULARS = [
     "application_portal_url": "https://tax2.teletalk.com.bd/",
     "is_verified": true,
     "source": "AllJobs Teletalk Official Live API",
-    "last_updated": "2026-10-13T06:36:50.441Z"
+    "last_updated": "2026-10-13T07:07:03.881Z"
   },
   {
     "id": "AJ-14837",
@@ -674,7 +690,7 @@ window.BUBU_DUDU_CIRCULARS = [
     "application_portal_url": "https://tax2.teletalk.com.bd/",
     "is_verified": true,
     "source": "AllJobs Teletalk Official Live API",
-    "last_updated": "2026-10-13T06:36:50.556Z"
+    "last_updated": "2026-10-13T07:07:03.981Z"
   },
   {
     "id": "AJ-14833",
@@ -690,7 +706,7 @@ window.BUBU_DUDU_CIRCULARS = [
     "application_portal_url": "https://mowca.teletalk.com.bd/",
     "is_verified": true,
     "source": "AllJobs Teletalk Official Live API",
-    "last_updated": "2026-10-13T06:36:51.013Z"
+    "last_updated": "2026-10-13T07:07:04.391Z"
   },
   {
     "id": "AJ-14832",
@@ -706,7 +722,7 @@ window.BUBU_DUDU_CIRCULARS = [
     "application_portal_url": "https://mowca.teletalk.com.bd/",
     "is_verified": true,
     "source": "AllJobs Teletalk Official Live API",
-    "last_updated": "2026-10-13T06:36:51.113Z"
+    "last_updated": "2026-10-13T07:07:04.495Z"
   },
   {
     "id": "AJ-14831",
@@ -722,7 +738,7 @@ window.BUBU_DUDU_CIRCULARS = [
     "application_portal_url": "https://mowca.teletalk.com.bd/",
     "is_verified": true,
     "source": "AllJobs Teletalk Official Live API",
-    "last_updated": "2026-10-13T06:36:51.452Z"
+    "last_updated": "2026-10-13T07:07:04.611Z"
   },
   {
     "id": "AJ-14818",
@@ -738,7 +754,7 @@ window.BUBU_DUDU_CIRCULARS = [
     "application_portal_url": "https://mos.teletalk.com.bd/",
     "is_verified": true,
     "source": "AllJobs Teletalk Official Live API",
-    "last_updated": "2026-10-13T06:36:51.974Z"
+    "last_updated": "2026-10-13T07:07:05.140Z"
   },
   {
     "id": "AJ-14817",
@@ -754,7 +770,7 @@ window.BUBU_DUDU_CIRCULARS = [
     "application_portal_url": "https://mos.teletalk.com.bd/",
     "is_verified": true,
     "source": "AllJobs Teletalk Official Live API",
-    "last_updated": "2026-10-13T06:36:52.077Z"
+    "last_updated": "2026-10-13T07:07:05.277Z"
   },
   {
     "id": "AJ-14816",
@@ -770,7 +786,7 @@ window.BUBU_DUDU_CIRCULARS = [
     "application_portal_url": "https://mos.teletalk.com.bd/",
     "is_verified": true,
     "source": "AllJobs Teletalk Official Live API",
-    "last_updated": "2026-10-13T06:36:52.346Z"
+    "last_updated": "2026-10-13T07:07:05.405Z"
   },
   {
     "id": "AJ-14807",
@@ -786,7 +802,7 @@ window.BUBU_DUDU_CIRCULARS = [
     "application_portal_url": "https://tax1.teletalk.com.bd/",
     "is_verified": true,
     "source": "AllJobs Teletalk Official Live API",
-    "last_updated": "2026-10-13T06:36:52.807Z"
+    "last_updated": "2026-10-13T07:07:06.110Z"
   },
   {
     "id": "AJ-14805",
@@ -802,7 +818,7 @@ window.BUBU_DUDU_CIRCULARS = [
     "application_portal_url": "https://tax1.teletalk.com.bd/",
     "is_verified": true,
     "source": "AllJobs Teletalk Official Live API",
-    "last_updated": "2026-10-13T06:36:52.937Z"
+    "last_updated": "2026-10-13T07:07:06.358Z"
   },
   {
     "id": "AJ-14804",
@@ -818,7 +834,7 @@ window.BUBU_DUDU_CIRCULARS = [
     "application_portal_url": "https://tax1.teletalk.com.bd/",
     "is_verified": true,
     "source": "AllJobs Teletalk Official Live API",
-    "last_updated": "2026-10-13T06:36:53.056Z"
+    "last_updated": "2026-10-13T07:07:06.535Z"
   },
   {
     "id": "AJ-14803",
@@ -834,7 +850,7 @@ window.BUBU_DUDU_CIRCULARS = [
     "application_portal_url": "https://tax1.teletalk.com.bd/",
     "is_verified": true,
     "source": "AllJobs Teletalk Official Live API",
-    "last_updated": "2026-10-13T06:36:53.444Z"
+    "last_updated": "2026-10-13T07:07:06.635Z"
   },
   {
     "id": "AJ-14802",
@@ -850,7 +866,7 @@ window.BUBU_DUDU_CIRCULARS = [
     "application_portal_url": "https://tax1.teletalk.com.bd/",
     "is_verified": true,
     "source": "AllJobs Teletalk Official Live API",
-    "last_updated": "2026-10-13T06:36:53.671Z"
+    "last_updated": "2026-10-13T07:07:06.997Z"
   },
   {
     "id": "AJ-14801",
@@ -866,7 +882,7 @@ window.BUBU_DUDU_CIRCULARS = [
     "application_portal_url": "https://tax1.teletalk.com.bd/",
     "is_verified": true,
     "source": "AllJobs Teletalk Official Live API",
-    "last_updated": "2026-10-13T06:36:53.912Z"
+    "last_updated": "2026-10-13T07:07:07.133Z"
   },
   {
     "id": "AJ-14785",
@@ -882,7 +898,7 @@ window.BUBU_DUDU_CIRCULARS = [
     "application_portal_url": "https://mole.teletalk.com.bd/",
     "is_verified": true,
     "source": "AllJobs Teletalk Official Live API",
-    "last_updated": "2026-10-13T06:36:54.845Z"
+    "last_updated": "2026-10-13T07:07:07.746Z"
   },
   {
     "id": "AJ-14784",
@@ -898,7 +914,7 @@ window.BUBU_DUDU_CIRCULARS = [
     "application_portal_url": "https://mole.teletalk.com.bd/",
     "is_verified": true,
     "source": "AllJobs Teletalk Official Live API",
-    "last_updated": "2026-10-13T06:36:54.948Z"
+    "last_updated": "2026-10-13T07:07:07.827Z"
   },
   {
     "id": "AJ-14783",
@@ -914,7 +930,7 @@ window.BUBU_DUDU_CIRCULARS = [
     "application_portal_url": "https://mole.teletalk.com.bd/",
     "is_verified": true,
     "source": "AllJobs Teletalk Official Live API",
-    "last_updated": "2026-10-13T06:36:55.071Z"
+    "last_updated": "2026-10-13T07:07:08.002Z"
   },
   {
     "id": "AJ-14724",
@@ -930,7 +946,7 @@ window.BUBU_DUDU_CIRCULARS = [
     "application_portal_url": "https://mra.teletalk.com.bd/",
     "is_verified": true,
     "source": "AllJobs Teletalk Official Live API",
-    "last_updated": "2026-10-13T06:36:55.857Z"
+    "last_updated": "2026-10-13T07:07:08.580Z"
   },
   {
     "id": "AJ-14723",
@@ -946,7 +962,7 @@ window.BUBU_DUDU_CIRCULARS = [
     "application_portal_url": "https://mra.teletalk.com.bd/",
     "is_verified": true,
     "source": "AllJobs Teletalk Official Live API",
-    "last_updated": "2026-10-13T06:36:56.305Z"
+    "last_updated": "2026-10-13T07:07:08.889Z"
   },
   {
     "id": "AJ-14722",
@@ -962,7 +978,7 @@ window.BUBU_DUDU_CIRCULARS = [
     "application_portal_url": "https://mra.teletalk.com.bd/",
     "is_verified": true,
     "source": "AllJobs Teletalk Official Live API",
-    "last_updated": "2026-10-13T06:36:56.570Z"
+    "last_updated": "2026-10-13T07:07:09.148Z"
   },
   {
     "id": "AJ-14721",
@@ -978,7 +994,7 @@ window.BUBU_DUDU_CIRCULARS = [
     "application_portal_url": "https://mra.teletalk.com.bd/",
     "is_verified": true,
     "source": "AllJobs Teletalk Official Live API",
-    "last_updated": "2026-10-13T06:36:56.911Z"
+    "last_updated": "2026-10-13T07:07:09.677Z"
   },
   {
     "id": "AJ-14720",
@@ -994,7 +1010,7 @@ window.BUBU_DUDU_CIRCULARS = [
     "application_portal_url": "https://mra.teletalk.com.bd/",
     "is_verified": true,
     "source": "AllJobs Teletalk Official Live API",
-    "last_updated": "2026-10-13T06:36:57.197Z"
+    "last_updated": "2026-10-13T07:07:10.145Z"
   },
   {
     "id": "AJ-14709",
@@ -1010,6 +1026,6 @@ window.BUBU_DUDU_CIRCULARS = [
     "application_portal_url": "https://policemasp.teletalk.com.bd/",
     "is_verified": true,
     "source": "AllJobs Teletalk Official Live API",
-    "last_updated": "2026-10-13T06:36:57.511Z"
+    "last_updated": "2026-10-13T07:07:10.596Z"
   }
 ];

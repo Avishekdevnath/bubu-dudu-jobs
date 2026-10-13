@@ -109,7 +109,7 @@ const NON_OFFICE_PATTERNS = [
   /groundsman|গ্রাউন্ডসম্যান|ground service/i,
   /fire safety|ফায়ার সেফটি|fireman|ফায়ারম্যান/i,
   /mate|মেট|লেবার|labour|কুলি|porter|হেলপার|helper|semen\s*carrier|সিমেন\s*ক্যারিয়ার/i,
-  /representative|প্রতিনিধি|বিক্রয়|sales/i,
+  /(?:representative|প্রতিনিধি|(?:sales\s*(?:rep|representative|executive))|(?:মাঠ\s*)?বিক্রয়\s*প্রতিনিধি)/i,
   /mechanic|মেকানিক|ফিটার|fitter|মিস্ত্রি|foreman|ফোরম্যান|workshop|technician|টেকনিশিয়ান/i,
   /chainman|চেইনম্যান/i,
   /preparer|প্রিপেয়ারার|photocopy|ফটোকপি|printing assistant|প্রিন্টিং/i,
