@@ -1,6 +1,26 @@
 {
-  "total": 4,
+  "generated": "2026-10-16 22:47:00",
+  "total": 6,
   "applications": [
+    {
+      "id": 8,
+      "teletalk_user_id": null,
+      "teletalk_password": null,
+      "applicant_name": "AVISHEK DEVNATH",
+      "candidate": "DUDU",
+      "post_title": "সহকারী প্রোগ্রামার (Assistant Programmer)",
+      "organization": "Bangladesh Computer Council (BCC)",
+      "applied_date": "2026-10-13",
+      "source_url": "https://erecruitment.bcc.gov.bd/",
+      "confidence": 100,
+      "status": "APPLIED",
+      "admit_downloaded": null,
+      "exam_date": null,
+      "result": null,
+      "notes": "Tracking copy: Job Apply  Bubu Dudu/Dudu/New Job Tracking Page/Oct/BCC AP.pdf",
+      "created_at": "2026-10-16 22:47:00",
+      "updated_at": "2026-10-16 22:47:00"
+    },
     {
       "id": 1,
       "teletalk_user_id": "G3U2NESK",
@@ -17,7 +37,8 @@
       "exam_date": null,
       "result": null,
       "notes": null,
-      "created_at": "2026-10-04 21:15:47"
+      "created_at": "2026-10-04 21:15:47",
+      "updated_at": "2026-10-04 21:15:47"
     },
     {
       "id": 2,
@@ -35,7 +56,8 @@
       "exam_date": null,
       "result": null,
       "notes": null,
-      "created_at": "2026-10-04 21:15:47"
+      "created_at": "2026-10-04 21:15:47",
+      "updated_at": "2026-10-04 21:15:47"
     },
     {
       "id": 3,
@@ -53,7 +75,8 @@
       "exam_date": null,
       "result": null,
       "notes": null,
-      "created_at": "2026-10-04 21:15:47"
+      "created_at": "2026-10-04 21:15:47",
+      "updated_at": "2026-10-04 21:15:47"
     },
     {
       "id": 7,
@@ -71,7 +94,27 @@
       "exam_date": null,
       "result": null,
       "notes": "Tracking copy at: S:/Bubu-Dudu Job Gallary/Job Apply  Bubu Dudu/Dudu/New Job Tracking Page/IT/PARJATAN_MCBAKX4P.pdf",
-      "created_at": "2026-10-05 07:28:11"
+      "created_at": "2026-10-05 07:28:11",
+      "updated_at": "2026-10-05 07:28:11"
+    },
+    {
+      "id": 9,
+      "teletalk_user_id": "97ZCV56XE",
+      "teletalk_password": null,
+      "applicant_name": "AVISHEK DEVNATH",
+      "candidate": "DUDU",
+      "post_title": "Assistant Manager (Technical) [সহকারী ব্যবস্থাপক (কারিগরি)]",
+      "organization": "Teletalk Bangladesh Limited (TBL)",
+      "applied_date": "2026-09-23",
+      "source_url": "https://tbl.teletalk.com.bd/",
+      "confidence": 100,
+      "status": "EXAM_DONE",
+      "admit_downloaded": "2026-10-13",
+      "exam_date": "2026-10-16",
+      "result": null,
+      "notes": "Roll: 1201915, Center: Room CE-207, CE Building, BUET",
+      "created_at": "2026-10-16 22:47:00",
+      "updated_at": "2026-10-16 22:47:00"
     }
   ]
 }
