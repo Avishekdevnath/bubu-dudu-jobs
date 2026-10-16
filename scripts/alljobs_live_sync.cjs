@@ -58,6 +58,7 @@ function determineGrade(title, details = {}) {
   if (
     t.includes('assistant programmer') || t.includes('সহকারী প্রোগ্রামার') ||
     t.includes('assistant director') || t.includes('সহকারী পরিচালক') ||
+    t.includes('assistant manager') || t.includes('সহকারী ব্যবস্থাপক') ||
     t.includes('scientific officer') || t.includes('বৈজ্ঞানিক কর্মকর্তা') ||
     t.includes('junior officer') || t.includes('কনিষ্ঠ কর্মকর্তা') ||
     t.includes('assistant maintenance engineer') || t.includes('সহকারী রক্ষণাবেক্ষণ প্রকৌশলী') ||
@@ -66,6 +67,8 @@ function determineGrade(title, details = {}) {
 
   if (
     t.includes('deputy assistant director') || t.includes('উপ সহকারী পরিচালক') || t.includes('উপ-সহকারী পরিচালক') ||
+    t.includes('assistant administrative officer') || t.includes('সহকারী প্রশাসনিক কর্মকর্তা') ||
+    t.includes('assistant operations officer') || t.includes('সহকারী অপারেশন অফিসার') ||
     t.includes('sub assistant') || t.includes('উপ-সহকারী') || t.includes('sub-assistant')
   ) return 'GRADE 10';
 
@@ -120,6 +123,8 @@ const NON_OFFICE_PATTERNS = [
   /cold chain|কোল্ড চেইন/i,
   // Medical & Pharmacy
   /medical\s*technologist|মেডিকেল\s*টেকনোলজিস্ট|pharmacist|ফার্মাসিস্ট|compounder|কম্পাউন্ডার|মেডিকেল\s*অফিসার|medical\s*officer/i,
+  // Chemistry & Lab science (non-agri)
+  /chemist|রসায়ন|রসায়নবিদ/i,
   // Non-Office / Non-Target Specialties
   /statistic|পরিসংখ্যান|পরিসংখ্যানবিদ/i,
   /library|গ্রন্থাগার|লাইব্রেরি/i,
@@ -134,7 +139,7 @@ const NON_OFFICE_PATTERNS = [
   // Diploma Posts (Excluding Deputy Assistant Director)
   /diploma|ডিপ্লোমা|scientific\s*assistant|বৈজ্ঞানিক\s*সহকারী|(?:sub-?\s*assistant|উপ-?\s*সহকারী)(?!\s*(?:director|পরিচালক))/i,
   // Commerce / Accounting Background
-  /accountant|হিসাবরক্ষক|হিসাব\s*রক্ষক|হিসাব\s*সহকারী|accounts\s*assistant|account\s*assistant|office\s*assistant-cum-accountant|বাণিজ্য/i,
+  /accountant|accounts\s*officer|finance\s*officer|audit\s*officer|হিসাব\s*কর্মকর্তা|অর্থ\s*কর্মকর্তা|অডিট\s*কর্মকর্তা|হিসাবরক্ষক|হিসাব\s*রক্ষক|হিসাব\s*সহকারী|accounts\s*assistant|account\s*assistant|office\s*assistant-cum-accountant|বাণিজ্য|commercial\s*officer|বাণিজ্যিক\s*কর্মকর্তা|(?:সহকারী\s*)?ব্যবস্থাপক\s*\((?:ক্রয়|বিক্রয়|ক্রয়|বিক্রয়)\)|assistant\s*manager\s*\((?:procurement|sales)\)/i,
   // Non-CSE Engineering Disciplines
   /\b(?:civil|mechanical|electrical|chemical|petroleum)\b|সিভিল|মেকানিক্যাল|ইলেকট্রিক্যাল|কেমিক্যাল|পেট্রোলিয়াম|junior\s*officer\s*\(operations\)|কনিষ্ঠ\s*কর্মকর্তা\s*\(পরিচালন\)/i
 ];
@@ -194,7 +199,8 @@ function classifyCandidate(title, orgName, details = {}) {
   // DUDU (CSE / IT)
   const isCse = t.includes('programmer') || t.includes('প্রোগ্রামার') || t.includes('computer') ||
                 t.includes('software') || t.includes('system') || t.includes('maintenance engineer') ||
-                t.includes('আইটি') || t.includes('information technology') || t.includes('ডাটা') || t.includes('data');
+                t.includes('আইটি') || t.includes('information technology') || t.includes('ডাটা') || t.includes('data') ||
+                t.includes('operations officer') || t.includes('অপারেশন অফিসার');
 
   // BUBU (Agriculture)
   const isAgri = t.includes('agri') || t.includes('কৃষি') ||

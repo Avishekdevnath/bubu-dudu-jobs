@@ -1,9 +1,265 @@
 /**
  * BUBU-DUDU JOB CIRCULARS DATABASE (MIRROR)
  * Automatically synced from Official Teletalk AllJobs API
- * Last Synced: 2026-10-13T07:07:10.750Z
+ * Last Synced: 2026-10-16T11:27:33.726Z
  */
 window.BUBU_DUDU_CIRCULARS = [
+  {
+    "id": "AJ-14976",
+    "title": "অফিস সহায়ক (Office Support Staff)",
+    "organization": "উৎসে কর ব্যবস্থাপনা ইউনিট (Withholding Tax Management Unit, Dhaka(WTMU))",
+    "grade": "GRADE 20",
+    "candidate_eligibility": "BOTH",
+    "published_date": "2026-10-15",
+    "deadline_date": "2026-11-04",
+    "vacancy_count": 3,
+    "min_education": "সংশ্লিষ্ট বিষয়ে স্নাতক/সমমান অথবা এইচএসসি",
+    "circular_url": "https://alljobs.teletalk.com.bd/media/public/uploads/governments/jobs/advertisement-1791952975319.pdf",
+    "application_portal_url": "https://wtmu.teletalk.com.bd/wtmu_2026/",
+    "is_verified": true,
+    "source": "AllJobs Teletalk Official Live API",
+    "last_updated": "2026-10-16T11:27:30.609Z"
+  },
+  {
+    "id": "AJ-14975",
+    "title": "অফিস সহকারী কাম-কম্পিউটার মুদ্রাক্ষরিক (Office Assistant Cum-Computer Typist)",
+    "organization": "উৎসে কর ব্যবস্থাপনা ইউনিট (Withholding Tax Management Unit, Dhaka(WTMU))",
+    "grade": "GRADE 16",
+    "candidate_eligibility": "DUDU",
+    "published_date": "2026-10-15",
+    "deadline_date": "2026-11-04",
+    "vacancy_count": 5,
+    "min_education": "সংশ্লিষ্ট বিষয়ে স্নাতক/সমমান অথবা এইচএসসি",
+    "circular_url": "https://alljobs.teletalk.com.bd/media/public/uploads/governments/jobs/advertisement-1791952913926.pdf",
+    "application_portal_url": "https://wtmu.teletalk.com.bd/wtmu_2026/",
+    "is_verified": true,
+    "source": "AllJobs Teletalk Official Live API",
+    "last_updated": "2026-10-16T11:27:30.649Z"
+  },
+  {
+    "id": "AJ-14974",
+    "title": "ব্যক্তিগত সহকারী (Personal Assistant)",
+    "organization": "উৎসে কর ব্যবস্থাপনা ইউনিট (Withholding Tax Management Unit, Dhaka(WTMU))",
+    "grade": "GRADE 13",
+    "candidate_eligibility": "BOTH",
+    "published_date": "2026-10-15",
+    "deadline_date": "2026-11-04",
+    "vacancy_count": 4,
+    "min_education": "সংশ্লিষ্ট বিষয়ে স্নাতক/সমমান অথবা এইচএসসি",
+    "circular_url": "https://alljobs.teletalk.com.bd/media/public/uploads/governments/jobs/advertisement-1791952849356.pdf",
+    "application_portal_url": "https://wtmu.teletalk.com.bd/wtmu_2026/",
+    "is_verified": true,
+    "source": "AllJobs Teletalk Official Live API",
+    "last_updated": "2026-10-16T11:27:30.679Z"
+  },
+  {
+    "id": "AJ-14973",
+    "title": "কম্পিউটার অপারেটর (Computer Operator)",
+    "organization": "উৎসে কর ব্যবস্থাপনা ইউনিট (Withholding Tax Management Unit, Dhaka(WTMU))",
+    "grade": "GRADE 13",
+    "candidate_eligibility": "DUDU",
+    "published_date": "2026-10-15",
+    "deadline_date": "2026-11-04",
+    "vacancy_count": 1,
+    "min_education": "সংশ্লিষ্ট বিষয়ে স্নাতক/সমমান অথবা এইচএসসি",
+    "circular_url": "https://alljobs.teletalk.com.bd/media/public/uploads/governments/jobs/advertisement-1791952778627.pdf",
+    "application_portal_url": "https://wtmu.teletalk.com.bd/wtmu_2026/",
+    "is_verified": true,
+    "source": "AllJobs Teletalk Official Live API",
+    "last_updated": "2026-10-16T11:27:30.712Z"
+  },
+  {
+    "id": "AJ-14970",
+    "title": "অফিস সহায়ক (Office Sohayok)",
+    "organization": "Housing & Building Research Institute(HBRI)",
+    "grade": "GRADE 20",
+    "candidate_eligibility": "BOTH",
+    "published_date": "2026-10-14",
+    "deadline_date": "2026-11-15",
+    "vacancy_count": 7,
+    "min_education": "সংশ্লিষ্ট বিষয়ে স্নাতক/সমমান অথবা এইচএসসি",
+    "circular_url": "https://alljobs.teletalk.com.bd/media/public/uploads/governments/jobs/advertisement-1791951953049.pdf",
+    "application_portal_url": "http://hbri.teletalk.com.bd/",
+    "is_verified": true,
+    "source": "AllJobs Teletalk Official Live API",
+    "last_updated": "2026-10-16T11:27:30.829Z"
+  },
+  {
+    "id": "AJ-14967",
+    "title": "কম্পিউটার মুদ্রাক্ষরিক (Computer Typist)",
+    "organization": "Housing & Building Research Institute(HBRI)",
+    "grade": "GRADE 16",
+    "candidate_eligibility": "DUDU",
+    "published_date": "2026-10-14",
+    "deadline_date": "2026-11-15",
+    "vacancy_count": 1,
+    "min_education": "সংশ্লিষ্ট বিষয়ে স্নাতক/সমমান অথবা এইচএসসি",
+    "circular_url": "https://alljobs.teletalk.com.bd/media/public/uploads/governments/jobs/advertisement-1791951721720.pdf",
+    "application_portal_url": "http://hbri.teletalk.com.bd/",
+    "is_verified": true,
+    "source": "AllJobs Teletalk Official Live API",
+    "last_updated": "2026-10-16T11:27:30.856Z"
+  },
+  {
+    "id": "AJ-14960",
+    "title": "অফিস সহায়ক (Office Support Staff)",
+    "organization": "কর অঞ্চল ২১ ঢাকা (Taxes Zone-21, Dhaka(TAX21))",
+    "grade": "GRADE 20",
+    "candidate_eligibility": "BOTH",
+    "published_date": "2026-10-14",
+    "deadline_date": "2026-11-03",
+    "vacancy_count": 9,
+    "min_education": "সংশ্লিষ্ট বিষয়ে স্নাতক/সমমান অথবা এইচএসসি",
+    "circular_url": "https://alljobs.teletalk.com.bd/media/public/uploads/governments/jobs/advertisement-1791948829445.pdf",
+    "application_portal_url": "https://tax21.teletalk.com.bd/tax21_2026/",
+    "is_verified": true,
+    "source": "AllJobs Teletalk Official Live API",
+    "last_updated": "2026-10-16T11:27:30.928Z"
+  },
+  {
+    "id": "AJ-14959",
+    "title": "অফিস সহকারী-কাম-কম্পিউটার মুদ্রাক্ষরিক (Office Assistant-Cum-Computer Typist)",
+    "organization": "কর অঞ্চল ২১ ঢাকা (Taxes Zone-21, Dhaka(TAX21))",
+    "grade": "GRADE 16",
+    "candidate_eligibility": "DUDU",
+    "published_date": "2026-10-14",
+    "deadline_date": "2026-11-03",
+    "vacancy_count": 16,
+    "min_education": "সংশ্লিষ্ট বিষয়ে স্নাতক/সমমান অথবা এইচএসসি",
+    "circular_url": "https://alljobs.teletalk.com.bd/media/public/uploads/governments/jobs/advertisement-1791948765170.pdf",
+    "application_portal_url": "https://tax21.teletalk.com.bd/tax21_2026/",
+    "is_verified": true,
+    "source": "AllJobs Teletalk Official Live API",
+    "last_updated": "2026-10-16T11:27:30.952Z"
+  },
+  {
+    "id": "AJ-14958",
+    "title": "সাঁটমুদ্রাক্ষরিক-কাম-কম্পিউটার অপারেটর (Stenotypist-Cum-Computer Operator)",
+    "organization": "কর অঞ্চল ২১ ঢাকা (Taxes Zone-21, Dhaka(TAX21))",
+    "grade": "GRADE 13",
+    "candidate_eligibility": "DUDU",
+    "published_date": "2026-10-14",
+    "deadline_date": "2026-11-03",
+    "vacancy_count": 16,
+    "min_education": "সংশ্লিষ্ট বিষয়ে স্নাতক/সমমান অথবা এইচএসসি",
+    "circular_url": "https://alljobs.teletalk.com.bd/media/public/uploads/governments/jobs/advertisement-1791948604021.pdf",
+    "application_portal_url": "https://tax21.teletalk.com.bd/tax21_2026/",
+    "is_verified": true,
+    "source": "AllJobs Teletalk Official Live API",
+    "last_updated": "2026-10-16T11:27:30.977Z"
+  },
+  {
+    "id": "AJ-14957",
+    "title": "উচ্চমান সহকারী (Upper Division Assistant)",
+    "organization": "কর অঞ্চল ২১ ঢাকা (Taxes Zone-21, Dhaka(TAX21))",
+    "grade": "GRADE 14",
+    "candidate_eligibility": "BOTH",
+    "published_date": "2026-10-14",
+    "deadline_date": "2026-11-03",
+    "vacancy_count": 8,
+    "min_education": "সংশ্লিষ্ট বিষয়ে স্নাতক/সমমান অথবা এইচএসসি",
+    "circular_url": "https://alljobs.teletalk.com.bd/media/public/uploads/governments/jobs/advertisement-1791948534278.pdf",
+    "application_portal_url": "https://tax21.teletalk.com.bd/tax21_2026/",
+    "is_verified": true,
+    "source": "AllJobs Teletalk Official Live API",
+    "last_updated": "2026-10-16T11:27:31.005Z"
+  },
+  {
+    "id": "AJ-14956",
+    "title": "প্রধান সহকারী (Head Assistant)",
+    "organization": "কর অঞ্চল ২১ ঢাকা (Taxes Zone-21, Dhaka(TAX21))",
+    "grade": "GRADE 14",
+    "candidate_eligibility": "BOTH",
+    "published_date": "2026-10-14",
+    "deadline_date": "2026-11-03",
+    "vacancy_count": 11,
+    "min_education": "সংশ্লিষ্ট বিষয়ে স্নাতক/সমমান অথবা এইচএসসি",
+    "circular_url": "https://alljobs.teletalk.com.bd/media/public/uploads/governments/jobs/advertisement-1791948437255.pdf",
+    "application_portal_url": "https://tax21.teletalk.com.bd/tax21_2026/",
+    "is_verified": true,
+    "source": "AllJobs Teletalk Official Live API",
+    "last_updated": "2026-10-16T11:27:31.039Z"
+  },
+  {
+    "id": "AJ-14955",
+    "title": "ব্যক্তিগত সহকারী (Personal Assistant)",
+    "organization": "কর অঞ্চল ২১ ঢাকা (Taxes Zone-21, Dhaka(TAX21))",
+    "grade": "GRADE 13",
+    "candidate_eligibility": "BOTH",
+    "published_date": "2026-10-14",
+    "deadline_date": "2026-11-03",
+    "vacancy_count": 5,
+    "min_education": "সংশ্লিষ্ট বিষয়ে স্নাতক/সমমান অথবা এইচএসসি",
+    "circular_url": "https://alljobs.teletalk.com.bd/media/public/uploads/governments/jobs/advertisement-1791948362915.pdf",
+    "application_portal_url": "https://tax21.teletalk.com.bd/tax21_2026/",
+    "is_verified": true,
+    "source": "AllJobs Teletalk Official Live API",
+    "last_updated": "2026-10-16T11:27:31.072Z"
+  },
+  {
+    "id": "AJ-14950",
+    "title": "সহকারী অপারেশন অফিসার (Assistant Operations Officer)",
+    "organization": "Bangladesh Chemical Industries Corporation (BCIC)",
+    "grade": "GRADE 10",
+    "candidate_eligibility": "DUDU",
+    "published_date": "2026-10-14",
+    "deadline_date": "2026-11-12",
+    "vacancy_count": 3,
+    "min_education": "সংশ্লিষ্ট বিষয়ে স্নাতক/সমমান অথবা এইচএসসি",
+    "circular_url": "https://alljobs.teletalk.com.bd/media/public/uploads/governments/jobs/advertisement-1791887285191.pdf",
+    "application_portal_url": "http://bcic.teletalk.com.bd/",
+    "is_verified": true,
+    "source": "AllJobs Teletalk Official Live API",
+    "last_updated": "2026-10-16T11:27:31.184Z"
+  },
+  {
+    "id": "AJ-14947",
+    "title": "সহকারী প্রশাসনিক কর্মকর্তা (Assistant Administrative Officer)",
+    "organization": "Bangladesh Chemical Industries Corporation (BCIC)",
+    "grade": "GRADE 10",
+    "candidate_eligibility": "BOTH",
+    "published_date": "2026-10-14",
+    "deadline_date": "2026-11-12",
+    "vacancy_count": 12,
+    "min_education": "সংশ্লিষ্ট বিষয়ে স্নাতক/সমমান অথবা এইচএসসি",
+    "circular_url": "https://alljobs.teletalk.com.bd/media/public/uploads/governments/jobs/advertisement-1791886980034.pdf",
+    "application_portal_url": "http://bcic.teletalk.com.bd/",
+    "is_verified": true,
+    "source": "AllJobs Teletalk Official Live API",
+    "last_updated": "2026-10-16T11:27:31.211Z"
+  },
+  {
+    "id": "AJ-14939",
+    "title": "সহকারী প্রোগ্রামার (Assistant Programmer)",
+    "organization": "Bangladesh Chemical Industries Corporation (BCIC)",
+    "grade": "GRADE 9",
+    "candidate_eligibility": "DUDU",
+    "published_date": "2026-10-14",
+    "deadline_date": "2026-11-12",
+    "vacancy_count": 3,
+    "min_education": "সংশ্লিষ্ট বিষয়ে স্নাতক/সমমান অথবা এইচএসসি",
+    "circular_url": "https://alljobs.teletalk.com.bd/media/public/uploads/governments/jobs/advertisement-1791886364791.pdf",
+    "application_portal_url": "http://bcic.teletalk.com.bd/",
+    "is_verified": true,
+    "source": "AllJobs Teletalk Official Live API",
+    "last_updated": "2026-10-16T11:27:31.232Z"
+  },
+  {
+    "id": "AJ-14936",
+    "title": "সহকারী ব্যবস্থাপক (প্রশাসন) (Assistant Manager (Admin))",
+    "organization": "Bangladesh Chemical Industries Corporation (BCIC)",
+    "grade": "GRADE 9",
+    "candidate_eligibility": "BOTH",
+    "published_date": "2026-10-14",
+    "deadline_date": "2026-11-12",
+    "vacancy_count": 22,
+    "min_education": "সংশ্লিষ্ট বিষয়ে স্নাতক/সমমান অথবা এইচএসসি",
+    "circular_url": "https://alljobs.teletalk.com.bd/media/public/uploads/governments/jobs/advertisement-1791886148696.pdf",
+    "application_portal_url": "http://bcic.teletalk.com.bd/",
+    "is_verified": true,
+    "source": "AllJobs Teletalk Official Live API",
+    "last_updated": "2026-10-16T11:27:31.307Z"
+  },
   {
     "id": "AJ-14927",
     "title": "অফিস সহায়ক (Office Support Staff)",
@@ -18,7 +274,7 @@ window.BUBU_DUDU_CIRCULARS = [
     "application_portal_url": "https://tax13.teletalk.com.bd/",
     "is_verified": true,
     "source": "AllJobs Teletalk Official Live API",
-    "last_updated": "2026-10-13T07:06:52.499Z"
+    "last_updated": "2026-10-16T11:27:31.406Z"
   },
   {
     "id": "AJ-14925",
@@ -34,7 +290,7 @@ window.BUBU_DUDU_CIRCULARS = [
     "application_portal_url": "https://tax13.teletalk.com.bd/",
     "is_verified": true,
     "source": "AllJobs Teletalk Official Live API",
-    "last_updated": "2026-10-13T07:06:52.599Z"
+    "last_updated": "2026-10-16T11:27:31.435Z"
   },
   {
     "id": "AJ-14924",
@@ -50,7 +306,7 @@ window.BUBU_DUDU_CIRCULARS = [
     "application_portal_url": "https://tax13.teletalk.com.bd/",
     "is_verified": true,
     "source": "AllJobs Teletalk Official Live API",
-    "last_updated": "2026-10-13T07:06:52.682Z"
+    "last_updated": "2026-10-16T11:27:31.462Z"
   },
   {
     "id": "AJ-14923",
@@ -66,7 +322,7 @@ window.BUBU_DUDU_CIRCULARS = [
     "application_portal_url": "https://tax13.teletalk.com.bd/",
     "is_verified": true,
     "source": "AllJobs Teletalk Official Live API",
-    "last_updated": "2026-10-13T07:06:52.817Z"
+    "last_updated": "2026-10-16T11:27:31.487Z"
   },
   {
     "id": "AJ-14922",
@@ -82,7 +338,7 @@ window.BUBU_DUDU_CIRCULARS = [
     "application_portal_url": "https://tax13.teletalk.com.bd/",
     "is_verified": true,
     "source": "AllJobs Teletalk Official Live API",
-    "last_updated": "2026-10-13T07:06:52.923Z"
+    "last_updated": "2026-10-16T11:27:31.510Z"
   },
   {
     "id": "AJ-14921",
@@ -98,7 +354,7 @@ window.BUBU_DUDU_CIRCULARS = [
     "application_portal_url": "https://tax13.teletalk.com.bd/",
     "is_verified": true,
     "source": "AllJobs Teletalk Official Live API",
-    "last_updated": "2026-10-13T07:06:53.026Z"
+    "last_updated": "2026-10-16T11:27:31.531Z"
   },
   {
     "id": "AJ-14920",
@@ -114,7 +370,7 @@ window.BUBU_DUDU_CIRCULARS = [
     "application_portal_url": "https://tax3.teletalk.com.bd/",
     "is_verified": true,
     "source": "AllJobs Teletalk Official Live API",
-    "last_updated": "2026-10-13T07:06:53.192Z"
+    "last_updated": "2026-10-16T11:27:31.630Z"
   },
   {
     "id": "AJ-14919",
@@ -130,7 +386,7 @@ window.BUBU_DUDU_CIRCULARS = [
     "application_portal_url": "https://tax3.teletalk.com.bd/",
     "is_verified": true,
     "source": "AllJobs Teletalk Official Live API",
-    "last_updated": "2026-10-13T07:06:53.356Z"
+    "last_updated": "2026-10-16T11:27:31.654Z"
   },
   {
     "id": "AJ-14917",
@@ -146,7 +402,7 @@ window.BUBU_DUDU_CIRCULARS = [
     "application_portal_url": "https://tax3.teletalk.com.bd/",
     "is_verified": true,
     "source": "AllJobs Teletalk Official Live API",
-    "last_updated": "2026-10-13T07:06:53.454Z"
+    "last_updated": "2026-10-16T11:27:31.691Z"
   },
   {
     "id": "AJ-14916",
@@ -162,7 +418,7 @@ window.BUBU_DUDU_CIRCULARS = [
     "application_portal_url": "https://tax3.teletalk.com.bd/",
     "is_verified": true,
     "source": "AllJobs Teletalk Official Live API",
-    "last_updated": "2026-10-13T07:06:53.630Z"
+    "last_updated": "2026-10-16T11:27:31.723Z"
   },
   {
     "id": "AJ-14915",
@@ -178,7 +434,7 @@ window.BUBU_DUDU_CIRCULARS = [
     "application_portal_url": "https://tax3.teletalk.com.bd/",
     "is_verified": true,
     "source": "AllJobs Teletalk Official Live API",
-    "last_updated": "2026-10-13T07:06:53.750Z"
+    "last_updated": "2026-10-16T11:27:31.752Z"
   },
   {
     "id": "AJ-14914",
@@ -194,7 +450,7 @@ window.BUBU_DUDU_CIRCULARS = [
     "application_portal_url": "https://tax3.teletalk.com.bd/",
     "is_verified": true,
     "source": "AllJobs Teletalk Official Live API",
-    "last_updated": "2026-10-13T07:06:53.900Z"
+    "last_updated": "2026-10-16T11:27:31.777Z"
   },
   {
     "id": "AJ-14913",
@@ -210,7 +466,7 @@ window.BUBU_DUDU_CIRCULARS = [
     "application_portal_url": "http://cid.teletalk.com.bd/",
     "is_verified": true,
     "source": "AllJobs Teletalk Official Live API",
-    "last_updated": "2026-10-13T07:06:54.160Z"
+    "last_updated": "2026-10-16T11:27:31.822Z"
   },
   {
     "id": "AJ-14912",
@@ -226,7 +482,7 @@ window.BUBU_DUDU_CIRCULARS = [
     "application_portal_url": "http://cid.teletalk.com.bd/",
     "is_verified": true,
     "source": "AllJobs Teletalk Official Live API",
-    "last_updated": "2026-10-13T07:06:54.721Z"
+    "last_updated": "2026-10-16T11:27:31.850Z"
   },
   {
     "id": "AJ-14911",
@@ -242,7 +498,7 @@ window.BUBU_DUDU_CIRCULARS = [
     "application_portal_url": "http://cid.teletalk.com.bd/",
     "is_verified": true,
     "source": "AllJobs Teletalk Official Live API",
-    "last_updated": "2026-10-13T07:06:54.931Z"
+    "last_updated": "2026-10-16T11:27:31.933Z"
   },
   {
     "id": "AJ-14910",
@@ -258,7 +514,7 @@ window.BUBU_DUDU_CIRCULARS = [
     "application_portal_url": "https://tax22.teletalk.com.bd/tax22_2026/",
     "is_verified": true,
     "source": "AllJobs Teletalk Official Live API",
-    "last_updated": "2026-10-13T07:06:55.307Z"
+    "last_updated": "2026-10-16T11:27:31.982Z"
   },
   {
     "id": "AJ-14909",
@@ -274,7 +530,7 @@ window.BUBU_DUDU_CIRCULARS = [
     "application_portal_url": "https://tax22.teletalk.com.bd/tax22_2026/",
     "is_verified": true,
     "source": "AllJobs Teletalk Official Live API",
-    "last_updated": "2026-10-13T07:06:55.390Z"
+    "last_updated": "2026-10-16T11:27:32.013Z"
   },
   {
     "id": "AJ-14908",
@@ -290,7 +546,7 @@ window.BUBU_DUDU_CIRCULARS = [
     "application_portal_url": "https://tax22.teletalk.com.bd/tax22_2026/",
     "is_verified": true,
     "source": "AllJobs Teletalk Official Live API",
-    "last_updated": "2026-10-13T07:06:55.495Z"
+    "last_updated": "2026-10-16T11:27:32.035Z"
   },
   {
     "id": "AJ-14907",
@@ -306,7 +562,7 @@ window.BUBU_DUDU_CIRCULARS = [
     "application_portal_url": "https://tax22.teletalk.com.bd/tax22_2026/",
     "is_verified": true,
     "source": "AllJobs Teletalk Official Live API",
-    "last_updated": "2026-10-13T07:06:55.656Z"
+    "last_updated": "2026-10-16T11:27:32.065Z"
   },
   {
     "id": "AJ-14906",
@@ -322,7 +578,7 @@ window.BUBU_DUDU_CIRCULARS = [
     "application_portal_url": "https://tax22.teletalk.com.bd/tax22_2026/",
     "is_verified": true,
     "source": "AllJobs Teletalk Official Live API",
-    "last_updated": "2026-10-13T07:06:55.773Z"
+    "last_updated": "2026-10-16T11:27:32.100Z"
   },
   {
     "id": "AJ-14905",
@@ -338,7 +594,7 @@ window.BUBU_DUDU_CIRCULARS = [
     "application_portal_url": "https://tax22.teletalk.com.bd/tax22_2026/",
     "is_verified": true,
     "source": "AllJobs Teletalk Official Live API",
-    "last_updated": "2026-10-13T07:06:55.899Z"
+    "last_updated": "2026-10-16T11:27:32.132Z"
   },
   {
     "id": "AJ-14904",
@@ -354,7 +610,7 @@ window.BUBU_DUDU_CIRCULARS = [
     "application_portal_url": "https://tax22.teletalk.com.bd/tax22_2026/",
     "is_verified": true,
     "source": "AllJobs Teletalk Official Live API",
-    "last_updated": "2026-10-13T07:06:56.030Z"
+    "last_updated": "2026-10-16T11:27:32.159Z"
   },
   {
     "id": "AJ-14903",
@@ -370,7 +626,7 @@ window.BUBU_DUDU_CIRCULARS = [
     "application_portal_url": "https://tax25.teletalk.com.bd/tax25_2026/",
     "is_verified": true,
     "source": "AllJobs Teletalk Official Live API",
-    "last_updated": "2026-10-13T07:06:56.271Z"
+    "last_updated": "2026-10-16T11:27:32.208Z"
   },
   {
     "id": "AJ-14902",
@@ -386,7 +642,7 @@ window.BUBU_DUDU_CIRCULARS = [
     "application_portal_url": "https://tax25.teletalk.com.bd/tax25_2026/",
     "is_verified": true,
     "source": "AllJobs Teletalk Official Live API",
-    "last_updated": "2026-10-13T07:06:56.378Z"
+    "last_updated": "2026-10-16T11:27:32.233Z"
   },
   {
     "id": "AJ-14901",
@@ -402,7 +658,7 @@ window.BUBU_DUDU_CIRCULARS = [
     "application_portal_url": "https://tax25.teletalk.com.bd/tax25_2026/",
     "is_verified": true,
     "source": "AllJobs Teletalk Official Live API",
-    "last_updated": "2026-10-13T07:06:56.472Z"
+    "last_updated": "2026-10-16T11:27:32.256Z"
   },
   {
     "id": "AJ-14900",
@@ -418,7 +674,7 @@ window.BUBU_DUDU_CIRCULARS = [
     "application_portal_url": "https://tax25.teletalk.com.bd/tax25_2026/",
     "is_verified": true,
     "source": "AllJobs Teletalk Official Live API",
-    "last_updated": "2026-10-13T07:06:56.614Z"
+    "last_updated": "2026-10-16T11:27:32.281Z"
   },
   {
     "id": "AJ-14899",
@@ -434,7 +690,7 @@ window.BUBU_DUDU_CIRCULARS = [
     "application_portal_url": "https://tax25.teletalk.com.bd/tax25_2026/",
     "is_verified": true,
     "source": "AllJobs Teletalk Official Live API",
-    "last_updated": "2026-10-13T07:06:56.722Z"
+    "last_updated": "2026-10-16T11:27:32.302Z"
   },
   {
     "id": "AJ-14898",
@@ -450,7 +706,7 @@ window.BUBU_DUDU_CIRCULARS = [
     "application_portal_url": "https://tax25.teletalk.com.bd/tax25_2026/",
     "is_verified": true,
     "source": "AllJobs Teletalk Official Live API",
-    "last_updated": "2026-10-13T07:06:56.864Z"
+    "last_updated": "2026-10-16T11:27:32.328Z"
   },
   {
     "id": "AJ-14879",
@@ -466,7 +722,7 @@ window.BUBU_DUDU_CIRCULARS = [
     "application_portal_url": "https://tphq.teletalk.com.bd/",
     "is_verified": true,
     "source": "AllJobs Teletalk Official Live API",
-    "last_updated": "2026-10-13T07:06:57.903Z"
+    "last_updated": "2026-10-16T11:27:32.447Z"
   },
   {
     "id": "AJ-14878",
@@ -482,7 +738,7 @@ window.BUBU_DUDU_CIRCULARS = [
     "application_portal_url": "https://tphq.teletalk.com.bd/",
     "is_verified": true,
     "source": "AllJobs Teletalk Official Live API",
-    "last_updated": "2026-10-13T07:06:58.267Z"
+    "last_updated": "2026-10-16T11:27:32.497Z"
   },
   {
     "id": "AJ-14876",
@@ -498,7 +754,7 @@ window.BUBU_DUDU_CIRCULARS = [
     "application_portal_url": "https://ds.teletalk.com.bd/",
     "is_verified": true,
     "source": "AllJobs Teletalk Official Live API",
-    "last_updated": "2026-10-13T07:06:58.765Z"
+    "last_updated": "2026-10-16T11:27:32.570Z"
   },
   {
     "id": "AJ-14873",
@@ -514,13 +770,13 @@ window.BUBU_DUDU_CIRCULARS = [
     "application_portal_url": "https://ds.teletalk.com.bd/",
     "is_verified": true,
     "source": "AllJobs Teletalk Official Live API",
-    "last_updated": "2026-10-13T07:06:59.023Z"
+    "last_updated": "2026-10-16T11:27:32.591Z"
   },
   {
     "id": "AJ-14859",
     "title": "সহকারী ব্যবস্থাপক প্রশিক্ষণ (প্যাসেঞ্জার সেলস/কার্গো সেলস/ব্যবস্থাপনা উন্নয়ন) (Assistant Manager Training (Passenger Sales/Cargo Sales/Management Development))",
     "organization": "Biman Bangladesh Airlines Ltd (BBAL)",
-    "grade": "GRADE 13",
+    "grade": "GRADE 9",
     "candidate_eligibility": "BOTH",
     "published_date": "2026-09-30",
     "deadline_date": "2026-10-20",
@@ -530,13 +786,13 @@ window.BUBU_DUDU_CIRCULARS = [
     "application_portal_url": "https://bbal.teletalk.com.bd/bbal12/",
     "is_verified": true,
     "source": "AllJobs Teletalk Official Live API",
-    "last_updated": "2026-10-13T07:06:59.504Z"
+    "last_updated": "2026-10-16T11:27:32.718Z"
   },
   {
     "id": "AJ-14858",
     "title": "সহকারী ব্যবস্থাপক প্রশিক্ষণ(অপারেশন্স টেকনিক্যাল ) (Assistant Manager Training (Operations Technical))",
     "organization": "Biman Bangladesh Airlines Ltd (BBAL)",
-    "grade": "GRADE 13",
+    "grade": "GRADE 9",
     "candidate_eligibility": "BOTH",
     "published_date": "2026-09-30",
     "deadline_date": "2026-10-20",
@@ -546,7 +802,7 @@ window.BUBU_DUDU_CIRCULARS = [
     "application_portal_url": "https://bbal.teletalk.com.bd/bbal12/",
     "is_verified": true,
     "source": "AllJobs Teletalk Official Live API",
-    "last_updated": "2026-10-13T07:07:00.024Z"
+    "last_updated": "2026-10-16T11:27:32.748Z"
   },
   {
     "id": "AJ-14848",
@@ -562,7 +818,7 @@ window.BUBU_DUDU_CIRCULARS = [
     "application_portal_url": "https://parjatan.teletalk.com.bd/",
     "is_verified": true,
     "source": "AllJobs Teletalk Official Live API",
-    "last_updated": "2026-10-13T07:07:00.544Z"
+    "last_updated": "2026-10-16T11:27:32.822Z"
   },
   {
     "id": "AJ-14846",
@@ -578,7 +834,7 @@ window.BUBU_DUDU_CIRCULARS = [
     "application_portal_url": "https://parjatan.teletalk.com.bd/",
     "is_verified": true,
     "source": "AllJobs Teletalk Official Live API",
-    "last_updated": "2026-10-13T07:07:00.684Z"
+    "last_updated": "2026-10-16T11:27:32.858Z"
   },
   {
     "id": "AJ-14845",
@@ -594,7 +850,7 @@ window.BUBU_DUDU_CIRCULARS = [
     "application_portal_url": "https://parjatan.teletalk.com.bd/",
     "is_verified": true,
     "source": "AllJobs Teletalk Official Live API",
-    "last_updated": "2026-10-13T07:07:00.870Z"
+    "last_updated": "2026-10-16T11:27:32.883Z"
   },
   {
     "id": "AJ-14843",
@@ -610,7 +866,7 @@ window.BUBU_DUDU_CIRCULARS = [
     "application_portal_url": "https://tax2.teletalk.com.bd/",
     "is_verified": true,
     "source": "AllJobs Teletalk Official Live API",
-    "last_updated": "2026-10-13T07:07:01.981Z"
+    "last_updated": "2026-10-16T11:27:32.929Z"
   },
   {
     "id": "AJ-14841",
@@ -626,7 +882,7 @@ window.BUBU_DUDU_CIRCULARS = [
     "application_portal_url": "https://tax2.teletalk.com.bd/",
     "is_verified": true,
     "source": "AllJobs Teletalk Official Live API",
-    "last_updated": "2026-10-13T07:07:02.749Z"
+    "last_updated": "2026-10-16T11:27:32.965Z"
   },
   {
     "id": "AJ-14840",
@@ -642,7 +898,7 @@ window.BUBU_DUDU_CIRCULARS = [
     "application_portal_url": "https://tax2.teletalk.com.bd/",
     "is_verified": true,
     "source": "AllJobs Teletalk Official Live API",
-    "last_updated": "2026-10-13T07:07:03.247Z"
+    "last_updated": "2026-10-16T11:27:32.995Z"
   },
   {
     "id": "AJ-14839",
@@ -658,7 +914,7 @@ window.BUBU_DUDU_CIRCULARS = [
     "application_portal_url": "https://tax2.teletalk.com.bd/",
     "is_verified": true,
     "source": "AllJobs Teletalk Official Live API",
-    "last_updated": "2026-10-13T07:07:03.771Z"
+    "last_updated": "2026-10-16T11:27:33.022Z"
   },
   {
     "id": "AJ-14838",
@@ -674,7 +930,7 @@ window.BUBU_DUDU_CIRCULARS = [
     "application_portal_url": "https://tax2.teletalk.com.bd/",
     "is_verified": true,
     "source": "AllJobs Teletalk Official Live API",
-    "last_updated": "2026-10-13T07:07:03.881Z"
+    "last_updated": "2026-10-16T11:27:33.046Z"
   },
   {
     "id": "AJ-14837",
@@ -690,7 +946,7 @@ window.BUBU_DUDU_CIRCULARS = [
     "application_portal_url": "https://tax2.teletalk.com.bd/",
     "is_verified": true,
     "source": "AllJobs Teletalk Official Live API",
-    "last_updated": "2026-10-13T07:07:03.981Z"
+    "last_updated": "2026-10-16T11:27:33.074Z"
   },
   {
     "id": "AJ-14833",
@@ -706,7 +962,7 @@ window.BUBU_DUDU_CIRCULARS = [
     "application_portal_url": "https://mowca.teletalk.com.bd/",
     "is_verified": true,
     "source": "AllJobs Teletalk Official Live API",
-    "last_updated": "2026-10-13T07:07:04.391Z"
+    "last_updated": "2026-10-16T11:27:33.141Z"
   },
   {
     "id": "AJ-14832",
@@ -722,7 +978,7 @@ window.BUBU_DUDU_CIRCULARS = [
     "application_portal_url": "https://mowca.teletalk.com.bd/",
     "is_verified": true,
     "source": "AllJobs Teletalk Official Live API",
-    "last_updated": "2026-10-13T07:07:04.495Z"
+    "last_updated": "2026-10-16T11:27:33.220Z"
   },
   {
     "id": "AJ-14831",
@@ -738,7 +994,7 @@ window.BUBU_DUDU_CIRCULARS = [
     "application_portal_url": "https://mowca.teletalk.com.bd/",
     "is_verified": true,
     "source": "AllJobs Teletalk Official Live API",
-    "last_updated": "2026-10-13T07:07:04.611Z"
+    "last_updated": "2026-10-16T11:27:33.247Z"
   },
   {
     "id": "AJ-14818",
@@ -754,7 +1010,7 @@ window.BUBU_DUDU_CIRCULARS = [
     "application_portal_url": "https://mos.teletalk.com.bd/",
     "is_verified": true,
     "source": "AllJobs Teletalk Official Live API",
-    "last_updated": "2026-10-13T07:07:05.140Z"
+    "last_updated": "2026-10-16T11:27:33.369Z"
   },
   {
     "id": "AJ-14817",
@@ -770,7 +1026,7 @@ window.BUBU_DUDU_CIRCULARS = [
     "application_portal_url": "https://mos.teletalk.com.bd/",
     "is_verified": true,
     "source": "AllJobs Teletalk Official Live API",
-    "last_updated": "2026-10-13T07:07:05.277Z"
+    "last_updated": "2026-10-16T11:27:33.400Z"
   },
   {
     "id": "AJ-14816",
@@ -786,151 +1042,7 @@ window.BUBU_DUDU_CIRCULARS = [
     "application_portal_url": "https://mos.teletalk.com.bd/",
     "is_verified": true,
     "source": "AllJobs Teletalk Official Live API",
-    "last_updated": "2026-10-13T07:07:05.405Z"
-  },
-  {
-    "id": "AJ-14807",
-    "title": "অফিস সহায়ক (Office Support Staff)",
-    "organization": "TAX1 (Office of the Commissioner of Taxes, Tax Zone-1, Dhaka ( TAX1))",
-    "grade": "GRADE 20",
-    "candidate_eligibility": "BOTH",
-    "published_date": "2026-09-24",
-    "deadline_date": "2026-10-14",
-    "vacancy_count": 4,
-    "min_education": "সংশ্লিষ্ট বিষয়ে স্নাতক/সমমান অথবা এইচএসসি",
-    "circular_url": "https://alljobs.teletalk.com.bd/media/public/uploads/governments/jobs/advertisement-1790139318718.pdf",
-    "application_portal_url": "https://tax1.teletalk.com.bd/",
-    "is_verified": true,
-    "source": "AllJobs Teletalk Official Live API",
-    "last_updated": "2026-10-13T07:07:06.110Z"
-  },
-  {
-    "id": "AJ-14805",
-    "title": "অফিস সহকারী-কাম-কম্পিউটার মুদ্রাক্ষরিক (Office Assistant-Cum-Computer Typist)",
-    "organization": "TAX1 (Office of the Commissioner of Taxes, Tax Zone-1, Dhaka ( TAX1))",
-    "grade": "GRADE 16",
-    "candidate_eligibility": "DUDU",
-    "published_date": "2026-09-24",
-    "deadline_date": "2026-10-14",
-    "vacancy_count": 6,
-    "min_education": "সংশ্লিষ্ট বিষয়ে স্নাতক/সমমান অথবা এইচএসসি",
-    "circular_url": "https://alljobs.teletalk.com.bd/media/public/uploads/governments/jobs/advertisement-1790139194484.pdf",
-    "application_portal_url": "https://tax1.teletalk.com.bd/",
-    "is_verified": true,
-    "source": "AllJobs Teletalk Official Live API",
-    "last_updated": "2026-10-13T07:07:06.358Z"
-  },
-  {
-    "id": "AJ-14804",
-    "title": "সাঁটমুদ্রাক্ষরিক-কাম-কম্পিউটার অপারেটর (Steno-Typist-Cum-Computer Operator)",
-    "organization": "TAX1 (Office of the Commissioner of Taxes, Tax Zone-1, Dhaka ( TAX1))",
-    "grade": "GRADE 13",
-    "candidate_eligibility": "DUDU",
-    "published_date": "2026-09-24",
-    "deadline_date": "2026-10-14",
-    "vacancy_count": 10,
-    "min_education": "সংশ্লিষ্ট বিষয়ে স্নাতক/সমমান অথবা এইচএসসি",
-    "circular_url": "https://alljobs.teletalk.com.bd/media/public/uploads/governments/jobs/advertisement-1790139096826.pdf",
-    "application_portal_url": "https://tax1.teletalk.com.bd/",
-    "is_verified": true,
-    "source": "AllJobs Teletalk Official Live API",
-    "last_updated": "2026-10-13T07:07:06.535Z"
-  },
-  {
-    "id": "AJ-14803",
-    "title": "উচ্চমান সহকারী (Upper Division Assistant)",
-    "organization": "TAX1 (Office of the Commissioner of Taxes, Tax Zone-1, Dhaka ( TAX1))",
-    "grade": "GRADE 14",
-    "candidate_eligibility": "BOTH",
-    "published_date": "2026-09-24",
-    "deadline_date": "2026-10-14",
-    "vacancy_count": 8,
-    "min_education": "সংশ্লিষ্ট বিষয়ে স্নাতক/সমমান অথবা এইচএসসি",
-    "circular_url": "https://alljobs.teletalk.com.bd/media/public/uploads/governments/jobs/advertisement-1790139034881.pdf",
-    "application_portal_url": "https://tax1.teletalk.com.bd/",
-    "is_verified": true,
-    "source": "AllJobs Teletalk Official Live API",
-    "last_updated": "2026-10-13T07:07:06.635Z"
-  },
-  {
-    "id": "AJ-14802",
-    "title": "সাঁট লিপিকার কাম কম্পিউটার অপারেটর (Stenographer Cum Computer Operator)",
-    "organization": "TAX1 (Office of the Commissioner of Taxes, Tax Zone-1, Dhaka ( TAX1))",
-    "grade": "GRADE 13",
-    "candidate_eligibility": "DUDU",
-    "published_date": "2026-09-24",
-    "deadline_date": "2026-10-14",
-    "vacancy_count": 4,
-    "min_education": "সংশ্লিষ্ট বিষয়ে স্নাতক/সমমান অথবা এইচএসসি",
-    "circular_url": "https://alljobs.teletalk.com.bd/media/public/uploads/governments/jobs/advertisement-1790138833939.pdf",
-    "application_portal_url": "https://tax1.teletalk.com.bd/",
-    "is_verified": true,
-    "source": "AllJobs Teletalk Official Live API",
-    "last_updated": "2026-10-13T07:07:06.997Z"
-  },
-  {
-    "id": "AJ-14801",
-    "title": "কম্পিউটার অপারেটর (Computer Operator)",
-    "organization": "TAX1 (Office of the Commissioner of Taxes, Tax Zone-1, Dhaka ( TAX1))",
-    "grade": "GRADE 13",
-    "candidate_eligibility": "DUDU",
-    "published_date": "2026-09-24",
-    "deadline_date": "2026-10-14",
-    "vacancy_count": 1,
-    "min_education": "সংশ্লিষ্ট বিষয়ে স্নাতক/সমমান অথবা এইচএসসি",
-    "circular_url": "https://alljobs.teletalk.com.bd/media/public/uploads/governments/jobs/advertisement-1790138764245.pdf",
-    "application_portal_url": "https://tax1.teletalk.com.bd/",
-    "is_verified": true,
-    "source": "AllJobs Teletalk Official Live API",
-    "last_updated": "2026-10-13T07:07:07.133Z"
-  },
-  {
-    "id": "AJ-14785",
-    "title": "অফিস সহায়ক (Office Support Staff)",
-    "organization": "শ্রম ও কর্মসংস্থান মন্ত্রণালয় (Ministry of Labour and Employment(MOLE))",
-    "grade": "GRADE 20",
-    "candidate_eligibility": "BOTH",
-    "published_date": "2026-09-24",
-    "deadline_date": "2026-10-14",
-    "vacancy_count": 8,
-    "min_education": "সংশ্লিষ্ট বিষয়ে স্নাতক/সমমান অথবা এইচএসসি",
-    "circular_url": "https://alljobs.teletalk.com.bd/media/public/uploads/governments/jobs/advertisement-1789885474594.pdf",
-    "application_portal_url": "https://mole.teletalk.com.bd/",
-    "is_verified": true,
-    "source": "AllJobs Teletalk Official Live API",
-    "last_updated": "2026-10-13T07:07:07.746Z"
-  },
-  {
-    "id": "AJ-14784",
-    "title": "অফিস সহকারী কাম-কম্পিউটার মুদ্রাক্ষরিক (Office Assistant Cum-Computer Typist)",
-    "organization": "শ্রম ও কর্মসংস্থান মন্ত্রণালয় (Ministry of Labour and Employment(MOLE))",
-    "grade": "GRADE 16",
-    "candidate_eligibility": "DUDU",
-    "published_date": "2026-09-24",
-    "deadline_date": "2026-10-14",
-    "vacancy_count": 3,
-    "min_education": "সংশ্লিষ্ট বিষয়ে স্নাতক/সমমান অথবা এইচএসসি",
-    "circular_url": "https://alljobs.teletalk.com.bd/media/public/uploads/governments/jobs/advertisement-1789885405105.pdf",
-    "application_portal_url": "https://mole.teletalk.com.bd/",
-    "is_verified": true,
-    "source": "AllJobs Teletalk Official Live API",
-    "last_updated": "2026-10-13T07:07:07.827Z"
-  },
-  {
-    "id": "AJ-14783",
-    "title": "সাঁট-মুদ্রাক্ষরিক কাম-কম্পিউটার অপারেটর (Steno-Typist Cum-Computer Operator)",
-    "organization": "শ্রম ও কর্মসংস্থান মন্ত্রণালয় (Ministry of Labour and Employment(MOLE))",
-    "grade": "GRADE 13",
-    "candidate_eligibility": "DUDU",
-    "published_date": "2026-09-24",
-    "deadline_date": "2026-10-14",
-    "vacancy_count": 3,
-    "min_education": "সংশ্লিষ্ট বিষয়ে স্নাতক/সমমান অথবা এইচএসসি",
-    "circular_url": "https://alljobs.teletalk.com.bd/media/public/uploads/governments/jobs/advertisement-1789885339142.pdf",
-    "application_portal_url": "https://mole.teletalk.com.bd/",
-    "is_verified": true,
-    "source": "AllJobs Teletalk Official Live API",
-    "last_updated": "2026-10-13T07:07:08.002Z"
+    "last_updated": "2026-10-16T11:27:33.424Z"
   },
   {
     "id": "AJ-14724",
@@ -946,7 +1058,7 @@ window.BUBU_DUDU_CIRCULARS = [
     "application_portal_url": "https://mra.teletalk.com.bd/",
     "is_verified": true,
     "source": "AllJobs Teletalk Official Live API",
-    "last_updated": "2026-10-13T07:07:08.580Z"
+    "last_updated": "2026-10-16T11:27:33.544Z"
   },
   {
     "id": "AJ-14723",
@@ -962,7 +1074,7 @@ window.BUBU_DUDU_CIRCULARS = [
     "application_portal_url": "https://mra.teletalk.com.bd/",
     "is_verified": true,
     "source": "AllJobs Teletalk Official Live API",
-    "last_updated": "2026-10-13T07:07:08.889Z"
+    "last_updated": "2026-10-16T11:27:33.578Z"
   },
   {
     "id": "AJ-14722",
@@ -978,7 +1090,7 @@ window.BUBU_DUDU_CIRCULARS = [
     "application_portal_url": "https://mra.teletalk.com.bd/",
     "is_verified": true,
     "source": "AllJobs Teletalk Official Live API",
-    "last_updated": "2026-10-13T07:07:09.148Z"
+    "last_updated": "2026-10-16T11:27:33.626Z"
   },
   {
     "id": "AJ-14721",
@@ -994,7 +1106,7 @@ window.BUBU_DUDU_CIRCULARS = [
     "application_portal_url": "https://mra.teletalk.com.bd/",
     "is_verified": true,
     "source": "AllJobs Teletalk Official Live API",
-    "last_updated": "2026-10-13T07:07:09.677Z"
+    "last_updated": "2026-10-16T11:27:33.674Z"
   },
   {
     "id": "AJ-14720",
@@ -1010,22 +1122,6 @@ window.BUBU_DUDU_CIRCULARS = [
     "application_portal_url": "https://mra.teletalk.com.bd/",
     "is_verified": true,
     "source": "AllJobs Teletalk Official Live API",
-    "last_updated": "2026-10-13T07:07:10.145Z"
-  },
-  {
-    "id": "AJ-14709",
-    "title": "ডাটা এন্ট্রি অপারেটর (Data Entry Operator)",
-    "organization": "ক্যান্টনমেন্ট পুলিশ সুপারের কার্যালয় ইন সার্ভির ট্রেনিং সেন্টার মাদারিপুর (Office of the Commandant Superintendent of Police (PMASP))",
-    "grade": "GRADE 16",
-    "candidate_eligibility": "DUDU",
-    "published_date": "2026-09-15",
-    "deadline_date": "2026-10-14",
-    "vacancy_count": 1,
-    "min_education": "সংশ্লিষ্ট বিষয়ে স্নাতক/সমমান অথবা এইচএসসি",
-    "circular_url": "https://alljobs.teletalk.com.bd/media/public/uploads/governments/jobs/advertisement-1789273744772.pdf",
-    "application_portal_url": "https://policemasp.teletalk.com.bd/",
-    "is_verified": true,
-    "source": "AllJobs Teletalk Official Live API",
-    "last_updated": "2026-10-13T07:07:10.596Z"
+    "last_updated": "2026-10-16T11:27:33.707Z"
   }
 ];
